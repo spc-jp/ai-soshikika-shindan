@@ -8,1511 +8,480 @@
 <title>AI組織化診断 | あなたの会社のAI活用力を診断</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-  :root {
-    --navy: #223670;
-    --gold: #D0A900;
-    --gold-light: #FFF5CC;
-    --sky: #1A7FA8;
-    --bg: #F7F8FC;
-    --white: #ffffff;
-    --text: #1a1a2e;
-    --text-sub: #555577;
-    --border: #dde3f0;
-    --radius: 16px;
-    --shadow: 0 4px 24px rgba(34,54,112,0.10);
-  }
+:root {
+  --navy: #223670;
+  --gold: #D0A900;
+  --gold-light: #FFF5CC;
+  --sky: #1A7FA8;
+  --bg: #F7F8FC;
+  --white: #ffffff;
+  --text: #1a1a2e;
+  --sub: #555577;
+  --border: #dde3f0;
+  --radius: 16px;
+  --shadow: 0 4px 24px rgba(34,54,112,0.10);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Hiragino Kaku Gothic ProN','Meiryo',sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+/* ヘッダー */
+.app-header { background: var(--navy); color: #fff; padding: 12px 16px; display: flex; align-items: center; gap: 10px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.2); }
+.logo-icon { width: 38px; height: 38px; background: var(--gold); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 19px; flex-shrink: 0; }
+.header-titles { flex: 1; min-width: 0; }
+.header-titles h1 { font-size: 16px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.header-titles p { font-size: 10px; opacity: 0.7; margin-top: 1px; }
+.header-btns { display: flex; gap: 8px; flex-shrink: 0; }
+.header-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; background: rgba(255,255,255,0.15); border: none; border-radius: 8px; color: #fff; cursor: pointer; padding: 6px 10px; font-size: 18px; line-height: 1; font-family: inherit; }
+.header-btn span { font-size: 9px; opacity: 0.85; }
+.header-btn:hover { background: rgba(255,255,255,0.28); }
 
-  body {
-    font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-  }
+/* モーダル */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 9999; align-items: center; justify-content: center; padding: 16px; }
+.modal-overlay.open { display: flex; }
+.modal-box { background: #fff; border-radius: 20px; width: 100%; max-width: 500px; max-height: 88vh; overflow-y: auto; box-shadow: 0 8px 40px rgba(0,0,0,0.25); animation: fadeUp 0.25s ease; }
+.modal-header { background: var(--navy); color: #fff; padding: 18px 22px; border-radius: 20px 20px 0 0; display: flex; align-items: center; justify-content: space-between; }
+.modal-header h2 { font-size: 16px; font-weight: 700; }
+.modal-close-btn { background: rgba(255,255,255,0.2); border: none; color: #fff; font-size: 20px; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.modal-close-btn:hover { background: rgba(255,255,255,0.35); }
+.modal-body { padding: 22px; }
 
-  /* ヘッダー */
-  .app-header {
-    background: var(--navy);
-    color: white;
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
-  }
-  .app-header .logo-icon {
-    width: 38px; height: 38px;
-    background: var(--gold);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 19px;
-    flex-shrink: 0;
-  }
-  .app-header .header-titles {
-    flex: 1;
-    min-width: 0;
-  }
-  .app-header h1 {
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .app-header p {
-    font-size: 10px;
-    opacity: 0.7;
-    margin-top: 1px;
-  }
-  .header-btns {
-    display: flex;
-    gap: 8px;
-    flex-shrink: 0;
-  }
-  .header-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    background: rgba(255,255,255,0.15);
-    border: none;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-    padding: 6px 10px;
-    font-size: 18px;
-    line-height: 1;
-    transition: background 0.2s;
-    font-family: inherit;
-  }
-  .header-btn:hover { background: rgba(255,255,255,0.25); }
-  .header-btn span {
-    font-size: 9px;
-    opacity: 0.85;
-    letter-spacing: 0.02em;
-  }
+/* 使い方モーダル */
+.how-purpose { background: var(--gold-light); border-left: 4px solid var(--gold); border-radius: 12px; padding: 16px 18px; margin-bottom: 20px; }
+.how-purpose-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.how-purpose p { font-size: 13px; color: var(--text); line-height: 1.7; margin-top: 6px; }
+.how-step { display: flex; gap: 14px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.how-step:last-child { border-bottom: none; }
+.how-step-num { background: var(--navy); color: #fff; font-size: 13px; font-weight: 700; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.how-step-title { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+.how-step-detail { font-size: 13px; color: var(--sub); line-height: 1.6; }
+.how-note { background: #f0f4ff; border-left: 4px solid var(--navy); border-radius: 8px; padding: 12px 14px; font-size: 13px; color: var(--text); line-height: 1.6; margin-top: 16px; }
 
-  /* モーダル共通 */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.55);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-  }
-  .modal-overlay.open { display: flex; }
-  .modal-box {
-    background: white;
-    border-radius: 20px;
-    width: 100%;
-    max-width: 500px;
-    max-height: 88vh;
-    overflow-y: auto;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.25);
-    animation: fadeInUp 0.25s ease;
-  }
-  .modal-header {
-    background: var(--navy);
-    color: white;
-    padding: 18px 22px;
-    border-radius: 20px 20px 0 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .modal-header h2 {
-    font-size: 16px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .modal-close {
-    background: rgba(255,255,255,0.2);
-    border: none;
-    color: white;
-    font-size: 20px;
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s;
-  }
-  .modal-close:hover { background: rgba(255,255,255,0.35); }
-  .modal-body { padding: 22px; }
+/* 設定モーダル */
+.setting-what { background: #f0f4ff; border-left: 4px solid var(--navy); border-radius: 12px; padding: 16px 18px; margin-bottom: 20px; }
+.setting-what-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.setting-what p { font-size: 13px; color: var(--text); line-height: 1.7; margin-top: 4px; }
+.setting-what ul { padding-left: 18px; font-size: 13px; color: var(--sub); line-height: 1.9; margin-top: 8px; }
+.demo-section-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+.btn-demo { display: block; width: 100%; padding: 14px; background: linear-gradient(135deg, var(--navy), var(--sky)); color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; margin-bottom: 10px; }
+.btn-reset { display: block; width: 100%; padding: 14px; background: #fff0f0; border: 2px solid #e03535; border-radius: 10px; color: #e03535; font-size: 15px; font-weight: 700; cursor: pointer; font-family: inherit; margin-bottom: 10px; }
+.setting-version { text-align: center; font-size: 11px; color: var(--sub); margin-top: 16px; }
 
-  /* 使い方モーダル */
-  .how-step {
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .how-step:last-child { border-bottom: none; }
-  .how-step-num {
-    background: var(--navy);
-    color: white;
-    font-size: 13px;
-    font-weight: 700;
-    width: 32px; height: 32px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .how-step-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 4px;
-  }
-  .how-step-detail {
-    font-size: 13px;
-    color: var(--text-sub);
-    line-height: 1.6;
-  }
-  .how-note {
-    background: var(--gold-light);
-    border-left: 4px solid var(--gold);
-    border-radius: 8px;
-    padding: 12px 14px;
-    font-size: 13px;
-    color: var(--text);
-    line-height: 1.6;
-    margin-top: 16px;
-  }
+/* コンテナ */
+.container { max-width: 680px; margin: 0 auto; padding: 24px 16px 60px; }
+.screen { display: none; }
+.screen.active { display: block; }
 
-  /* 設定モーダル */
-  .setting-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .setting-row:last-child { border-bottom: none; }
-  .setting-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--navy);
-  }
-  .setting-val {
-    font-size: 13px;
-    color: var(--text-sub);
-    max-width: 55%;
-    text-align: right;
-    word-break: break-all;
-  }
-  .btn-reset {
-    display: block;
-    width: 100%;
-    margin-top: 20px;
-    padding: 14px;
-    background: #fff0f0;
-    border: 2px solid #e03535;
-    border-radius: 10px;
-    color: #e03535;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    transition: background 0.2s;
-  }
-  .btn-reset:hover { background: #ffe0e0; }
-  /* 設定モーダル内 */
-  .setting-what {
-    background: #f0f4ff;
-    border-radius: 12px;
-    padding: 16px 18px;
-    border-left: 4px solid var(--navy);
-  }
-  .setting-what-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 8px;
-  }
-  .setting-what p {
-    font-size: 13px;
-    color: var(--text);
-    line-height: 1.7;
-  }
-  .btn-demo {
-    display: block;
-    width: 100%;
-    padding: 14px;
-    background: linear-gradient(135deg, var(--navy), var(--sky));
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    margin-bottom: 10px;
-    transition: opacity 0.2s;
-  }
-  .btn-demo:active { opacity: 0.85; }
+/* プログレスバー */
+.progress-wrap { margin-bottom: 28px; }
+.progress-label { display: flex; justify-content: space-between; font-size: 13px; color: var(--sub); margin-bottom: 8px; }
+.progress-bg { background: var(--border); border-radius: 99px; height: 8px; overflow: hidden; }
+.progress-fill { background: linear-gradient(90deg, var(--navy), var(--sky)); height: 100%; border-radius: 99px; transition: width 0.4s ease; }
 
-  /* 使い方モーダル内 */
-  .how-purpose {
-    background: var(--gold-light);
-    border-left: 4px solid var(--gold);
-    border-radius: 12px;
-    padding: 16px 18px;
-  }
-  .how-purpose-title {
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 8px;
-  }
-  .how-purpose p {
-    font-size: 13px;
-    color: var(--text);
-    line-height: 1.7;
-  }
+/* カード */
+.card { background: #fff; border-radius: var(--radius); padding: 28px 24px; box-shadow: var(--shadow); margin-bottom: 20px; }
+.step-badge { display: inline-block; background: var(--navy); color: #fff; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 99px; margin-bottom: 12px; }
+.card h2 { font-size: 20px; font-weight: 700; color: var(--navy); line-height: 1.4; margin-bottom: 6px; }
+.subtitle { font-size: 13px; color: var(--sub); margin-bottom: 20px; line-height: 1.6; }
 
-  .setting-version {
-    text-align: center;
-    font-size: 11px;
-    color: var(--text-sub);
-    margin-top: 16px;
-  }
+/* フォーム */
+label.field-label { display: block; font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+.required { color: #e03535; margin-left: 4px; font-size: 12px; }
+input[type="text"], select, textarea { width: 100%; border: 2px solid var(--border); border-radius: 10px; padding: 14px 16px; font-size: 16px; font-family: inherit; color: var(--text); background: #fff; transition: border-color 0.2s; margin-bottom: 18px; appearance: none; }
+input[type="text"]:focus, select:focus, textarea:focus { outline: none; border-color: var(--navy); box-shadow: 0 0 0 3px rgba(34,54,112,0.1); }
+textarea { min-height: 80px; resize: vertical; }
+select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath fill='%23223670' d='M1 1l5 5 5-5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
 
-  /* 全体コンテナ */
-  .container {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 24px 16px 60px;
-  }
+/* 宝探し */
+.takara-q { background: var(--gold-light); border-left: 4px solid var(--gold); border-radius: 12px; padding: 20px; margin-bottom: 18px; }
+.q-num { font-size: 12px; font-weight: 700; color: var(--gold); margin-bottom: 5px; }
+.q-text { font-size: 17px; font-weight: 700; color: var(--navy); line-height: 1.4; margin-bottom: 3px; }
+.q-hint { font-size: 12px; color: var(--sub); margin-bottom: 12px; }
+.takara-q textarea { margin-bottom: 0; background: #fff; border-color: rgba(208,169,0,0.4); min-height: 72px; }
 
-  /* 画面セクション（ウィザード） */
-  .screen { display: none; }
-  .screen.active { display: block; }
+/* AI診断ラジオ */
+.ai-item { background: var(--bg); border-radius: 12px; padding: 18px 20px; margin-bottom: 14px; border: 1.5px solid var(--border); }
+.ai-item.done { border-color: var(--navy); background: #fff; box-shadow: 0 2px 10px rgba(34,54,112,0.07); }
+.ai-item-header { display: flex; gap: 10px; margin-bottom: 14px; }
+.ai-item-num { background: var(--navy); color: #fff; font-size: 12px; font-weight: 700; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ai-item-title { font-size: 16px; font-weight: 700; color: var(--navy); }
+.ai-item-desc { font-size: 12px; color: var(--sub); margin-top: 2px; }
+.radio-scale { display: flex; gap: 6px; }
+.radio-scale label { flex: 1; cursor: pointer; }
+.radio-scale input[type="radio"] { display: none; }
+.radio-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 3px; border: 2px solid var(--border); border-radius: 10px; background: #fff; font-size: 11px; color: var(--sub); text-align: center; line-height: 1.3; min-height: 60px; justify-content: center; }
+.radio-num { font-size: 18px; font-weight: 700; color: var(--border); }
+.radio-scale input:checked + .radio-btn { border-color: var(--navy); background: var(--navy); color: #fff; }
+.radio-scale input:checked + .radio-btn .radio-num { color: var(--gold); }
 
-  /* プログレスバー */
-  .progress-wrap {
-    margin-bottom: 28px;
-  }
-  .progress-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    color: var(--text-sub);
-    margin-bottom: 8px;
-  }
-  .progress-bar-bg {
-    background: var(--border);
-    border-radius: 99px;
-    height: 8px;
-    overflow: hidden;
-  }
-  .progress-bar-fill {
-    background: linear-gradient(90deg, var(--navy), var(--sky));
-    height: 100%;
-    border-radius: 99px;
-    transition: width 0.4s ease;
-  }
+/* 人材診断 */
+.human-item { background: var(--bg); border-radius: 12px; padding: 18px 20px; margin-bottom: 14px; border: 1.5px solid var(--border); }
+.human-item-title { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 8px; display: flex; gap: 8px; align-items: center; }
+.human-item-num { background: var(--sky); color: #fff; font-size: 11px; font-weight: 700; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.human-item-desc { font-size: 12px; color: var(--sub); margin-bottom: 12px; }
 
-  /* カード */
-  .card {
-    background: var(--white);
-    border-radius: var(--radius);
-    padding: 28px 24px;
-    box-shadow: var(--shadow);
-    margin-bottom: 20px;
-  }
+/* ボタン */
+.btn-primary { display: block; width: 100%; padding: 18px; background: linear-gradient(135deg, var(--navy), var(--sky)); color: #fff; border: none; border-radius: 12px; font-size: 17px; font-weight: 700; cursor: pointer; font-family: inherit; margin-top: 8px; }
+.btn-secondary { display: block; width: 100%; padding: 14px; background: #fff; color: var(--navy); border: 2px solid var(--border); border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; margin-top: 10px; }
+.btn-gold { display: block; width: 100%; padding: 18px; background: linear-gradient(135deg, var(--gold), #b38f00); color: #fff; border: none; border-radius: 12px; font-size: 17px; font-weight: 700; cursor: pointer; font-family: inherit; text-align: center; text-decoration: none; margin-top: 8px; }
 
-  /* ステップ見出し */
-  .step-badge {
-    display: inline-block;
-    background: var(--navy);
-    color: white;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 99px;
-    margin-bottom: 12px;
-    letter-spacing: 0.08em;
-  }
-  .card h2 {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--navy);
-    line-height: 1.4;
-    margin-bottom: 6px;
-  }
-  .card .subtitle {
-    font-size: 13px;
-    color: var(--text-sub);
-    margin-bottom: 20px;
-    line-height: 1.6;
-  }
+/* トップ */
+.top-hero { background: linear-gradient(160deg, var(--navy) 0%, #1a2a5e 60%, var(--sky) 100%); border-radius: 20px; padding: 36px 24px; color: #fff; text-align: center; margin-bottom: 20px; position: relative; overflow: hidden; }
+.top-hero::before { content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; background: rgba(208,169,0,0.12); border-radius: 50%; }
+.hero-icon { font-size: 52px; margin-bottom: 14px; display: block; }
+.top-hero h1 { font-size: 24px; font-weight: 700; margin-bottom: 10px; line-height: 1.3; }
+.top-hero h1 span { color: var(--gold); }
+.catchcopy { font-size: 14px; opacity: 0.85; line-height: 1.7; margin-bottom: 26px; }
+.top-features { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.top-feature { background: #fff; border-radius: 12px; padding: 14px; text-align: center; }
+.feat-icon { font-size: 26px; margin-bottom: 5px; }
+.feat-title { font-size: 13px; font-weight: 700; color: var(--navy); line-height: 1.4; }
+.top-time { background: var(--gold-light); border-radius: 10px; padding: 12px 16px; text-align: center; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
 
-  /* 入力フィールド */
-  label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--navy);
-    margin-bottom: 6px;
-  }
-  label .required {
-    color: #e03535;
-    margin-left: 4px;
-    font-size: 12px;
-  }
-  input[type="text"],
-  select,
-  textarea {
-    width: 100%;
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-    font-size: 16px;
-    font-family: inherit;
-    color: var(--text);
-    background: white;
-    transition: border-color 0.2s;
-    margin-bottom: 18px;
-    appearance: none;
-  }
-  input[type="text"]:focus,
-  select:focus,
-  textarea:focus {
-    outline: none;
-    border-color: var(--navy);
-    box-shadow: 0 0 0 3px rgba(34,54,112,0.1);
-  }
-  textarea { min-height: 100px; resize: vertical; }
-  select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23223670' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
-    padding-right: 40px;
-  }
+/* 結果 */
+.result-level-card { background: linear-gradient(135deg, var(--navy), var(--sky)); border-radius: 20px; padding: 30px 22px; text-align: center; color: #fff; margin-bottom: 18px; }
+.result-level-num { font-size: 76px; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+.result-level-label { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+.result-level-desc { font-size: 14px; opacity: 0.85; line-height: 1.6; }
+.score-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+.score-box { background: #fff; border-radius: 12px; padding: 16px; text-align: center; box-shadow: var(--shadow); }
+.score-val { font-size: 30px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.score-label { font-size: 12px; color: var(--sub); }
+.chart-wrap { background: #fff; border-radius: 16px; padding: 20px; box-shadow: var(--shadow); margin-bottom: 18px; }
+.chart-wrap h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 14px; text-align: center; }
+.takara-result { background: linear-gradient(135deg, var(--gold), #b38f00); border-radius: 16px; padding: 22px; color: #fff; margin-bottom: 18px; }
+.takara-result h3 { font-size: 17px; font-weight: 700; margin-bottom: 12px; }
+.takara-gem { background: rgba(255,255,255,0.2); border-radius: 10px; padding: 10px 14px; margin-bottom: 8px; display: flex; gap: 10px; align-items: center; }
+.gem-num { font-size: 20px; font-weight: 700; opacity: 0.7; flex-shrink: 0; }
+.gem-text { font-size: 14px; font-weight: 600; line-height: 1.4; }
+.api-placeholder { background: #f0f4ff; border: 2px dashed var(--navy); border-radius: 14px; padding: 22px; text-align: center; margin-bottom: 18px; }
+.api-placeholder .api-icon { font-size: 34px; margin-bottom: 10px; }
+.api-placeholder h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+.api-placeholder p { font-size: 13px; color: var(--sub); line-height: 1.6; }
+.api-badge { display: inline-block; background: var(--navy); color: #fff; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 99px; margin-top: 10px; }
+.issue-card { background: #fff; border-radius: 12px; padding: 18px; box-shadow: var(--shadow); margin-bottom: 12px; border-left: 5px solid var(--navy); }
+.issue-card.p1 { border-left-color: #e03535; }
+.issue-card.p2 { border-left-color: var(--gold); }
+.issue-card.p3 { border-left-color: var(--sky); }
+.issue-priority { font-size: 11px; font-weight: 700; color: var(--sub); margin-bottom: 4px; }
+.issue-title { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+.issue-detail { font-size: 13px; color: var(--sub); line-height: 1.6; }
+.plan-phase { background: #fff; border-radius: 14px; box-shadow: var(--shadow); margin-bottom: 12px; overflow: hidden; }
+.plan-header { padding: 14px 18px; font-size: 15px; font-weight: 700; color: #fff; }
+.plan-header.p30 { background: #2a6b4a; }
+.plan-header.p60 { background: var(--sky); }
+.plan-header.p90 { background: var(--navy); }
+.plan-body { padding: 14px 18px; }
+.plan-action { display: flex; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border); }
+.plan-action:last-child { border-bottom: none; }
+.plan-action-icon { font-size: 18px; flex-shrink: 0; }
+.plan-action-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 2px; }
+.plan-action-detail { font-size: 12px; color: var(--sub); line-height: 1.5; }
+.plan-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; }
+.plan-tag { font-size: 10px; padding: 2px 7px; border-radius: 99px; background: var(--bg); color: var(--sub); border: 1px solid var(--border); }
+.human-result { background: linear-gradient(135deg, #1a5278, var(--sky)); border-radius: 16px; padding: 22px; color: #fff; text-align: center; margin-bottom: 18px; }
+.human-type-label { font-size: 12px; opacity: 0.8; margin-bottom: 5px; }
+.human-type-name { font-size: 22px; font-weight: 700; margin-bottom: 7px; }
+.human-type-desc { font-size: 13px; opacity: 0.9; line-height: 1.6; }
+.rec-box { background: #fff; border-radius: 12px; padding: 14px 18px; box-shadow: var(--shadow); margin-bottom: 12px; display: flex; gap: 12px; align-items: flex-start; }
+.rec-icon { font-size: 26px; flex-shrink: 0; }
+.rec-title { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+.rec-detail { font-size: 12px; color: var(--sub); line-height: 1.5; }
+.next-step-block { background: #fff; border-radius: 20px; padding: 26px 22px; box-shadow: var(--shadow); margin-top: 18px; border-top: 4px solid var(--navy); }
+.next-step-title { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.next-step-desc { font-size: 13px; color: var(--sub); line-height: 1.7; margin-bottom: 18px; }
+.btn-copy { display: block; width: 100%; padding: 17px; background: linear-gradient(135deg, var(--navy), var(--sky)); color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; font-family: inherit; margin-bottom: 10px; }
+.copy-toast { background: #e8f5e9; border: 2px solid #2a6b4a; border-radius: 10px; padding: 12px; font-size: 14px; font-weight: 600; color: #2a6b4a; text-align: center; margin-bottom: 12px; display: none; }
+.btn-contact { display: block; width: 100%; padding: 17px; background: linear-gradient(135deg, var(--gold), #b38f00); color: #fff; border-radius: 12px; font-size: 16px; font-weight: 700; text-align: center; text-decoration: none; }
+.next-step-note { font-size: 12px; color: var(--sub); text-align: center; margin-top: 10px; line-height: 1.6; }
 
-  /* 宝探し診断：テキストエリア1問 */
-  .takara-question {
-    background: var(--gold-light);
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-left: 4px solid var(--gold);
-  }
-  .takara-question .q-num {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--gold);
-    margin-bottom: 6px;
-    letter-spacing: 0.1em;
-  }
-  .takara-question .q-text {
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--navy);
-    line-height: 1.5;
-    margin-bottom: 4px;
-  }
-  .takara-question .q-hint {
-    font-size: 12px;
-    color: var(--text-sub);
-    margin-bottom: 14px;
-  }
-  .takara-question textarea {
-    margin-bottom: 0;
-    background: white;
-    border-color: rgba(208,169,0,0.4);
-    min-height: 80px;
-  }
-
-  /* AI診断：5段階ラジオ */
-  .ai-item {
-    background: var(--bg);
-    border-radius: 12px;
-    padding: 18px 20px;
-    margin-bottom: 14px;
-    border: 1.5px solid var(--border);
-  }
-  .ai-item.current-item {
-    border-color: var(--navy);
-    background: white;
-    box-shadow: 0 2px 12px rgba(34,54,112,0.08);
-  }
-  .ai-item-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 14px;
-  }
-  .ai-item-num {
-    background: var(--navy);
-    color: white;
-    font-size: 12px;
-    font-weight: 700;
-    width: 26px; height: 26px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-  .ai-item-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--navy);
-    line-height: 1.4;
-  }
-  .ai-item-desc {
-    font-size: 12px;
-    color: var(--text-sub);
-    margin-top: 2px;
-  }
-
-  /* 5段階ラジオボタン */
-  .radio-scale {
-    display: flex;
-    gap: 8px;
-  }
-  .radio-scale label {
-    flex: 1;
-    margin: 0;
-    cursor: pointer;
-  }
-  .radio-scale input[type="radio"] { display: none; }
-  .radio-scale .radio-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    padding: 10px 4px;
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    background: white;
-    font-size: 12px;
-    color: var(--text-sub);
-    transition: all 0.2s;
-    text-align: center;
-    line-height: 1.3;
-    min-height: 64px;
-    justify-content: center;
-  }
-  .radio-scale .radio-num {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--border);
-    transition: color 0.2s;
-  }
-  .radio-scale input:checked + .radio-btn {
-    border-color: var(--navy);
-    background: var(--navy);
-    color: white;
-  }
-  .radio-scale input:checked + .radio-btn .radio-num {
-    color: var(--gold);
-  }
-
-  /* 人材診断 */
-  .human-item {
-    background: var(--bg);
-    border-radius: 12px;
-    padding: 18px 20px;
-    margin-bottom: 14px;
-    border: 1.5px solid var(--border);
-  }
-  .human-item-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 12px;
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-  .human-item-num {
-    background: var(--sky);
-    color: white;
-    font-size: 11px;
-    font-weight: 700;
-    width: 24px; height: 24px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-
-  /* ボタン */
-  .btn-primary {
-    display: block;
-    width: 100%;
-    padding: 18px 20px;
-    background: linear-gradient(135deg, var(--navy), var(--sky));
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 18px;
-    font-weight: 700;
-    cursor: pointer;
-    text-align: center;
-    transition: opacity 0.2s, transform 0.1s;
-    margin-top: 8px;
-    letter-spacing: 0.04em;
-  }
-  .btn-primary:active { transform: scale(0.98); opacity: 0.9; }
-
-  .btn-secondary {
-    display: block;
-    width: 100%;
-    padding: 14px 20px;
-    background: white;
-    color: var(--navy);
-    border: 2px solid var(--border);
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    text-align: center;
-    transition: border-color 0.2s;
-    margin-top: 10px;
-  }
-  .btn-secondary:hover { border-color: var(--navy); }
-
-  .btn-gold {
-    display: block;
-    width: 100%;
-    padding: 18px 20px;
-    background: linear-gradient(135deg, var(--gold), #b38f00);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 18px;
-    font-weight: 700;
-    cursor: pointer;
-    text-align: center;
-    margin-top: 8px;
-    letter-spacing: 0.04em;
-  }
-
-  /* トップ画面 */
-  .top-hero {
-    background: linear-gradient(160deg, var(--navy) 0%, #1a2a5e 60%, var(--sky) 100%);
-    border-radius: 20px;
-    padding: 40px 28px;
-    color: white;
-    text-align: center;
-    margin-bottom: 20px;
-    position: relative;
-    overflow: hidden;
-  }
-  .top-hero::before {
-    content: '';
-    position: absolute;
-    top: -40px; right: -40px;
-    width: 200px; height: 200px;
-    background: rgba(208,169,0,0.15);
-    border-radius: 50%;
-  }
-  .top-hero .hero-icon {
-    font-size: 56px;
-    margin-bottom: 16px;
-    display: block;
-  }
-  .top-hero h1 {
-    font-size: 26px;
-    font-weight: 700;
-    margin-bottom: 10px;
-    line-height: 1.3;
-  }
-  .top-hero h1 span {
-    color: var(--gold);
-  }
-  .top-hero .catchcopy {
-    font-size: 14px;
-    opacity: 0.85;
-    line-height: 1.7;
-    margin-bottom: 28px;
-  }
-  .top-features {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-  .top-feature {
-    background: white;
-    border-radius: 12px;
-    padding: 16px;
-    text-align: center;
-  }
-  .top-feature .feat-icon { font-size: 28px; margin-bottom: 6px; }
-  .top-feature .feat-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--navy);
-    line-height: 1.4;
-  }
-  .top-time {
-    background: var(--gold-light);
-    border-radius: 10px;
-    padding: 12px 16px;
-    text-align: center;
-    font-size: 14px;
-    color: var(--text);
-    margin-bottom: 20px;
-    font-weight: 600;
-  }
-
-  /* 結果画面 */
-  .result-level-card {
-    background: linear-gradient(135deg, var(--navy), var(--sky));
-    border-radius: 20px;
-    padding: 32px 24px;
-    text-align: center;
-    color: white;
-    margin-bottom: 20px;
-  }
-  .result-level-num {
-    font-size: 80px;
-    font-weight: 700;
-    color: var(--gold);
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-  .result-level-label {
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 6px;
-  }
-  .result-level-desc {
-    font-size: 14px;
-    opacity: 0.85;
-    line-height: 1.6;
-  }
-
-  .score-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-  .score-box {
-    background: white;
-    border-radius: 12px;
-    padding: 16px;
-    text-align: center;
-    box-shadow: var(--shadow);
-  }
-  .score-box .score-val {
-    font-size: 32px;
-    font-weight: 700;
-    color: var(--navy);
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-  .score-box .score-label {
-    font-size: 12px;
-    color: var(--text-sub);
-  }
-
-  /* レーダーチャート */
-  .chart-wrap {
-    background: white;
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: var(--shadow);
-    margin-bottom: 20px;
-  }
-  .chart-wrap h3 {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 16px;
-    text-align: center;
-  }
-
-  /* 課題カード */
-  .issue-card {
-    background: white;
-    border-radius: 14px;
-    padding: 20px;
-    box-shadow: var(--shadow);
-    margin-bottom: 14px;
-    border-left: 5px solid var(--navy);
-  }
-  .issue-card.priority-1 { border-left-color: #e03535; }
-  .issue-card.priority-2 { border-left-color: var(--gold); }
-  .issue-card.priority-3 { border-left-color: var(--sky); }
-  .issue-priority {
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--text-sub);
-    letter-spacing: 0.1em;
-    margin-bottom: 4px;
-  }
-  .issue-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 6px;
-  }
-  .issue-detail {
-    font-size: 13px;
-    color: var(--text-sub);
-    line-height: 1.6;
-  }
-
-  /* 90日計画 */
-  .plan-phase {
-    background: white;
-    border-radius: 14px;
-    box-shadow: var(--shadow);
-    margin-bottom: 14px;
-    overflow: hidden;
-  }
-  .plan-phase-header {
-    padding: 16px 20px;
-    font-size: 16px;
-    font-weight: 700;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .plan-phase-header.p30 { background: #2a6b4a; }
-  .plan-phase-header.p60 { background: var(--sky); }
-  .plan-phase-header.p90 { background: var(--navy); }
-  .plan-phase-body {
-    padding: 16px 20px;
-  }
-  .plan-action {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .plan-action:last-child { border-bottom: none; }
-  .plan-action-icon { font-size: 20px; flex-shrink: 0; }
-  .plan-action-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 3px;
-  }
-  .plan-action-detail {
-    font-size: 12px;
-    color: var(--text-sub);
-    line-height: 1.5;
-  }
-  .plan-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 6px;
-  }
-  .plan-tag {
-    font-size: 11px;
-    padding: 3px 8px;
-    border-radius: 99px;
-    background: var(--bg);
-    color: var(--text-sub);
-    border: 1px solid var(--border);
-  }
-
-  /* 人材レポート */
-  .human-result {
-    background: linear-gradient(135deg, #1a5278, var(--sky));
-    border-radius: 16px;
-    padding: 24px;
-    color: white;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .human-type-label {
-    font-size: 13px;
-    opacity: 0.8;
-    margin-bottom: 6px;
-    letter-spacing: 0.1em;
-  }
-  .human-type-name {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 8px;
-  }
-  .human-type-desc {
-    font-size: 14px;
-    opacity: 0.9;
-    line-height: 1.6;
-  }
-
-  .recommend-box {
-    background: white;
-    border-radius: 12px;
-    padding: 16px 20px;
-    box-shadow: var(--shadow);
-    margin-bottom: 14px;
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-  }
-  .recommend-box .rec-icon { font-size: 28px; flex-shrink: 0; }
-  .recommend-box .rec-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 4px;
-  }
-  .recommend-box .rec-detail {
-    font-size: 13px;
-    color: var(--text-sub);
-    line-height: 1.5;
-  }
-
-  /* APIプレースホルダー */
-  .api-placeholder {
-    background: #f0f4ff;
-    border: 2px dashed var(--navy);
-    border-radius: 14px;
-    padding: 24px;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .api-placeholder .api-icon { font-size: 36px; margin-bottom: 10px; }
-  .api-placeholder h3 {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 6px;
-  }
-  .api-placeholder p {
-    font-size: 13px;
-    color: var(--text-sub);
-    line-height: 1.6;
-  }
-  .api-placeholder .api-badge {
-    display: inline-block;
-    background: var(--navy);
-    color: white;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 4px 12px;
-    border-radius: 99px;
-    margin-top: 10px;
-    letter-spacing: 0.08em;
-  }
-
-  /* 宝カード */
-  .takara-result-card {
-    background: linear-gradient(135deg, var(--gold), #b38f00);
-    border-radius: 16px;
-    padding: 24px;
-    color: white;
-    margin-bottom: 20px;
-  }
-  .takara-result-card h3 {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .takara-gem {
-    background: rgba(255,255,255,0.2);
-    border-radius: 10px;
-    padding: 12px 16px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .takara-gem .gem-num {
-    font-size: 22px;
-    font-weight: 700;
-    opacity: 0.7;
-    flex-shrink: 0;
-  }
-  .takara-gem .gem-text {
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.4;
-  }
-
-  /* 次のステップブロック */
-  .next-step-block {
-    background: white;
-    border-radius: 20px;
-    padding: 28px 24px;
-    box-shadow: var(--shadow);
-    margin-top: 20px;
-    border-top: 4px solid var(--navy);
-  }
-  .next-step-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--navy);
-    margin-bottom: 10px;
-  }
-  .next-step-desc {
-    font-size: 14px;
-    color: var(--text-sub);
-    line-height: 1.7;
-    margin-bottom: 20px;
-  }
-  .btn-copy {
-    display: block;
-    width: 100%;
-    padding: 18px;
-    background: linear-gradient(135deg, var(--navy), var(--sky));
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 17px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: inherit;
-    margin-bottom: 12px;
-    transition: opacity 0.2s, transform 0.1s;
-    letter-spacing: 0.03em;
-  }
-  .btn-copy:active { opacity: 0.85; transform: scale(0.98); }
-  .copy-toast {
-    background: #e8f5e9;
-    border: 2px solid #2a6b4a;
-    border-radius: 10px;
-    padding: 12px 16px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #2a6b4a;
-    text-align: center;
-    margin-bottom: 14px;
-    animation: fadeInUp 0.3s ease;
-  }
-  .btn-contact {
-    display: block;
-    width: 100%;
-    padding: 18px;
-    background: linear-gradient(135deg, var(--gold), #b38f00);
-    color: white;
-    border-radius: 12px;
-    font-size: 17px;
-    font-weight: 700;
-    text-align: center;
-    text-decoration: none;
-    letter-spacing: 0.03em;
-    transition: opacity 0.2s;
-    margin-bottom: 12px;
-  }
-  .btn-contact:active { opacity: 0.85; }
-  .next-step-note {
-    font-size: 12px;
-    color: var(--text-sub);
-    text-align: center;
-    line-height: 1.6;
-    padding-top: 4px;
-  }
-
-  /* アニメーション */
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .screen.active .card,
-  .screen.active .top-hero,
-  .screen.active .result-level-card {
-    animation: fadeInUp 0.3s ease;
-  }
-
-  /* スマホ調整 */
-  @media (max-width: 480px) {
-    .container { padding: 16px 12px 60px; }
-    .card { padding: 20px 16px; }
-    .top-hero h1 { font-size: 22px; }
-    .result-level-num { font-size: 64px; }
-    .radio-scale { gap: 5px; }
-    .radio-scale .radio-btn { font-size: 10px; padding: 8px 2px; }
-    .radio-scale .radio-num { font-size: 18px; }
-    .score-grid { grid-template-columns: 1fr 1fr; }
-  }
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.screen.active .card, .screen.active .top-hero, .screen.active .result-level-card { animation: fadeUp 0.3s ease; }
+@media (max-width:480px) {
+  .container { padding: 14px 10px 60px; }
+  .card { padding: 18px 14px; }
+  .radio-scale { gap: 4px; }
+  .radio-btn { font-size: 10px; padding: 6px 2px; }
+  .radio-num { font-size: 16px; }
+}
 </style>
 </head>
 <body>
 
+<!-- ヘッダー -->
 <header class="app-header">
-  <div class="logo-icon">🔍</div>
+  <div class="logo-icon">&#128269;</div>
   <div class="header-titles">
     <h1>AI組織化診断</h1>
     <p>AIを組織の力に変える診断アプリ</p>
   </div>
   <div class="header-btns">
-    <button class="header-btn"  title="使い方">
-      ❓<span>使い方</span>
-    </button>
-    <button class="header-btn"  title="設定">
-      ⚙️<span>設定</span>
-    </button>
+    <button class="header-btn" id="btnHow">&#10067;<span>使い方</span></button>
+    <button class="header-btn" id="btnSet">&#9881;&#65039;<span>設定</span></button>
   </div>
 </header>
 
-<div class="container">
-
-  <!-- ============ SCREEN 0: トップ ============ -->
-  <div id="screen0" class="screen active">
-    <div class="top-hero">
-      <span class="hero-icon">🏆</span>
-      <h1>あなたの会社の<br><span>AI活用力</span>を診断</h1>
-      <p class="catchcopy">
-        AIを組織の力に変えるための<br>
-        無料診断ツールです。<br>
-        診断後に90日実行計画をお渡しします。
-      </p>
-    </div>
-    <div class="top-features">
-      <div class="top-feature">
-        <div class="feat-icon">💎</div>
-        <div class="feat-title">会社の宝<br>を発見</div>
-      </div>
-      <div class="top-feature">
-        <div class="feat-icon">📊</div>
-        <div class="feat-title">AI活用<br>レベル診断</div>
-      </div>
-      <div class="top-feature">
-        <div class="feat-icon">👥</div>
-        <div class="feat-title">AI人材<br>レベル診断</div>
-      </div>
-      <div class="top-feature">
-        <div class="feat-icon">📅</div>
-        <div class="feat-title">90日<br>実行計画</div>
-      </div>
-    </div>
-    <div class="top-time">⏱ 所要時間：約5〜10分（全部で28問）</div>
-    <button class="btn-primary" data-goto="1">✨ 無料で診断スタート</button>
-  </div>
-
-  <!-- ============ SCREEN 1: 会社情報 ============ -->
-  <div id="screen1" class="screen">
-    <div class="progress-wrap">
-      <div class="progress-label">
-        <span>STEP 1 / 5　会社情報入力</span>
-        <span>20%</span>
-      </div>
-      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:20%"></div></div>
-    </div>
-    <div class="card">
-      <span class="step-badge">STEP 1</span>
-      <h2>まず、会社のことを<br>教えてください</h2>
-      <p class="subtitle">入力した内容をもとに、あなたの会社専用の診断結果を作ります。</p>
-
-      <label>会社名（屋号）<span class="required">必須</span></label>
-      <input type="text" id="companyName" data-demo="株式会社さくら商事" placeholder="例：スマイルプラスコンサルティング">
-
-      <label>業種<span class="required">必須</span></label>
-      <select id="industry" data-demo="飲食業・食品">
-        <option value="">▼ 業種を選んでください</option>
-        <option>税理士・会計事務所</option>
-        <option>社労士事務所</option>
-        <option>行政書士事務所</option>
-        <option>弁護士事務所</option>
-        <option>製造業</option>
-        <option>建設業</option>
-        <option>飲食業・食品</option>
-        <option>美容業（美容室・エステ等）</option>
-        <option>小売業</option>
-        <option>サービス業</option>
-        <option>IT・Web業</option>
-        <option>医療・介護</option>
-        <option>不動産業</option>
-        <option>運送・物流</option>
-        <option>その他</option>
-      </select>
-
-      <label>従業員数<span class="required">必須</span></label>
-      <select id="employees" data-demo="6〜10名">
-        <option value="">▼ 人数を選んでください</option>
-        <option>1名（個人事業主）</option>
-        <option>2〜5名</option>
-        <option>6〜10名</option>
-        <option>11〜30名</option>
-        <option>31〜50名</option>
-        <option>51名以上</option>
-      </select>
-
-      <label>事業内容（一言で）</label>
-      <input type="text" id="business" data-demo="地域密着型の定食屋・仕出し弁当の製造販売" placeholder="例：中小企業向けWebマーケティング支援">
-
-      <label>現在の経営課題（自由に書いてください）</label>
-      <textarea id="challenge" data-demo="新規のお客様が増えない。SNSをやりたいが投稿する時間がない。スタッフの採用も困っている。" placeholder="例：新規集客が少ない、社員の残業が多い、売上が伸び悩んでいる など"></textarea>
-
-      <button class="btn-primary" data-action="step1next">次へ　→　会社の宝探し診断</button>
-    </div>
-  </div>
-
-  <!-- ============ SCREEN 2: 宝探し診断 ============ -->
-  <div id="screen2" class="screen">
-    <div class="progress-wrap">
-      <div class="progress-label">
-        <span>STEP 2 / 5　会社の宝探し診断</span>
-        <span>40%</span>
-      </div>
-      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:40%"></div></div>
-    </div>
-    <div class="card">
-      <span class="step-badge">STEP 2</span>
-      <h2>💎 会社の宝を一緒に<br>探しましょう</h2>
-      <p class="subtitle">ここは正解がありません。頭に浮かんだことをそのまま書いてください。AIがあなたの会社の「隠れた強み」を見つけます。</p>
-
-      <div class="takara-question">
-        <div class="q-num">Q1 / 6</div>
-        <div class="q-text">お客様からよく言われる<br>お褒めの言葉は何ですか？</div>
-        <div class="q-hint">例：「対応が早い」「安心できる」「丁寧に教えてくれる」</div>
-        <textarea id="t1" data-demo="いつ来ても温かくて、ほっとすると言われます" placeholder="思い浮かんだ言葉をそのまま書いてください"></textarea>
-      </div>
-
-      <div class="takara-question">
-        <div class="q-num">Q2 / 6</div>
-        <div class="q-text">競合他社と比べて、<br>自信を持って言える強みは？</div>
-        <div class="q-hint">例：「特殊な技術がある」「地域で一番長い」「価格より質で選ばれる」</div>
-        <textarea id="t2" data-demo="20年以上地元で続けてきた信頼感と毎朝仕入れる新鮮な食材へのこだわり" placeholder="思い浮かんだ強みをそのまま書いてください"></textarea>
-      </div>
-
-      <div class="takara-question">
-        <div class="q-num">Q3 / 6</div>
-        <div class="q-text">社員が「ここで働いていて<br>良かった」と感じる理由は？</div>
-        <div class="q-hint">例：「チームワークが良い」「仕事に誇りを持てる」「社長が話を聞いてくれる」</div>
-        <textarea id="t3" data-demo="お客様に感謝される仕事だから誇りがあると言ってくれるスタッフがいます" placeholder="思い浮かんだことをそのまま書いてください"></textarea>
-      </div>
-
-      <div class="takara-question">
-        <div class="q-num">Q4 / 6</div>
-        <div class="q-text">長くお付き合いいただける<br>お客様が多い理由は何でしょう？</div>
-        <div class="q-hint">例：「毎年来てくれる」「10年以上のお客様がいる」「信頼関係がある」</div>
-        <textarea id="t4" data-demo="昼食の常連さんが多く10年以上通ってくれている方が数十名います" placeholder="思い浮かんだことをそのまま書いてください"></textarea>
-      </div>
-
-      <div class="takara-question">
-        <div class="q-num">Q5 / 6</div>
-        <div class="q-text">紹介や口コミが起きるとしたら、<br>どんな場面ですか？</div>
-        <div class="q-hint">例：「仕事が終わった後に感謝される」「知人に勧めてくれる」</div>
-        <textarea id="t5" data-demo="あの店は間違いないと知人に教えてくれるお客様から新しいお客様が来ることが多い" placeholder="思い浮かんだことをそのまま書いてください"></textarea>
-      </div>
-
-      <div class="takara-question">
-        <div class="q-num">Q6 / 6</div>
-        <div class="q-text">もし御社がなくなったら、<br>一番困るのはどんな方ですか？</div>
-        <div class="q-hint">例：「近所の高齢者の方」「中小企業の経営者」「製品に依存している顧客」</div>
-        <textarea id="t6" data-demo="この地域のお年寄りや昼食を外で食べるサラリーマンの方々" placeholder="思い浮かんだことをそのまま書いてください"></textarea>
-      </div>
-
-      <button class="btn-primary" data-goto="3">次へ　→　AI組織化診断</button>
-      <button class="btn-secondary" data-goto="1">← 前に戻る</button>
-    </div>
-  </div>
-
-  <!-- ============ SCREEN 3: AI組織化診断 ============ -->
-  <div id="screen3" class="screen">
-    <div class="progress-wrap">
-      <div class="progress-label">
-        <span>STEP 3 / 5　AI組織化診断</span>
-        <span>60%</span>
-      </div>
-      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:60%"></div></div>
-    </div>
-    <div class="card">
-      <span class="step-badge">STEP 3</span>
-      <h2>📊 AI組織化診断</h2>
-      <p class="subtitle">現在の状況に一番近いものを選んでください。正直に選んでいただくほど、診断の精度が上がります。</p>
-
-      <div id="aiItems"></div>
-
-      <button class="btn-primary" data-goto="4">次へ　→　AI人材レベル診断</button>
-      <button class="btn-secondary" data-goto="2">← 前に戻る</button>
-    </div>
-  </div>
-
-  <!-- ============ SCREEN 4: AI人材診断 ============ -->
-  <div id="screen4" class="screen">
-    <div class="progress-wrap">
-      <div class="progress-label">
-        <span>STEP 4 / 5　AI人材レベル診断</span>
-        <span>80%</span>
-      </div>
-      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:80%"></div></div>
-    </div>
-    <div class="card">
-      <span class="step-badge">STEP 4</span>
-      <h2>👥 AI人材レベル診断</h2>
-      <p class="subtitle">AIの課題は「ツール」よりも「人」にあります。御社の人材力を診断します。</p>
-
-      <div id="humanItems"></div>
-
-      <button class="btn-primary" data-action="calc">診断結果を見る　→</button>
-      <button class="btn-secondary" data-goto="3">← 前に戻る</button>
-    </div>
-  </div>
-
-  <!-- ============ SCREEN 5: 診断結果 ============ -->
-  <div id="screen5" class="screen">
-    <div class="progress-wrap">
-      <div class="progress-label">
-        <span>STEP 5 / 5　診断結果</span>
-        <span>100%</span>
-      </div>
-      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:100%"></div></div>
-    </div>
-
-    <!-- レベル表示 -->
-    <div id="resultLevelCard" class="result-level-card">
-      <div id="resultLevelNum" class="result-level-num">3</div>
-      <div id="resultLevelLabel" class="result-level-label">チーム利用</div>
-      <div id="resultLevelDesc" class="result-level-desc">一部の社員がAIを活用しはじめています。<br>組織全体への展開が次のステップです。</div>
-    </div>
-
-    <!-- スコア -->
-    <div class="score-grid">
-      <div class="score-box">
-        <div id="orgScoreVal" class="score-val">-</div>
-        <div class="score-label">AI組織化スコア<br>（満点50点）</div>
-      </div>
-      <div class="score-box">
-        <div id="humanScoreVal" class="score-val">-</div>
-        <div class="score-label">AI人材スコア<br>（満点40点）</div>
-      </div>
-    </div>
-
-    <!-- レーダーチャート -->
-    <div class="chart-wrap">
-      <h3>📊 AI組織化レーダーチャート</h3>
-      <canvas id="radarChart" style="max-height:320px;"></canvas>
-    </div>
-
-    <!-- 会社の宝（APIプレースホルダー） -->
-    <div class="takara-result-card">
-      <h3>💎 あなたの会社の宝</h3>
-      <div class="takara-gem"><div class="gem-num">01</div><div class="gem-text" id="gem1">診断回答をもとに分析中...</div></div>
-      <div class="takara-gem"><div class="gem-num">02</div><div class="gem-text" id="gem2">診断回答をもとに分析中...</div></div>
-      <div class="takara-gem"><div class="gem-num">03</div><div class="gem-text" id="gem3">診断回答をもとに分析中...</div></div>
-    </div>
-
-    <!-- API差し込み口 -->
-    <div class="api-placeholder">
-      <div class="api-icon">🤖</div>
-      <h3>AIが詳細レポートを自動生成します</h3>
-      <p>
-        ここにClaude APIによる<br>
-        「会社の宝活用レポート」が表示されます。<br>
-        経営課題・AI活用計画・推奨ツールを<br>
-        コンサルタント視点でお伝えします。
-      </p>
-      <span class="api-badge">PRO版 API連携予定</span>
-    </div>
-
-    <!-- 課題分析 -->
-    <div class="card" style="margin-bottom:20px;">
-      <span class="step-badge">課題分析</span>
-      <h2 style="margin-bottom:16px;">優先して改善すべき課題</h2>
-      <div id="issueList"></div>
-    </div>
-
-    <!-- 90日実行計画 -->
-    <div class="card" style="margin-bottom:20px;">
-      <span class="step-badge">90日実行計画</span>
-      <h2 style="margin-bottom:16px;">📅 診断スコアに基づく<br>90日アクションプラン</h2>
-      <div id="planList"></div>
-    </div>
-
-    <!-- AI人材レポート -->
-    <div id="humanResultWrap"></div>
-
-    <!-- 次のステップ -->
-    <div class="next-step-block">
-      <div class="next-step-title">📬 次のステップ</div>
-      <p class="next-step-desc">診断結果をコピーして、問い合わせフォームに貼り付けてご送信ください。スタッフが内容を確認してご連絡いたします。</p>
-
-      <button class="btn-copy"  id="copyBtn">
-        📋 診断結果をコピーする
-      </button>
-      <div id="copyToast" class="copy-toast" style="display:none;">
-        ✅ コピーしました！下のボタンからフォームへどうぞ
-      </div>
-
-      <a href="https://www.smileplusctg.com/#contact" target="_blank" class="btn-contact">
-        📩 SPCへ無料相談する（問い合わせフォームへ）
-      </a>
-
-      <div class="next-step-note">
-        ※ フォームの「お問い合わせ内容」欄にコピーした内容を貼り付けてください。
-      </div>
-    </div>
-
-    <!-- もう一度診断 -->
-    <button class="btn-secondary" data-goto="0" style="margin-top:16px;">🔄 最初からやり直す</button>
-  </div>
-
-</div><!-- /container -->
-
-<!-- ===== 使い方モーダル ===== -->
-<div id="howModal" class="modal-overlay" >
+<!-- 使い方モーダル -->
+<div class="modal-overlay" id="howModal">
   <div class="modal-box">
     <div class="modal-header">
-      <h2>❓ 使い方ガイド</h2>
-      <button class="modal-close" >✕</button>
+      <h2>&#10067; 使い方ガイド</h2>
+      <button class="modal-close-btn" id="closeHow">&#10005;</button>
     </div>
     <div class="modal-body">
       <div class="how-purpose">
-        <div class="how-purpose-title">🎯 このアプリの目的</div>
+        <div class="how-purpose-title">&#127919; このアプリの目的</div>
         <p>「うちの会社、AIをどう使えばいいの？」と感じている経営者の方に向けて作りました。</p>
-        <p style="margin-top:8px;">難しい言葉や専門知識は一切不要です。質問に正直に答えていただくだけで、あなたの会社の現状を分析し、「今すぐできること」「90日以内にやること」を具体的にお伝えします。</p>
-        <p style="margin-top:8px;">さらに、あなたの会社だけが持つ「隠れた強み＝宝」も一緒に発見します。AIは道具です。その道具を最大限に活かすための地図を、この診断でお渡しします。</p>
+        <p>難しい言葉や専門知識は一切不要です。質問に正直に答えていただくだけで、あなたの会社の現状を分析し、「今すぐできること」「90日以内にやること」を具体的にお伝えします。</p>
+        <p>さらに、あなたの会社だけが持つ「隠れた強み＝宝」も一緒に発見します。AIは道具です。その道具を最大限に活かすための地図を、この診断でお渡しします。</p>
       </div>
-      <div style="margin-top:20px;">
-        <div class="how-purpose-title" style="margin-bottom:12px;">📋 アプリの使い方</div>
-        <div class="how-step">
-          <div class="how-step-num">1</div>
-          <div>
-            <div class="how-step-title">会社情報を入力する</div>
-            <div class="how-step-detail">会社名・業種・従業員数・経営課題を入力します。必須項目は3つだけです。</div>
-          </div>
-        </div>
-        <div class="how-step">
-          <div class="how-step-num">2</div>
-          <div>
-            <div class="how-step-title">💎 会社の宝探し診断に答える（6問）</div>
-            <div class="how-step-detail">お客様からよく言われること、競合との違いなど6つの質問です。正解はありません。思い浮かんだことをそのまま書いてください。</div>
-          </div>
-        </div>
-        <div class="how-step">
-          <div class="how-step-num">3</div>
-          <div>
-            <div class="how-step-title">📊 AI組織化診断を選ぶ（10項目）</div>
-            <div class="how-step-detail">「経営者のAI理解度」「社員の利用率」など10項目を1〜5の5段階で選びます。今の状態に正直に選んでください。</div>
-          </div>
-        </div>
-        <div class="how-step">
-          <div class="how-step-num">4</div>
-          <div>
-            <div class="how-step-title">👥 AI人材レベル診断を選ぶ（8問）</div>
-            <div class="how-step-detail">「誰が社内でAIを推進するか」を明確にするための診断です。同じく5段階で選ぶだけです。</div>
-          </div>
-        </div>
-        <div class="how-step">
-          <div class="how-step-num">5</div>
-          <div>
-            <div class="how-step-title">📅 診断結果・90日計画を確認する</div>
-            <div class="how-step-detail">AI活用レベル・レーダーチャート・優先課題・90日アクションプラン・AI人材タイプが一覧で表示されます。コンサルティングの場でそのままご活用いただけます。</div>
-          </div>
-        </div>
-        <div class="how-note">⏱ 所要時間は約5〜10分です。全部で24問あります。「設定」ボタンのデモデータを使うと、診断の流れをすぐに確認できます。</div>
+      <div class="how-purpose-title" style="margin:18px 0 12px;">&#128203; アプリの使い方</div>
+      <div class="how-step">
+        <div class="how-step-num">1</div>
+        <div><div class="how-step-title">会社情報を入力する</div><div class="how-step-detail">会社名・業種・従業員数・経営課題を入力します。必須項目は3つだけです。</div></div>
       </div>
+      <div class="how-step">
+        <div class="how-step-num">2</div>
+        <div><div class="how-step-title">&#128142; 会社の宝探し診断に答える（6問）</div><div class="how-step-detail">お客様からよく言われること、競合との違いなど6つの質問です。正解はありません。思い浮かんだことをそのまま書いてください。</div></div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">3</div>
+        <div><div class="how-step-title">&#128202; AI組織化診断を選ぶ（10項目）</div><div class="how-step-detail">経営者のAI理解度・社員の利用率など10項目を1〜5の5段階で選びます。今の状態に正直に選んでください。</div></div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">4</div>
+        <div><div class="how-step-title">&#128101; AI人材レベル診断を選ぶ（8問）</div><div class="how-step-detail">誰が社内でAIを推進するかを明確にするための診断です。同じく5段階で選ぶだけです。</div></div>
+      </div>
+      <div class="how-step">
+        <div class="how-step-num">5</div>
+        <div><div class="how-step-title">&#128197; 診断結果・90日計画を確認する</div><div class="how-step-detail">AI活用レベル・レーダーチャート・優先課題・90日アクションプランが表示されます。</div></div>
+      </div>
+      <div class="how-note">&#9200; 所要時間は約5〜10分です。「設定」ボタンのデモデータを使うと診断の流れをすぐ確認できます。</div>
     </div>
   </div>
 </div>
 
-<!-- ===== 設定モーダル ===== -->
-<div id="settingModal" class="modal-overlay" >
+<!-- 設定モーダル -->
+<div class="modal-overlay" id="settingModal">
   <div class="modal-box">
     <div class="modal-header">
-      <h2>⚙️ 設定</h2>
-      <button class="modal-close" >✕</button>
+      <h2>&#9881;&#65039; 設定</h2>
+      <button class="modal-close-btn" id="closeSet">&#10005;</button>
     </div>
     <div class="modal-body">
       <div class="setting-what">
-        <div class="setting-what-title">🔍 このアプリで何ができるの？</div>
-        <p>「AI組織化診断」は、あなたの会社のAI活用力を5段階で診断し、<strong>会社の強み・課題・90日の行動計画</strong>を自動でまとめてくれるアプリです。</p>
-        <p style="margin-top:8px;">難しい知識は不要です。質問に答えるだけで、コンサルタントが作るような診断レポートが手元に届きます。</p>
-        <ul style="margin-top:8px;padding-left:18px;font-size:13px;color:#555577;line-height:1.8;">
-          <li>💎 会社の隠れた強み（宝）を発見</li>
-          <li>📊 AI活用レベルをレーダーチャートで可視化</li>
-          <li>👥 AI推進に向いている人材タイプを判定</li>
-          <li>📅 今日からできる90日アクションプランを提示</li>
+        <div class="setting-what-title">&#128269; このアプリで何ができるの？</div>
+        <p>「AI組織化診断」は、あなたの会社のAI活用力を5段階で診断し、会社の強み・課題・90日の行動計画を自動でまとめてくれるアプリです。難しい知識は不要です。質問に答えるだけでコンサルタントが作るような診断レポートが手元に届きます。</p>
+        <ul>
+          <li>&#128142; 会社の隠れた強み（宝）を発見</li>
+          <li>&#128202; AI活用レベルをレーダーチャートで可視化</li>
+          <li>&#128101; AI推進に向いている人材タイプを判定</li>
+          <li>&#128197; 今日からできる90日アクションプランを提示</li>
         </ul>
       </div>
-      <div style="margin-top:20px;">
-        <div class="setting-what-title" style="margin-bottom:12px;">🧪 デモデータ</div>
-        <p style="font-size:13px;color:#555577;margin-bottom:14px;">サンプルデータを自動入力して、診断の流れをすぐに体験できます。</p>
-        <button class="btn-demo" >▶ デモデータを入力する</button>
-        <button class="btn-reset" >🗑 入力データをクリアする</button>
-      </div>
+      <div class="demo-section-title">&#129514; デモデータ</div>
+      <p style="font-size:13px;color:var(--sub);margin-bottom:12px;">サンプルデータを自動入力して、診断の流れをすぐに体験できます。</p>
+      <button class="btn-demo" id="btnDemo">&#9654; デモデータを入力する</button>
+      <button class="btn-reset" id="btnReset">&#128465; 入力データをクリアする</button>
       <div class="setting-version">AI組織化診断 ver.1.0（APIなし版）<br>Developed by Smile Plus Consulting</div>
     </div>
   </div>
 </div>
 
+<!-- メインコンテンツ -->
+<div class="container">
+
+<!-- SCREEN 0: トップ -->
+<div id="screen0" class="screen active">
+  <div class="top-hero">
+    <span class="hero-icon">&#127942;</span>
+    <h1>あなたの会社の<br><span>AI活用力</span>を診断</h1>
+    <p class="catchcopy">AIを組織の力に変えるための無料診断ツールです。<br>診断後に90日実行計画をお渡しします。</p>
+  </div>
+  <div class="top-features">
+    <div class="top-feature"><div class="feat-icon">&#128142;</div><div class="feat-title">会社の宝<br>を発見</div></div>
+    <div class="top-feature"><div class="feat-icon">&#128202;</div><div class="feat-title">AI活用<br>レベル診断</div></div>
+    <div class="top-feature"><div class="feat-icon">&#128101;</div><div class="feat-title">AI人材<br>レベル診断</div></div>
+    <div class="top-feature"><div class="feat-icon">&#128197;</div><div class="feat-title">90日<br>実行計画</div></div>
+  </div>
+  <div class="top-time">&#9201; 所要時間：約5〜10分（全部で24問）</div>
+  <button class="btn-primary" id="btnStart">&#10024; 無料で診断スタート</button>
+</div>
+
+<!-- SCREEN 1: 会社情報 -->
+<div id="screen1" class="screen">
+  <div class="progress-wrap">
+    <div class="progress-label"><span>STEP 1 / 5　会社情報入力</span><span>20%</span></div>
+    <div class="progress-bg"><div class="progress-fill" style="width:20%"></div></div>
+  </div>
+  <div class="card">
+    <span class="step-badge">STEP 1</span>
+    <h2>まず、会社のことを<br>教えてください</h2>
+    <p class="subtitle">入力した内容をもとに、あなたの会社専用の診断結果を作ります。</p>
+    <label class="field-label">会社名（屋号）<span class="required">必須</span></label>
+    <input type="text" id="companyName" placeholder="例：スマイルプラスコンサルティング">
+    <label class="field-label">業種<span class="required">必須</span></label>
+    <select id="industry">
+      <option value="">▼ 業種を選んでください</option>
+      <option>税理士・会計事務所</option><option>社労士事務所</option><option>行政書士事務所</option>
+      <option>弁護士事務所</option><option>製造業</option><option>建設業</option>
+      <option>飲食業・食品</option><option>美容業（美容室・エステ等）</option><option>小売業</option>
+      <option>サービス業</option><option>IT・Web業</option><option>医療・介護</option>
+      <option>不動産業</option><option>運送・物流</option><option>その他</option>
+    </select>
+    <label class="field-label">従業員数<span class="required">必須</span></label>
+    <select id="employees">
+      <option value="">▼ 人数を選んでください</option>
+      <option>1名（個人事業主）</option><option>2〜5名</option><option>6〜10名</option>
+      <option>11〜30名</option><option>31〜50名</option><option>51名以上</option>
+    </select>
+    <label class="field-label">事業内容（一言で）</label>
+    <input type="text" id="business" placeholder="例：中小企業向けWebマーケティング支援">
+    <label class="field-label">現在の経営課題</label>
+    <textarea id="challenge" placeholder="例：新規集客が少ない、社員の残業が多い、売上が伸び悩んでいる など"></textarea>
+    <button class="btn-primary" id="btnStep1Next">次へ　→　会社の宝探し診断</button>
+  </div>
+</div>
+
+<!-- SCREEN 2: 宝探し -->
+<div id="screen2" class="screen">
+  <div class="progress-wrap">
+    <div class="progress-label"><span>STEP 2 / 5　会社の宝探し診断</span><span>40%</span></div>
+    <div class="progress-bg"><div class="progress-fill" style="width:40%"></div></div>
+  </div>
+  <div class="card">
+    <span class="step-badge">STEP 2</span>
+    <h2>&#128142; 会社の宝を一緒に探しましょう</h2>
+    <p class="subtitle">正解はありません。頭に浮かんだことをそのまま書いてください。AIがあなたの会社の隠れた強みを見つけます。</p>
+    <div class="takara-q">
+      <div class="q-num">Q1 / 6</div>
+      <div class="q-text">お客様からよく言われるお褒めの言葉は何ですか？</div>
+      <div class="q-hint">例：「対応が早い」「安心できる」「丁寧に教えてくれる」</div>
+      <textarea id="t1" placeholder="思い浮かんだ言葉をそのまま書いてください"></textarea>
+    </div>
+    <div class="takara-q">
+      <div class="q-num">Q2 / 6</div>
+      <div class="q-text">競合他社と比べて、自信を持って言える強みは？</div>
+      <div class="q-hint">例：「特殊な技術がある」「地域で一番長い」「価格より質で選ばれる」</div>
+      <textarea id="t2" placeholder="思い浮かんだ強みをそのまま書いてください"></textarea>
+    </div>
+    <div class="takara-q">
+      <div class="q-num">Q3 / 6</div>
+      <div class="q-text">社員が「ここで働いていて良かった」と感じる理由は？</div>
+      <div class="q-hint">例：「チームワークが良い」「仕事に誇りを持てる」「社長が話を聞いてくれる」</div>
+      <textarea id="t3" placeholder="思い浮かんだことをそのまま書いてください"></textarea>
+    </div>
+    <div class="takara-q">
+      <div class="q-num">Q4 / 6</div>
+      <div class="q-text">長くお付き合いいただけるお客様が多い理由は何でしょう？</div>
+      <div class="q-hint">例：「毎年来てくれる」「10年以上のお客様がいる」「信頼関係がある」</div>
+      <textarea id="t4" placeholder="思い浮かんだことをそのまま書いてください"></textarea>
+    </div>
+    <div class="takara-q">
+      <div class="q-num">Q5 / 6</div>
+      <div class="q-text">紹介や口コミが起きるとしたら、どんな場面ですか？</div>
+      <div class="q-hint">例：「仕事が終わった後に感謝される」「知人に勧めてくれる」</div>
+      <textarea id="t5" placeholder="思い浮かんだことをそのまま書いてください"></textarea>
+    </div>
+    <div class="takara-q">
+      <div class="q-num">Q6 / 6</div>
+      <div class="q-text">もし御社がなくなったら、一番困るのはどんな方ですか？</div>
+      <div class="q-hint">例：「近所の高齢者の方」「中小企業の経営者」「製品に依存している顧客」</div>
+      <textarea id="t6" placeholder="思い浮かんだことをそのまま書いてください"></textarea>
+    </div>
+    <button class="btn-primary" id="btnTo3">次へ　→　AI組織化診断</button>
+    <button class="btn-secondary" id="btnBack2">&#8592; 前に戻る</button>
+  </div>
+</div>
+
+<!-- SCREEN 3: AI組織化診断 -->
+<div id="screen3" class="screen">
+  <div class="progress-wrap">
+    <div class="progress-label"><span>STEP 3 / 5　AI組織化診断</span><span>60%</span></div>
+    <div class="progress-bg"><div class="progress-fill" style="width:60%"></div></div>
+  </div>
+  <div class="card">
+    <span class="step-badge">STEP 3</span>
+    <h2>&#128202; AI組織化診断</h2>
+    <p class="subtitle">現在の状況に一番近いものを選んでください。正直に選んでいただくほど診断の精度が上がります。</p>
+    <div id="aiItems"></div>
+    <button class="btn-primary" id="btnTo4">次へ　→　AI人材レベル診断</button>
+    <button class="btn-secondary" id="btnBack3">&#8592; 前に戻る</button>
+  </div>
+</div>
+
+<!-- SCREEN 4: AI人材診断 -->
+<div id="screen4" class="screen">
+  <div class="progress-wrap">
+    <div class="progress-label"><span>STEP 4 / 5　AI人材レベル診断</span><span>80%</span></div>
+    <div class="progress-bg"><div class="progress-fill" style="width:80%"></div></div>
+  </div>
+  <div class="card">
+    <span class="step-badge">STEP 4</span>
+    <h2>&#128101; AI人材レベル診断</h2>
+    <p class="subtitle">AIの課題は「ツール」よりも「人」にあります。御社の人材力を診断します。</p>
+    <div id="humanItems"></div>
+    <button class="btn-primary" id="btnCalc">診断結果を見る　&#8594;</button>
+    <button class="btn-secondary" id="btnBack4">&#8592; 前に戻る</button>
+  </div>
+</div>
+
+<!-- SCREEN 5: 結果 -->
+<div id="screen5" class="screen">
+  <div class="progress-wrap">
+    <div class="progress-label"><span>STEP 5 / 5　診断結果</span><span>100%</span></div>
+    <div class="progress-bg"><div class="progress-fill" style="width:100%"></div></div>
+  </div>
+  <div class="result-level-card">
+    <div id="resLevelNum" class="result-level-num">-</div>
+    <div id="resLevelLabel" class="result-level-label">診断中...</div>
+    <div id="resLevelDesc" class="result-level-desc"></div>
+  </div>
+  <div class="score-grid">
+    <div class="score-box"><div id="resOrgScore" class="score-val">-</div><div class="score-label">AI組織化スコア<br>（満点50点）</div></div>
+    <div class="score-box"><div id="resHumanScore" class="score-val">-</div><div class="score-label">AI人材スコア<br>（満点40点）</div></div>
+  </div>
+  <div class="chart-wrap"><h3>&#128202; AI組織化レーダーチャート</h3><canvas id="radarChart" style="max-height:320px;"></canvas></div>
+  <div class="takara-result">
+    <h3>&#128142; あなたの会社の宝</h3>
+    <div class="takara-gem"><div class="gem-num">01</div><div class="gem-text" id="gem1">分析中...</div></div>
+    <div class="takara-gem"><div class="gem-num">02</div><div class="gem-text" id="gem2">分析中...</div></div>
+    <div class="takara-gem"><div class="gem-num">03</div><div class="gem-text" id="gem3">分析中...</div></div>
+  </div>
+  <div class="api-placeholder">
+    <div class="api-icon">&#129302;</div>
+    <h3>AIが詳細レポートを自動生成します</h3>
+    <p>ここにClaude APIによる「会社の宝活用レポート」が表示されます。経営課題・AI活用計画・推奨ツールをコンサルタント視点でお伝えします。</p>
+    <span class="api-badge">PRO版 API連携予定</span>
+  </div>
+  <div class="card" style="margin-bottom:18px;">
+    <span class="step-badge">課題分析</span>
+    <h2 style="margin-bottom:14px;">優先して改善すべき課題</h2>
+    <div id="issueList"></div>
+  </div>
+  <div class="card" style="margin-bottom:18px;">
+    <span class="step-badge">90日実行計画</span>
+    <h2 style="margin-bottom:14px;">&#128197; 90日アクションプラン</h2>
+    <div id="planList"></div>
+  </div>
+  <div id="humanResultWrap"></div>
+  <div class="next-step-block">
+    <div class="next-step-title">&#128236; 次のステップ</div>
+    <p class="next-step-desc">診断結果をコピーして、問い合わせフォームに貼り付けてご送信ください。スタッフが内容を確認してご連絡いたします。</p>
+    <button class="btn-copy" id="copyBtn">&#128203; 診断結果をコピーする</button>
+    <div class="copy-toast" id="copyToast">&#10003; コピーしました！下のボタンからフォームへどうぞ</div>
+    <a href="https://www.smileplusctg.com/#contact" target="_blank" class="btn-gold">&#128140; SPCへ無料相談する（問い合わせフォームへ）</a>
+    <div class="next-step-note">※ フォームの「お問い合わせ内容」欄にコピーした内容を貼り付けてください。</div>
+  </div>
+  <button class="btn-secondary" id="btnRestart" style="margin-top:16px;">&#128260; 最初からやり直す</button>
+</div>
+
+</div><!-- /container -->
+
 <script>
-// ========================
-// モーダル制御
-// ========================
-function openModal(id) {
-  document.getElementById(id).classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
-  document.body.style.overflow = '';
-}
-function closeModalOutside(e, id) {
-  if (e.target === document.getElementById(id)) closeModal(id);
-}
-function openSettingModal() {
-  openModal('settingModal');
-}
+(function() {
 
-// ========================
-// デモデータ
-// ========================
-function loadDemoData() {
-  var ids = ['companyName','industry','employees','business','challenge','t1','t2','t3','t4','t5','t6'];
-  ids.forEach(function(id) {
-    var el = document.getElementById(id);
-    if (el && el.dataset.demo) el.value = el.dataset.demo;
-  });
-  var aiValues = {understanding:2, usage:1, workflow:1, rules:1, leader:1, data:2, training:1, security:2, customer:1, marketing:2};
-  Object.keys(aiValues).forEach(function(key) {
-    var el = document.querySelector('input[name="ai_' + key + '"][value="' + aiValues[key] + '"]');
-    if (el) el.checked = true;
-  });
-  document.querySelectorAll('.ai-item').forEach(function(el) { el.classList.add('current-item'); });
-  var humanValues = {selflearn:2, sharing:1, trial:2, leadership:2, output:1, improvement:2, external:1, vision:2};
-  Object.keys(humanValues).forEach(function(key) {
-    var el = document.querySelector('input[name="h_' + key + '"][value="' + humanValues[key] + '"]');
-    if (el) el.checked = true;
-  });
-  closeModal('settingModal');
-  alert('デモデータを入力しました！
-STEP1から順に確認し、最後の「診断結果を見る」を押してください。');
-  goTo(1);
-}
-
-function confirmReset() {
-  if (confirm('入力内容をすべてリセットして最初からやり直しますか？')) {
-    closeModal('settingModal');
-    document.getElementById('companyName').value = '';
-    document.getElementById('industry').value = '';
-    document.getElementById('employees').value = '';
-    document.getElementById('business').value = '';
-    document.getElementById('challenge').value = '';
-    ['t1','t2','t3','t4','t5','t6'].forEach(function(id) {
-      var el = document.getElementById(id);
-      if (el) el.value = '';
-    });
-    document.querySelectorAll('input[type="radio"]').forEach(function(r) { r.checked = false; });
-    document.querySelectorAll('.ai-item').forEach(function(el) { el.classList.remove('current-item'); });
-    orgScores = {};
-    humanScores = {};
-    goTo(0);
-  }
-}
-
-// ========================
-// データ定義
-// ========================
-var aiOrgItems = [
+// ========== データ定義 ==========
+var AI_ITEMS = [
   {id:'understanding', title:'経営者のAI理解度', desc:'AIを知っているか、自ら使っているか',
    labels:['まったく知らない','話は聞いたことがある','試したことがある','定期的に使っている','自ら推進している']},
   {id:'usage', title:'社員のAI利用率', desc:'実際にAIを業務で使っている社員の割合',
@@ -1535,66 +504,54 @@ var aiOrgItems = [
    labels:['なし','SNS投稿等で試用','定期的に文章生成で活用','LP・広告に活用中','集客全体にAI戦略を組み込み']}
 ];
 
-var humanItems = [
-  {id:'selflearn', title:'自ら学ぼうとする姿勢', desc:'AIツールを自分で調べて試せる社員がいるか'},
-  {id:'sharing', title:'社内での情報共有', desc:'AI活用の成果・失敗を社内でシェアしているか'},
-  {id:'trial', title:'新しいことへの挑戦', desc:'失敗を恐れず試してみる社風があるか'},
-  {id:'leadership', title:'推進リーダーの存在', desc:'「この人が引っ張ってくれそう」という社員が思い浮かぶか'},
-  {id:'output', title:'成果の文章化・見える化', desc:'やったことを記録・マニュアル化できているか'},
-  {id:'improvement', title:'改善提案の文化', desc:'業務改善のアイデアを言い出せる雰囲気があるか'},
-  {id:'external', title:'外部情報の収集', desc:'勉強会参加や情報収集に積極的な社員がいるか'},
-  {id:'vision', title:'経営者のAIビジョン', desc:'「AIでこうしたい」というビジョンを語れるか'}
+var HUMAN_ITEMS = [
+  {id:'selflearn',   title:'自ら学ぼうとする姿勢',   desc:'AIツールを自分で調べて試せる社員がいるか'},
+  {id:'sharing',     title:'社内での情報共有',       desc:'AI活用の成果・失敗を社内でシェアしているか'},
+  {id:'trial',       title:'新しいことへの挑戦',     desc:'失敗を恐れず試してみる社風があるか'},
+  {id:'leadership',  title:'推進リーダーの存在',     desc:'この人が引っ張ってくれそうという社員が思い浮かぶか'},
+  {id:'output',      title:'成果の文章化・見える化', desc:'やったことを記録・マニュアル化できているか'},
+  {id:'improvement', title:'改善提案の文化',         desc:'業務改善のアイデアを言い出せる雰囲気があるか'},
+  {id:'external',    title:'外部情報の収集',         desc:'勉強会参加や情報収集に積極的な社員がいるか'},
+  {id:'vision',      title:'経営者のAIビジョン',     desc:'AIでこうしたいというビジョンを語れるか'}
 ];
 
 var orgScores = {};
 var humanScores = {};
+var radarChart = null;
 
-// ========================
-// 画面切り替え
-// ========================
+// ========== 画面切替 ==========
 function goTo(n) {
   document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
   document.getElementById('screen' + n).classList.add('active');
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
-// ========================
-// STEP1 バリデーション
-// ========================
-function step1Next() {
-  var name = document.getElementById('companyName').value.trim();
-  var ind  = document.getElementById('industry').value;
-  var emp  = document.getElementById('employees').value;
-  if (!name || !ind || !emp) {
-    alert('会社名・業種・従業員数は必ずご入力ください。');
-    return;
-  }
-  goTo(2);
+// ========== モーダル ==========
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
 }
 
-// ========================
-// AI診断フォーム生成
-// ========================
+// ========== フォーム生成 ==========
 function buildAiItems() {
   var wrap = document.getElementById('aiItems');
   wrap.innerHTML = '';
-  aiOrgItems.forEach(function(item, i) {
+  AI_ITEMS.forEach(function(item, i) {
     var div = document.createElement('div');
     div.className = 'ai-item';
-    div.id = 'ai-item-' + i;
-
+    div.id = 'aiItem' + i;
     var radios = '<div class="radio-scale">';
     for (var v = 1; v <= 5; v++) {
-      var lbl = item.labels[v-1] || '';
       radios += '<label>'
-        + '<input type="radio" name="ai_' + item.id + '" value="' + v + '" data-idx="' + i + '">'
-        + '<div class="radio-btn">'
-        + '<span class="radio-num">' + v + '</span>'
-        + '<span>' + lbl + '</span>'
-        + '</div></label>';
+        + '<input type="radio" name="ai_' + item.id + '" value="' + v + '">'
+        + '<div class="radio-btn"><span class="radio-num">' + v + '</span><span>' + item.labels[v-1] + '</span></div>'
+        + '</label>';
     }
     radios += '</div>';
-
     div.innerHTML = '<div class="ai-item-header">'
       + '<div class="ai-item-num">' + (i+1) + '</div>'
       + '<div><div class="ai-item-title">' + item.title + '</div>'
@@ -1602,149 +559,106 @@ function buildAiItems() {
       + '</div>' + radios;
     wrap.appendChild(div);
   });
+  // ラジオ変更でハイライト
+  wrap.addEventListener('change', function(e) {
+    if (e.target && e.target.type === 'radio' && e.target.name.indexOf('ai_') === 0) {
+      var name = e.target.name.replace('ai_', '');
+      AI_ITEMS.forEach(function(item, i) {
+        if (item.id === name) document.getElementById('aiItem' + i).classList.add('done');
+      });
+    }
+  });
 }
 
-function highlightAiItem(i) {
-  document.getElementById('ai-item-' + i).classList.add('current-item');
-}
-
-// ========================
-// 人材診断フォーム生成
-// ========================
 function buildHumanItems() {
   var wrap = document.getElementById('humanItems');
   wrap.innerHTML = '';
-  var hlabels = ['まったくない','ほとんどない','少しある','かなりある','十分ある'];
-  humanItems.forEach(function(item, i) {
+  var hl = ['まったくない','ほとんどない','少しある','かなりある','十分ある'];
+  HUMAN_ITEMS.forEach(function(item, i) {
     var div = document.createElement('div');
     div.className = 'human-item';
-
     var radios = '<div class="radio-scale">';
     for (var v = 1; v <= 5; v++) {
       radios += '<label>'
         + '<input type="radio" name="h_' + item.id + '" value="' + v + '">'
-        + '<div class="radio-btn">'
-        + '<span class="radio-num">' + v + '</span>'
-        + '<span>' + hlabels[v-1] + '</span>'
-        + '</div></label>';
+        + '<div class="radio-btn"><span class="radio-num">' + v + '</span><span>' + hl[v-1] + '</span></div>'
+        + '</label>';
     }
     radios += '</div>';
-
-    div.innerHTML = '<div class="human-item-title">'
-      + '<div class="human-item-num">' + (i+1) + '</div>'
-      + item.title + '</div>'
-      + '<div style="font-size:12px;color:#666;margin-bottom:12px;">' + item.desc + '</div>'
-      + radios;
+    div.innerHTML = '<div class="human-item-title"><div class="human-item-num">' + (i+1) + '</div>' + item.title + '</div>'
+      + '<div class="human-item-desc">' + item.desc + '</div>' + radios;
     wrap.appendChild(div);
   });
 }
 
-// ========================
-// 診断結果コピー
-// ========================
-function copyResult() {
-  var now = new Date();
-  var days = ['日','月','火','水','木','金','土'];
-  var dateStr = now.getFullYear() + '年'
-    + (now.getMonth()+1) + '月'
-    + now.getDate() + '日(' + days[now.getDay()] + ')'
-    + ' ' + now.getHours() + '時' + String(now.getMinutes()).padStart(2,'0') + '分';
-
-  var companyName = document.getElementById('companyName').value || '（未入力）';
-  var industry    = document.getElementById('industry').value    || '（未入力）';
-  var employees   = document.getElementById('employees').value   || '（未入力）';
-  var challenge   = document.getElementById('challenge').value   || '（未入力）';
-  var levelLabel  = document.getElementById('resultLevelLabel').textContent;
-  var orgScore    = document.getElementById('orgScoreVal').textContent;
-  var humanScore  = document.getElementById('humanScoreVal').textContent;
-
-  var issueEls = document.querySelectorAll('#issueList .issue-title');
-  var issues = Array.from(issueEls).map(function(el) { return '・' + el.textContent; }).join('
-') || '・特になし';
-
-  var planPhases = document.querySelectorAll('#planList .plan-phase');
-  var planLines = [];
-  planPhases.forEach(function(phase) {
-    var header = phase.querySelector('.plan-phase-header').textContent.trim();
-    planLines.push(header);
-    phase.querySelectorAll('.plan-action-title').forEach(function(el) {
-      planLines.push('  ・' + el.textContent);
-    });
-  });
-  var planText = planLines.join('
-');
-
-  var humanTypeEl = document.querySelector('.human-type-name');
-  var humanTypeName = humanTypeEl ? humanTypeEl.textContent : '（未診断）';
-  var gem1 = document.getElementById('gem1').textContent;
-  var gem2 = document.getElementById('gem2').textContent;
-  var gem3 = document.getElementById('gem3').textContent;
-
-  var sep = '================================';
-  var lines = [
-    sep,
-    '[AI組織化診断 結果レポート]',
-    '診断日時：' + dateStr,
-    sep, '',
-    '【会社情報】',
-    '会社名　：' + companyName,
-    '業種　　：' + industry,
-    '従業員数：' + employees,
-    '経営課題：' + challenge,
-    '', sep,
-    '【診断結果】',
-    sep, '',
-    'AI活用レベル　：' + levelLabel,
-    'AI組織化スコア：' + orgScore,
-    'AI人材スコア　：' + humanScore,
-    'AI人材タイプ　：' + humanTypeName,
-    '',
-    '【会社の宝（強み）】',
-    '01. ' + gem1,
-    '02. ' + gem2,
-    '03. ' + gem3,
-    '',
-    '【優先して改善すべき課題】',
-    issues, '',
-    '【90日アクションプラン】',
-    planText, '',
-    sep,
-    'このレポートはAI組織化診断（by Smile Plus Consulting）にて生成されました。',
-    'https://smileplusctg.com',
-    sep
-  ];
-  var copyText = lines.join('
-');
-
-  navigator.clipboard.writeText(copyText).then(function() {
-    var toast = document.getElementById('copyToast');
-    toast.style.display = 'block';
-    var btn = document.getElementById('copyBtn');
-    btn.textContent = 'コピー済み！';
-    btn.style.background = 'linear-gradient(135deg, #2a6b4a, #3a9b6a)';
-    setTimeout(function() {
-      btn.textContent = '診断結果をコピーする';
-      btn.style.background = '';
-    }, 4000);
-  }).catch(function() {
-    alert('コピーに失敗しました。お手数ですが内容を手動でコピーしてください。');
-  });
+// ========== STEP1バリデーション ==========
+function step1Next() {
+  var name = document.getElementById('companyName').value.trim();
+  var ind  = document.getElementById('industry').value;
+  var emp  = document.getElementById('employees').value;
+  if (!name || !ind || !emp) { alert('会社名・業種・従業員数は必ずご入力ください。'); return; }
+  goTo(2);
 }
 
-// ========================
-// スコア集計・結果表示
-// ========================
+// ========== デモデータ ==========
+var DEMO = {
+  companyName: '\u682a\u5f0f\u4f1a\u793e\u3055\u304f\u3089\u5546\u4e8b',
+  industry: '\u98f2\u98df\u696d\u30fb\u98df\u54c1',
+  employees: '6\uff5e10\u540d',
+  business: '\u5730\u57df\u5bc6\u7740\u578b\u306e\u5b9a\u98df\u5c4b\u30fb\u4ed5\u51fa\u3057\u5f01\u5f53\u306e\u88fd\u9020\u8ca9\u58f2',
+  challenge: '\u65b0\u898f\u306e\u304a\u5ba2\u69d8\u304c\u5897\u3048\u306a\u3044\u3002SNS\u3092\u3084\u308a\u305f\u3044\u304c\u6295\u7a3f\u3059\u308b\u6642\u9593\u304c\u306a\u3044\u3002\u30b9\u30bf\u30c3\u30d5\u306e\u63a1\u7528\u3082\u56f0\u3063\u3066\u3044\u308b\u3002',
+  t1: '\u3044\u3064\u6765\u3066\u3082\u6e29\u304b\u304f\u3066\u3001\u307b\u3063\u3068\u3059\u308b\u3068\u3088\u304f\u8a00\u308f\u308c\u307e\u3059',
+  t2: '20\u5e74\u4ee5\u4e0a\u5730\u5143\u3067\u7d9a\u3051\u3066\u304d\u305f\u4fe1\u983c\u611f\u3068\u6bce\u671d\u4ed5\u5165\u308c\u308b\u65b0\u9bae\u306a\u98df\u6750\u3078\u306e\u3053\u3060\u308f\u308a',
+  t3: '\u304a\u5ba2\u69d8\u306b\u611f\u8b1d\u3055\u308c\u308b\u4ed5\u4e8b\u3060\u304b\u3089\u8aa4\u308a\u304c\u3042\u308b\u3068\u8a00\u3063\u3066\u304f\u308c\u308b\u30b9\u30bf\u30c3\u30d5\u304c\u3044\u307e\u3059',
+  t4: '\u663c\u98df\u306e\u5e38\u9023\u3055\u3093\u304c\u591a\u304f10\u5e74\u4ee5\u4e0a\u901a\u3063\u3066\u304f\u308c\u3066\u3044\u308b\u65b9\u304c\u6570\u5341\u540d\u3044\u307e\u3059',
+  t5: '\u3042\u306e\u5e97\u306f\u9593\u9055\u3044\u306a\u3044\u3068\u77e5\u4eba\u306b\u6559\u3048\u3066\u304f\u308c\u308b\u304a\u5ba2\u69d8\u304b\u3089\u65b0\u3057\u3044\u304a\u5ba2\u69d8\u304c\u6765\u308b\u3053\u3068\u304c\u591a\u3044',
+  t6: '\u3053\u306e\u5730\u57df\u306e\u304a\u5e74\u5bc4\u308a\u3084\u663c\u98df\u3092\u5916\u3067\u98df\u3079\u308b\u30b5\u30e9\u30ea\u30fc\u30de\u30f3\u306e\u65b9\u3005'
+};
+var DEMO_AI = {understanding:2, usage:1, workflow:1, rules:1, leader:1, data:2, training:1, security:2, customer:1, marketing:2};
+var DEMO_H  = {selflearn:2, sharing:1, trial:2, leadership:2, output:1, improvement:2, external:1, vision:2};
+
+function loadDemoData() {
+  Object.keys(DEMO).forEach(function(k) {
+    var el = document.getElementById(k);
+    if (el) el.value = DEMO[k];
+  });
+  Object.keys(DEMO_AI).forEach(function(k) {
+    var el = document.querySelector('input[name="ai_' + k + '"][value="' + DEMO_AI[k] + '"]');
+    if (el) { el.checked = true; }
+  });
+  Object.keys(DEMO_H).forEach(function(k) {
+    var el = document.querySelector('input[name="h_' + k + '"][value="' + DEMO_H[k] + '"]');
+    if (el) { el.checked = true; }
+  });
+  closeModal('settingModal');
+  alert('デモデータを入力しました！\nSTEP1から順に確認し、最後の「診断結果を見る」を押してください。');
+  goTo(1);
+}
+
+function confirmReset() {
+  if (!confirm('入力内容をすべてリセットして最初からやり直しますか？')) return;
+  ['companyName','industry','employees','business','challenge','t1','t2','t3','t4','t5','t6'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.querySelectorAll('input[type="radio"]').forEach(function(r) { r.checked = false; });
+  document.querySelectorAll('.ai-item').forEach(function(el) { el.classList.remove('done'); });
+  orgScores = {}; humanScores = {};
+  closeModal('settingModal');
+  goTo(0);
+}
+
+// ========== 診断計算 ==========
 function calcResult() {
   var orgTotal = 0;
-  aiOrgItems.forEach(function(item) {
+  AI_ITEMS.forEach(function(item) {
     var el = document.querySelector('input[name="ai_' + item.id + '"]:checked');
     var v = el ? parseInt(el.value) : 1;
     orgScores[item.id] = v;
     orgTotal += v;
   });
-
   var humanTotal = 0;
-  humanItems.forEach(function(item) {
+  HUMAN_ITEMS.forEach(function(item) {
     var el = document.querySelector('input[name="h_' + item.id + '"]:checked');
     var v = el ? parseInt(el.value) : 1;
     humanScores[item.id] = v;
@@ -1752,115 +666,121 @@ function calcResult() {
   });
 
   var level, levelName, levelDesc;
-  if (orgTotal <= 17) {
-    level=1; levelName='未導入';
-    levelDesc='AIはまだ導入されていません。今がはじめ時です。小さな一歩から始めましょう。';
-  } else if (orgTotal <= 25) {
-    level=2; levelName='個人利用';
-    levelDesc='一部の方がAIを個人的に使い始めています。次は「組織全体」に広げるフェーズです。';
-  } else if (orgTotal <= 33) {
-    level=3; levelName='チーム利用';
-    levelDesc='いくつかのチームでAIが活用されています。仕組み化と推進担当者の選定が鍵です。';
-  } else if (orgTotal <= 41) {
-    level=4; levelName='組織活用';
-    levelDesc='組織としてAI活用が進んでいます。次はAIを「経営戦略」に組み込む段階です。';
-  } else {
-    level=5; levelName='AI経営企業';
-    levelDesc='AIが経営の柱になっています。業界リーダーとして他社の模範になれます。';
-  }
+  if (orgTotal <= 17)      { level=1; levelName='未導入';     levelDesc='AIはまだ導入されていません。今がはじめ時です。小さな一歩から始めましょう。'; }
+  else if (orgTotal <= 25) { level=2; levelName='個人利用';   levelDesc='一部の方がAIを個人的に使い始めています。次は組織全体に広げるフェーズです。'; }
+  else if (orgTotal <= 33) { level=3; levelName='チーム利用'; levelDesc='いくつかのチームでAIが活用されています。仕組み化と推進担当者の選定が鍵です。'; }
+  else if (orgTotal <= 41) { level=4; levelName='組織活用';   levelDesc='組織としてAI活用が進んでいます。次はAIを経営戦略に組み込む段階です。'; }
+  else                     { level=5; levelName='AI経営企業'; levelDesc='AIが経営の柱になっています。業界リーダーとして他社の模範になれます。'; }
 
-  var humanType, humanTypeName, humanTypeDesc, humanRec;
-  if (humanTotal <= 15) {
-    humanType='A'; humanTypeName='タイプA：ゼロベース型';
-    humanTypeDesc='まずは経営者自身がAIを体験することが最初の一歩です。';
-    humanRec = [
-      {icon:'🎯', title:'経営者が先頭に立つ', detail:'週1回30分、ChatGPTを使って業務を試してみてください。'},
-      {icon:'📚', title:'まず1つのツールをマスター', detail:'ChatGPTかClaude、どちらか1つに絞って毎日使う習慣をつけましょう。'},
-      {icon:'🌱', title:'スタートは小さく', detail:'議事録の要約・メール文章の作成から始めると最短で成果を体感できます。'}
-    ];
-  } else if (humanTotal <= 23) {
-    humanType='B'; humanTypeName='タイプB：芽生え型';
-    humanTypeDesc='AIに関心を持つ社員がいます。その人材を「推進リーダー」に任命しましょう。';
-    humanRec = [
-      {icon:'👑', title:'AI推進リーダーを1名決める', detail:'「やってみたい」という人を1名選んで、権限と時間を与えてください。'},
-      {icon:'🔧', title:'業務1つをAI化する', detail:'「この仕事だけはAIで」という業務を1つ決めて3ヶ月続けましょう。'},
-      {icon:'📣', title:'社内で小さな発表会を', detail:'AI活用の成果を月1回5分でいいのでシェアする場を作りましょう。'}
-    ];
-  } else if (humanTotal <= 31) {
-    humanType='C'; humanTypeName='タイプC：成長型';
-    humanTypeDesc='社内にAI活用の文化が育ちつつあります。仕組み化が次のテーマです。';
-    humanRec = [
-      {icon:'📋', title:'AI活用ルールブックを作る', detail:'何をしていいか、してはいけないかを明文化すると全員が動きやすくなります。'},
-      {icon:'🤝', title:'部署横断チームを作る', detail:'各部署から1名選び、AI推進チームを結成しましょう。'},
-      {icon:'📈', title:'成果を数字で見える化', detail:'「何時間削減できたか」を記録することで経営判断の材料になります。'}
-    ];
-  } else {
-    humanType='D'; humanTypeName='タイプD：自走型';
-    humanTypeDesc='社内にAIリーダーが存在し、自走できる体制が整っています。';
-    humanRec = [
-      {icon:'🚀', title:'社内専用AIの構築へ', detail:'社内ナレッジを学習させた専用AIチャットボットを構築する段階です。'},
-      {icon:'🏆', title:'業界への発信', detail:'御社の事例を発信することで採用・ブランディング・営業に活用できます。'},
-      {icon:'🔮', title:'AI経営戦略の策定', detail:'1年後・3年後のAI活用ビジョンを経営計画に組み込みましょう。'}
-    ];
-  }
+  document.getElementById('resLevelNum').textContent   = level;
+  document.getElementById('resLevelLabel').textContent = 'レベル' + level + '：' + levelName;
+  document.getElementById('resLevelDesc').textContent  = levelDesc;
+  document.getElementById('resOrgScore').textContent   = orgTotal + '/50';
+  document.getElementById('resHumanScore').textContent = humanTotal + '/40';
 
-  document.getElementById('resultLevelNum').textContent = level;
-  document.getElementById('resultLevelLabel').textContent = 'レベル' + level + '：' + levelName;
-  document.getElementById('resultLevelDesc').textContent = levelDesc;
-  document.getElementById('orgScoreVal').textContent = orgTotal + '/50';
-  document.getElementById('humanScoreVal').textContent = humanTotal + '/40';
+  var t1v = document.getElementById('t1').value || '';
+  var t2v = document.getElementById('t2').value || '';
+  var t5v = document.getElementById('t5').value || '';
+  document.getElementById('gem1').textContent = t1v ? t1v + 'という顧客からの信頼' : '（未記入）';
+  document.getElementById('gem2').textContent = t2v ? t2v + 'という競合優位性' : '（未記入）';
+  document.getElementById('gem3').textContent = t5v ? t5v + 'という口コミ力' : '（未記入）';
 
-  var t1 = document.getElementById('t1').value || '（未記入）';
-  var t2 = document.getElementById('t2').value || '（未記入）';
-  var t5 = document.getElementById('t5').value || '（未記入）';
-  document.getElementById('gem1').textContent = '「' + t1 + '」という顧客からの信頼';
-  document.getElementById('gem2').textContent = t2 ? '「' + t2 + '」という競合優位性' : '（未記入）';
-  document.getElementById('gem3').textContent = t5 ? '「' + t5 + '」という口コミ力' : '（未記入）';
+  renderIssues(orgTotal);
+  renderPlan(level);
+  renderHuman(humanTotal);
+  setTimeout(drawRadar, 100);
+  goTo(5);
+}
 
-  var issueMessages = {
-    understanding: '経営者がAIを知らないと社内全体が動きません。まず経営者自身が週1回使ってみることから始めましょう。',
-    usage: '使っている社員が少ない状態です。「やってみよう会」などの小さな体験会から始めることが効果的です。',
-    workflow: 'AIが業務に組み込まれていません。まず一つの業務（例：議事録・メール）をAI化することで効果を実感できます。',
-    rules: 'ルールがないと社員は怖くて使えません。「何をしていいか」を一枚紙で明示するだけで変わります。',
-    leader: '推進するリーダーがいません。「AIに興味がある社員」を1名選び、権限を与えましょう。',
-    data: 'データが整っていないとAI活用は難しいです。まず業務データのデジタル化から始めましょう。',
-    training: '教育体制がありません。月1回30分の「AIシェア会」を設けるだけで大きく変わります。',
-    security: 'セキュリティ意識が低いと情報漏洩リスクがあります。「個人情報はAIに入力しない」など基本ルールを作りましょう。',
-    customer: '顧客対応にAIが使われていません。まず問い合わせ返信のテンプレート作成から試してみましょう。',
-    marketing: '集客にAIが活かされていません。SNS投稿の文章生成から始めると効果が出やすいです。'
-  };
+var ISSUE_MSG = {
+  understanding: '経営者がAIを知らないと社内全体が動きません。まず経営者自身が週1回使ってみることから始めましょう。',
+  usage:         '使っている社員が少ない状態です。小さな体験会から始めることが効果的です。',
+  workflow:      '議事録やメール作成などまず一つの業務をAI化することで効果を実感できます。',
+  rules:         'ルールがないと社員は怖くて使えません。一枚紙で明示するだけで変わります。',
+  leader:        '推進するリーダーがいません。AIに興味がある社員を1名選び権限を与えましょう。',
+  data:          'データが整っていないとAI活用は難しいです。まずデジタル化から始めましょう。',
+  training:      '月1回30分のAIシェア会を設けるだけで大きく変わります。',
+  security:      '個人情報はAIに入力しないなど基本ルールを作りましょう。',
+  customer:      '問い合わせ返信のテンプレート作成から試してみましょう。',
+  marketing:     'SNS投稿の文章生成から始めると効果が出やすいです。'
+};
 
-  var issues = aiOrgItems
-    .map(function(item) { return {id: item.id, title: item.title, score: orgScores[item.id]}; })
-    .filter(function(item) { return item.score <= 2; })
-    .sort(function(a, b) { return a.score - b.score; })
+function renderIssues(orgTotal) {
+  var issues = AI_ITEMS
+    .map(function(item) { return {id:item.id, title:item.title, score:orgScores[item.id]}; })
+    .filter(function(i) { return i.score <= 2; })
+    .sort(function(a,b) { return a.score - b.score; })
     .slice(0, 3);
+  var wrap = document.getElementById('issueList');
+  wrap.innerHTML = '';
+  if (!issues.length) { wrap.innerHTML = '<p style="color:#2a6b4a;font-weight:700;">大きな課題は見当たりません。さらなるレベルアップを目指しましょう！</p>'; return; }
+  var cls = ['p1','p2','p3'], prio = ['第1位','第2位','第3位'];
+  issues.forEach(function(item, i) {
+    var d = document.createElement('div');
+    d.className = 'issue-card ' + cls[i];
+    d.innerHTML = '<div class="issue-priority">優先課題 ' + prio[i] + '</div>'
+      + '<div class="issue-title">' + item.title + '（スコア：' + item.score + '/5）</div>'
+      + '<div class="issue-detail">' + (ISSUE_MSG[item.id] || '') + '</div>';
+    wrap.appendChild(d);
+  });
+}
 
-  var issueWrap = document.getElementById('issueList');
-  issueWrap.innerHTML = '';
-  if (issues.length === 0) {
-    issueWrap.innerHTML = '<p style="color:#2a6b4a;font-weight:700;font-size:16px;">大きな課題は見当たりません。さらなるレベルアップを目指しましょう！</p>';
-  } else {
-    var priorities = ['第1位','第2位','第3位'];
-    issues.forEach(function(item, i) {
-      var div = document.createElement('div');
-      div.className = 'issue-card priority-' + (i+1);
-      div.innerHTML = '<div class="issue-priority">優先課題 ' + priorities[i] + '</div>'
-        + '<div class="issue-title">' + item.title + '（現在スコア：' + item.score + '/5）</div>'
-        + '<div class="issue-detail">' + (issueMessages[item.id] || '') + '</div>';
-      issueWrap.appendChild(div);
-    });
-  }
+var PLANS = {
+  low: [
+    {label:'最初の30日：AIを体験する', cls:'p30', actions:[
+      {icon:'💬', title:'ChatGPT / Claudeを毎日使ってみる', detail:'経営者が毎日1回AIに質問する習慣をつける。', who:'経営者', diff:'★☆☆', effect:'AI理解が深まる'},
+      {icon:'📝', title:'メール・文章をAIで作成', detail:'実際の業務文章をAIに作ってもらい時短効果を体感する。', who:'全員', diff:'★☆☆', effect:'30分/日の削減'}
+    ]},
+    {label:'31〜60日：業務に組み込む', cls:'p60', actions:[
+      {icon:'📋', title:'議事録をAIで自動要約', detail:'会議の内容をテキスト化してAIに要約・ToDoを作ってもらう。', who:'担当者', diff:'★★☆', effect:'作業を50%削減'},
+      {icon:'📣', title:'SNS投稿文をAIで作成', detail:'InstagramやブログをAIに下書きしてもらう。', who:'担当者', diff:'★☆☆', effect:'投稿頻度が上がる'}
+    ]},
+    {label:'61〜90日：仕組みにする', cls:'p90', actions:[
+      {icon:'📌', title:'AI利用ルールを1枚紙でまとめる', detail:'何をしていいか・してはいけないかをA4一枚で整理する。', who:'リーダー', diff:'★★☆', effect:'全員が安心して使える'},
+      {icon:'👑', title:'AI推進担当者を1名決める', detail:'「AIを最初に試す人」を正式に任命する。', who:'経営者', diff:'★★☆', effect:'社内浸透が加速する'}
+    ]}
+  ],
+  mid: [
+    {label:'最初の30日：成果を出す業務を決める', cls:'p30', actions:[
+      {icon:'🎯', title:'AI化する業務を3つ選ぶ', detail:'「これだけはAIで」という業務を明確に決め担当者を決める。', who:'リーダー', diff:'★★☆', effect:'ROIが見えやすくなる'},
+      {icon:'📝', title:'提案書テンプレートをAIで作成', detail:'定型文書をAIで自動生成できるプロセスを作る。', who:'営業担当', diff:'★★☆', effect:'作成時間を60%削減'}
+    ]},
+    {label:'31〜60日：チームに広げる', cls:'p60', actions:[
+      {icon:'📚', title:'社内AI活用マニュアルを作る', detail:'よく使う使い方をまとめた1〜2ページのガイドを作る。', who:'推進担当', diff:'★★☆', effect:'新人でもすぐ使える'},
+      {icon:'💬', title:'月1回のAI共有会を開催', detail:'成果と失敗を全員でシェアする場を作る。', who:'全員', diff:'★☆☆', effect:'ノウハウが蓄積される'}
+    ]},
+    {label:'61〜90日：組織に仕組みを作る', cls:'p90', actions:[
+      {icon:'🤖', title:'社内向けAIチャット窓口を検討', detail:'よくある質問に自動回答するDify等を試験導入する。', who:'推進担当', diff:'★★★', effect:'問い合わせ対応を削減'},
+      {icon:'📊', title:'AI導入成果を数字でレポート', detail:'何時間削減できたかを月次でまとめ経営会議で報告する。', who:'リーダー', diff:'★★☆', effect:'予算確保につながる'}
+    ]}
+  ],
+  high: [
+    {label:'最初の30日：AI戦略を経営に組み込む', cls:'p30', actions:[
+      {icon:'🗺', title:'1年間のAI活用ロードマップ策定', detail:'何をいつまでにAI化するか優先順位をつけた計画を作る。', who:'経営者', diff:'★★★', effect:'方向性が揃う'},
+      {icon:'📋', title:'AIガイドライン（正式版）の策定', detail:'情報セキュリティ・倫理・活用ルールを文書化する。', who:'推進担当', diff:'★★★', effect:'リスク管理ができる'}
+    ]},
+    {label:'31〜60日：AIを差別化に使う', cls:'p60', actions:[
+      {icon:'💡', title:'自社サービスにAIを組み込む', detail:'顧客向けサービスにAI機能を付加する方向性を検討する。', who:'経営者', diff:'★★★', effect:'他社との差別化'},
+      {icon:'📣', title:'AI活用事例を外部に発信', detail:'note・SNS・プレスリリースで事例発信する。', who:'マーケ担当', diff:'★★☆', effect:'採用・営業力が上がる'}
+    ]},
+    {label:'61〜90日：AI経営企業へ', cls:'p90', actions:[
+      {icon:'🤝', title:'社内専用AIアシスタントを構築', detail:'社内ナレッジをAIに学ばせ24時間相談できる環境を作る。', who:'推進チーム', diff:'★★★', effect:'ナレッジが資産になる'},
+      {icon:'🏆', title:'AI活用の表彰制度の導入', detail:'AI活用で成果を出した社員を評価する仕組みを作る。', who:'経営者', diff:'★★☆', effect:'社内文化として定着する'}
+    ]}
+  ]
+};
 
-  var plans = get90DayPlan(orgTotal, level);
-  var planWrap = document.getElementById('planList');
-  planWrap.innerHTML = '';
-  plans.forEach(function(phase) {
-    var div = document.createElement('div');
-    div.className = 'plan-phase';
-    var actions = '';
+function renderPlan(level) {
+  var key = level <= 2 ? 'low' : level <= 3 ? 'mid' : 'high';
+  var phases = PLANS[key];
+  var wrap = document.getElementById('planList');
+  wrap.innerHTML = '';
+  phases.forEach(function(phase) {
+    var d = document.createElement('div');
+    d.className = 'plan-phase';
+    var acts = '';
     phase.actions.forEach(function(a) {
-      actions += '<div class="plan-action">'
+      acts += '<div class="plan-action">'
         + '<div class="plan-action-icon">' + a.icon + '</div>'
         + '<div><div class="plan-action-title">' + a.title + '</div>'
         + '<div class="plan-action-detail">' + a.detail + '</div>'
@@ -1870,191 +790,191 @@ function calcResult() {
         + '<span class="plan-tag">効果：' + a.effect + '</span>'
         + '</div></div></div>';
     });
-    div.innerHTML = '<div class="plan-phase-header ' + phase.cls + '">' + phase.label + '</div>'
-      + '<div class="plan-phase-body">' + actions + '</div>';
-    planWrap.appendChild(div);
+    d.innerHTML = '<div class="plan-header ' + phase.cls + '">' + phase.label + '</div>'
+      + '<div class="plan-body">' + acts + '</div>';
+    wrap.appendChild(d);
   });
+}
 
-  var hrWrap = document.getElementById('humanResultWrap');
-  var recHTML = humanRec.map(function(r) {
-    return '<div class="recommend-box">'
-      + '<div class="rec-icon">' + r.icon + '</div>'
+var HUMAN_TYPES = [
+  {max:15, type:'A', name:'タイプA：ゼロベース型', desc:'まずは経営者自身がAIを体験することが最初の一歩です。',
+   recs:[
+    {icon:'🎯', title:'経営者が先頭に立つ', detail:'週1回30分、ChatGPTを使って業務を試してみてください。'},
+    {icon:'📚', title:'まず1つのツールをマスター', detail:'ChatGPTかClaude、どちらか1つに絞って毎日使う習慣をつけましょう。'},
+    {icon:'🌱', title:'スタートは小さく', detail:'議事録の要約・メール文章の作成から始めると最短で成果を体感できます。'}
+  ]},
+  {max:23, type:'B', name:'タイプB：芽生え型', desc:'AIに関心を持つ社員がいます。その人材を推進リーダーに任命しましょう。',
+   recs:[
+    {icon:'👑', title:'AI推進リーダーを1名決める', detail:'「やってみたい」という人を1名選んで権限と時間を与えてください。'},
+    {icon:'🔧', title:'業務1つをAI化する', detail:'「この仕事だけはAIで」という業務を1つ決めて3ヶ月続けましょう。'},
+    {icon:'📣', title:'社内で小さな発表会を', detail:'AI活用の成果を月1回5分でいいのでシェアする場を作りましょう。'}
+  ]},
+  {max:31, type:'C', name:'タイプC：成長型', desc:'社内にAI活用の文化が育ちつつあります。仕組み化が次のテーマです。',
+   recs:[
+    {icon:'📋', title:'AI活用ルールブックを作る', detail:'何をしていいか、してはいけないかを明文化すると全員が動きやすくなります。'},
+    {icon:'🤝', title:'部署横断チームを作る', detail:'各部署から1名選びAI推進チームを結成しましょう。'},
+    {icon:'📈', title:'成果を数字で見える化', detail:'「何時間削減できたか」を記録することで経営判断の材料になります。'}
+  ]},
+  {max:40, type:'D', name:'タイプD：自走型', desc:'社内にAIリーダーが存在し、自走できる体制が整っています。',
+   recs:[
+    {icon:'🚀', title:'社内専用AIの構築へ', detail:'社内ナレッジを学習させた専用AIチャットボットを構築する段階です。'},
+    {icon:'🏆', title:'業界への発信', detail:'御社の事例を発信することで採用・ブランディング・営業に活用できます。'},
+    {icon:'🔮', title:'AI経営戦略の策定', detail:'1年後・3年後のAI活用ビジョンを経営計画に組み込みましょう。'}
+  ]}
+];
+
+function renderHuman(total) {
+  var ht = HUMAN_TYPES[0];
+  for (var i = 0; i < HUMAN_TYPES.length; i++) { if (total <= HUMAN_TYPES[i].max) { ht = HUMAN_TYPES[i]; break; } }
+  var recHTML = ht.recs.map(function(r) {
+    return '<div class="rec-box"><div class="rec-icon">' + r.icon + '</div>'
       + '<div><div class="rec-title">' + r.title + '</div>'
-      + '<div class="rec-detail">' + r.detail + '</div>'
-      + '</div></div>';
+      + '<div class="rec-detail">' + r.detail + '</div></div></div>';
   }).join('');
-
-  hrWrap.innerHTML = '<div class="human-result">'
+  document.getElementById('humanResultWrap').innerHTML =
+    '<div class="human-result">'
     + '<div class="human-type-label">AI人材タイプ</div>'
-    + '<div class="human-type-name">' + humanTypeName + '</div>'
-    + '<div class="human-type-desc">' + humanTypeDesc + '</div>'
+    + '<div class="human-type-name">' + ht.name + '</div>'
+    + '<div class="human-type-desc">' + ht.desc + '</div>'
     + '</div>'
-    + '<div class="card" style="margin-bottom:20px;">'
+    + '<div class="card" style="margin-bottom:18px;">'
     + '<span class="step-badge">AI人材レポート</span>'
-    + '<h2 style="margin-bottom:16px;">おすすめのアクション</h2>'
+    + '<h2 style="margin-bottom:14px;">おすすめのアクション</h2>'
     + recHTML + '</div>';
-
-  setTimeout(function() { drawRadar(); }, 100);
-  goTo(5);
 }
 
-// ========================
-// 90日計画ロジック
-// ========================
-function get90DayPlan(total, level) {
-  if (level <= 2) {
-    return [
-      {label:'最初の30日：AIを体験する', cls:'p30', actions:[
-        {icon:'💬', title:'ChatGPT / Claudeを毎日使ってみる', detail:'経営者・リーダー候補が毎日1回AIに質問する習慣をつける。', who:'経営者', diff:'★☆☆', effect:'AI理解が深まる'},
-        {icon:'📝', title:'メール・お知らせ文章をAIで作成', detail:'実際の業務文章をAIに作ってもらい、時短効果を体感する。', who:'全員', diff:'★☆☆', effect:'30分/日の削減'}
-      ]},
-      {label:'31〜60日：業務に組み込む', cls:'p60', actions:[
-        {icon:'📋', title:'議事録・会議メモをAIで自動要約', detail:'会議の内容をテキスト化してAIに渡し、要約・ToDo を作る。', who:'担当者', diff:'★★☆', effect:'会議後作業を50%削減'},
-        {icon:'📣', title:'SNS投稿文をAIで作成', detail:'Instagramやブログの文章をAIに下書きしてもらう。', who:'担当者', diff:'★☆☆', effect:'投稿頻度が上がる'}
-      ]},
-      {label:'61〜90日：仕組みにする', cls:'p90', actions:[
-        {icon:'📌', title:'AI利用ルールを1枚紙でまとめる', detail:'「何をしていいか」「してはいけないか」をA4一枚で整理する。', who:'リーダー', diff:'★★☆', effect:'全員が安心して使える'},
-        {icon:'👑', title:'AI推進担当者を1名決める', detail:'「AIを最初に試す人」を正式に任命。月1回の共有会を開催。', who:'経営者', diff:'★★☆', effect:'社内浸透が加速する'}
-      ]}
-    ];
-  } else if (level <= 3) {
-    return [
-      {label:'最初の30日：成果を出す業務を決める', cls:'p30', actions:[
-        {icon:'🎯', title:'AI化する業務を3つ選ぶ', detail:'「これだけはAIで」という業務を明確に決め、担当者を決める。', who:'リーダー', diff:'★★☆', effect:'ROIが見えやすくなる'},
-        {icon:'📝', title:'提案書・見積書テンプレートをAIで作成', detail:'定型文書をAIで自動生成できるプロセスを作る。', who:'営業担当', diff:'★★☆', effect:'作成時間を60%削減'}
-      ]},
-      {label:'31〜60日：チームに広げる', cls:'p60', actions:[
-        {icon:'📚', title:'社内向けAI活用マニュアルを作る', detail:'よく使う使い方をまとめた1〜2ページのガイドを作る。', who:'推進担当', diff:'★★☆', effect:'新人でもすぐ使える'},
-        {icon:'💬', title:'月1回のAI共有会を開催', detail:'「これが使えた」「これは失敗した」を全員でシェアする場を作る。', who:'全員', diff:'★☆☆', effect:'ノウハウが蓄積される'}
-      ]},
-      {label:'61〜90日：組織に仕組みを作る', cls:'p90', actions:[
-        {icon:'🤖', title:'社内向けAIチャット窓口を検討', detail:'よくある質問に自動回答するツール（Dify等）を試験導入する。', who:'推進担当', diff:'★★★', effect:'問い合わせ対応を削減'},
-        {icon:'📊', title:'AI導入成果を数字でレポート', detail:'「何時間削減できたか」を月次でまとめ、経営会議で報告する。', who:'リーダー', diff:'★★☆', effect:'予算・時間の確保につながる'}
-      ]}
-    ];
-  } else {
-    return [
-      {label:'最初の30日：AI戦略を経営に組み込む', cls:'p30', actions:[
-        {icon:'🗺', title:'1年間のAI活用ロードマップ策定', detail:'何をいつまでにAI化するか、優先順位をつけた計画を作る。', who:'経営者', diff:'★★★', effect:'組織全体の方向性が揃う'},
-        {icon:'📋', title:'AI利用ガイドライン（正式版）の策定', detail:'情報セキュリティ・倫理・活用ルールを文書化する。', who:'推進担当', diff:'★★★', effect:'リスク管理ができる'}
-      ]},
-      {label:'31〜60日：AIを差別化に使う', cls:'p60', actions:[
-        {icon:'💡', title:'自社サービスにAIを組み込む', detail:'顧客向けサービス・製品にAI機能を付加する方向性を検討する。', who:'経営者・開発担当', diff:'★★★', effect:'他社との差別化'},
-        {icon:'📣', title:'AI活用事例を外部に発信', detail:'note・SNS・プレスリリースで事例発信し採用・ブランドに活用。', who:'マーケ担当', diff:'★★☆', effect:'採用・営業力が上がる'}
-      ]},
-      {label:'61〜90日：AI経営企業へ', cls:'p90', actions:[
-        {icon:'🤝', title:'社内専用GPT / AIアシスタントを構築', detail:'社内ナレッジをAIに学ばせ、社員が24時間相談できる環境を作る。', who:'推進チーム', diff:'★★★', effect:'ナレッジが資産になる'},
-        {icon:'🏆', title:'AI活用の認定・表彰制度の導入', detail:'AI活用で成果を出した社員を評価する仕組みを作る。', who:'経営者', diff:'★★☆', effect:'社内文化として定着する'}
-      ]}
-    ];
-  }
-}
-
-// ========================
-// レーダーチャート
-// ========================
-var radarInstance = null;
+// ========== レーダーチャート ==========
 function drawRadar() {
-  var labels = aiOrgItems.map(function(i) { return i.title; });
-  var data   = aiOrgItems.map(function(i) { return orgScores[i.id] || 1; });
+  var labels = AI_ITEMS.map(function(i) { return i.title; });
+  var data   = AI_ITEMS.map(function(i) { return orgScores[i.id] || 1; });
   var ctx = document.getElementById('radarChart').getContext('2d');
-  if (radarInstance) radarInstance.destroy();
-  radarInstance = new Chart(ctx, {
+  if (radarChart) radarChart.destroy();
+  radarChart = new Chart(ctx, {
     type: 'radar',
-    data: {
-      labels: labels,
-      datasets: [{
-        label: 'AI組織化スコア',
-        data: data,
-        backgroundColor: 'rgba(34,54,112,0.15)',
-        borderColor: 'rgba(34,54,112,0.8)',
-        borderWidth: 2,
-        pointBackgroundColor: '#D0A900',
-        pointRadius: 5
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        r: {
-          min: 0, max: 5,
-          ticks: {stepSize: 1, font: {size: 11}},
-          pointLabels: {font: {size: 11}, color: '#223670'},
-          grid: {color: 'rgba(34,54,112,0.1)'},
-          angleLines: {color: 'rgba(34,54,112,0.1)'}
-        }
-      },
-      plugins: {legend: {display: false}}
+    data: { labels: labels, datasets: [{
+      label: 'AI組織化スコア', data: data,
+      backgroundColor: 'rgba(34,54,112,0.15)',
+      borderColor: 'rgba(34,54,112,0.8)', borderWidth: 2,
+      pointBackgroundColor: '#D0A900', pointRadius: 5
+    }]},
+    options: { responsive: true,
+      scales: { r: { min:0, max:5, ticks:{stepSize:1,font:{size:10}},
+        pointLabels:{font:{size:10},color:'#223670'},
+        grid:{color:'rgba(34,54,112,0.1)'}, angleLines:{color:'rgba(34,54,112,0.1)'} }},
+      plugins: { legend: { display: false } }
     }
   });
 }
 
-// ========================
-// 初期化
-// ========================
-window.onload = function() {
+// ========== コピー ==========
+function copyResult() {
+  var now = new Date();
+  var days = ['日','月','火','水','木','金','土'];
+  var ds = now.getFullYear() + '年' + (now.getMonth()+1) + '月' + now.getDate() + '日('
+    + days[now.getDay()] + ') ' + now.getHours() + '時' + String(now.getMinutes()).padStart(2,'0') + '分';
+
+  var get = function(id) { return document.getElementById(id) ? document.getElementById(id).value || '（未入力）' : '（未入力）'; };
+  var getT = function(id) { return document.getElementById(id) ? document.getElementById(id).textContent : ''; };
+
+  var issueEls = document.querySelectorAll('#issueList .issue-title');
+  var issues = Array.from(issueEls).map(function(el) { return '・' + el.textContent; }).join('\n') || '・特になし';
+
+  var planLines = [];
+  document.querySelectorAll('#planList .plan-phase').forEach(function(ph) {
+    planLines.push(ph.querySelector('.plan-header').textContent.trim());
+    ph.querySelectorAll('.plan-action-title').forEach(function(el) { planLines.push('  ・' + el.textContent); });
+  });
+
+  var htEl = document.querySelector('.human-type-name');
+  var ht = htEl ? htEl.textContent : '（未診断）';
+
+  var sep = '================================';
+  var text = [
+    sep, '[AI組織化診断 結果レポート]', '診断日時：' + ds, sep, '',
+    '【会社情報】',
+    '会社名　：' + get('companyName'),
+    '業種　　：' + get('industry'),
+    '従業員数：' + get('employees'),
+    '経営課題：' + get('challenge'), '',
+    sep, '【診断結果】', sep, '',
+    'AI活用レベル　：' + getT('resLevelLabel'),
+    'AI組織化スコア：' + getT('resOrgScore'),
+    'AI人材スコア　：' + getT('resHumanScore'),
+    'AI人材タイプ　：' + ht, '',
+    '【会社の宝（強み）】',
+    '01. ' + getT('gem1'),
+    '02. ' + getT('gem2'),
+    '03. ' + getT('gem3'), '',
+    '【優先して改善すべき課題】', issues, '',
+    '【90日アクションプラン】',
+    planLines.join('\n'), '',
+    sep,
+    'このレポートはAI組織化診断（by Smile Plus Consulting）にて生成されました。',
+    'https://smileplusctg.com', sep
+  ].join('\n');
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function() {
+      showCopyDone();
+    }).catch(function() { fallbackCopy(text); });
+  } else { fallbackCopy(text); }
+}
+
+function fallbackCopy(text) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try { document.execCommand('copy'); showCopyDone(); } catch(e) { alert('コピーできませんでした。お手数ですが手動でコピーしてください。'); }
+  document.body.removeChild(ta);
+}
+
+function showCopyDone() {
+  var toast = document.getElementById('copyToast');
+  var btn   = document.getElementById('copyBtn');
+  if (toast) toast.style.display = 'block';
+  if (btn)   { btn.textContent = 'コピー済み！'; btn.style.background = 'linear-gradient(135deg,#2a6b4a,#3a9b6a)'; }
+  setTimeout(function() {
+    if (toast) toast.style.display = 'none';
+    if (btn)   { btn.textContent = '診断結果をコピーする'; btn.style.background = ''; }
+  }, 4000);
+}
+
+// ========== イベントバインド ==========
+document.addEventListener('DOMContentLoaded', function() {
   buildAiItems();
   buildHumanItems();
-  bindEvents();
-};
 
-function bindEvents() {
-  // ヘッダーボタン
-  var btnHow = document.querySelector('.header-btn[title="使い方"]');
-  var btnSet = document.querySelector('.header-btn[title="設定"]');
-  if (btnHow) btnHow.addEventListener('click', function() { openModal('howModal'); });
-  if (btnSet) btnSet.addEventListener('click', function() { openSettingModal(); });
+  // ヘッダー
+  document.getElementById('btnHow').addEventListener('click', function() { openModal('howModal'); });
+  document.getElementById('btnSet').addEventListener('click', function() { openModal('settingModal'); });
 
-  // モーダル外クリックで閉じる
-  var howOverlay = document.getElementById('howModal');
-  var setOverlay = document.getElementById('settingModal');
-  if (howOverlay) howOverlay.addEventListener('click', function(e) { if (e.target === howOverlay) closeModal('howModal'); });
-  if (setOverlay) setOverlay.addEventListener('click', function(e) { if (e.target === setOverlay) closeModal('settingModal'); });
+  // モーダル閉じる
+  document.getElementById('closeHow').addEventListener('click', function() { closeModal('howModal'); });
+  document.getElementById('closeSet').addEventListener('click', function() { closeModal('settingModal'); });
+  document.getElementById('howModal').addEventListener('click', function(e) { if (e.target === this) closeModal('howModal'); });
+  document.getElementById('settingModal').addEventListener('click', function(e) { if (e.target === this) closeModal('settingModal'); });
 
-  // モーダル内の閉じるボタン
-  document.querySelectorAll('.modal-close').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      var modal = btn.closest('.modal-overlay');
-      if (modal) closeModal(modal.id);
-    });
-  });
+  // 設定内
+  document.getElementById('btnDemo').addEventListener('click', loadDemoData);
+  document.getElementById('btnReset').addEventListener('click', confirmReset);
 
-  // デモデータボタン
-  var btnDemo = document.querySelector('.btn-demo');
-  if (btnDemo) btnDemo.addEventListener('click', loadDemoData);
+  // 画面遷移
+  document.getElementById('btnStart').addEventListener('click',   function() { goTo(1); });
+  document.getElementById('btnStep1Next').addEventListener('click', step1Next);
+  document.getElementById('btnTo3').addEventListener('click',     function() { goTo(3); });
+  document.getElementById('btnBack2').addEventListener('click',   function() { goTo(1); });
+  document.getElementById('btnTo4').addEventListener('click',     function() { goTo(4); });
+  document.getElementById('btnBack3').addEventListener('click',   function() { goTo(2); });
+  document.getElementById('btnCalc').addEventListener('click',    calcResult);
+  document.getElementById('btnBack4').addEventListener('click',   function() { goTo(3); });
+  document.getElementById('btnRestart').addEventListener('click', function() { goTo(0); });
 
-  // リセットボタン
-  var btnReset = document.querySelector('.btn-reset');
-  if (btnReset) btnReset.addEventListener('click', confirmReset);
+  // コピー
+  document.getElementById('copyBtn').addEventListener('click', copyResult);
+});
 
-  // STEP遷移ボタン（data-goto属性で管理）
-  document.querySelectorAll('[data-goto]').forEach(function(btn) {
-    btn.addEventListener('click', function() { goTo(parseInt(btn.getAttribute('data-goto'))); });
-  });
-
-  // STEP1 次へ
-  var btnStep1 = document.querySelector('[data-action="step1next"]');
-  if (btnStep1) btnStep1.addEventListener('click', step1Next);
-
-  // 診断結果を見る
-  var btnCalc = document.querySelector('[data-action="calc"]');
-  if (btnCalc) btnCalc.addEventListener('click', calcResult);
-
-  // コピーボタン
-  var btnCopy = document.getElementById('copyBtn');
-  if (btnCopy) btnCopy.addEventListener('click', copyResult);
-
-  // AIラジオボタンのハイライト（動的生成後にdelegation）
-  var aiWrap = document.getElementById('aiItems');
-  if (aiWrap) {
-    aiWrap.addEventListener('change', function(e) {
-      if (e.target && e.target.type === 'radio') {
-        var idx = e.target.getAttribute('data-idx');
-        if (idx !== null) highlightAiItem(parseInt(idx));
-      }
-    });
-  }
-}
+})();
 </script>
 </body>
 </html>
