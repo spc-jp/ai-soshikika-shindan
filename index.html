@@ -1059,107 +1059,6 @@
   </div>
 </header>
 
-<!-- ===== 使い方モーダル ===== -->
-<div id="howModal" class="modal-overlay" onclick="closeModalOutside(event,'howModal')">
-  <div class="modal-box">
-    <div class="modal-header">
-      <h2>❓ 使い方ガイド</h2>
-      <button class="modal-close" onclick="closeModal('howModal')">✕</button>
-    </div>
-    <div class="modal-body">
-
-      <div class="how-purpose">
-        <div class="how-purpose-title">🎯 このアプリの目的</div>
-        <p>
-          「うちの会社、AIをどう使えばいいの？」と感じている経営者の方に向けて作りました。
-        </p>
-        <p style="margin-top:8px;">
-          難しい言葉や専門知識は一切不要です。質問に正直に答えていただくだけで、あなたの会社の現状を分析し、「今すぐできること」「90日以内にやること」を具体的にお伝えします。
-        </p>
-        <p style="margin-top:8px;">
-          さらに、あなたの会社だけが持つ「隠れた強み＝宝」も一緒に発見します。AIは道具です。その道具を最大限に活かすための地図を、この診断でお渡しします。
-        </p>
-      </div>
-
-      <div style="margin-top:20px;">
-        <div class="how-purpose-title" style="margin-bottom:12px;">📋 アプリの使い方</div>
-        <div class="how-step">
-          <div class="how-step-num">1</div>
-          <div>
-            <div class="how-step-title">会社情報を入力する</div>
-            <div class="how-step-detail">会社名・業種・従業員数・経営課題を入力します。必須項目は3つだけです。</div>
-          </div>
-        </div>
-        <div class="how-step">
-          <div class="how-step-num">2</div>
-          <div>
-            <div class="how-step-title">💎 会社の宝探し診断に答える（6問）</div>
-            <div class="how-step-detail">お客様からよく言われること、競合との違いなど6つの質問です。正解はありません。思い浮かんだことをそのまま書いてください。</div>
-          </div>
-        </div>
-        <div class="how-step">
-          <div class="how-step-num">3</div>
-          <div>
-            <div class="how-step-title">📊 AI組織化診断を選ぶ（10項目）</div>
-            <div class="how-step-detail">「経営者のAI理解度」「社員の利用率」など10項目を1〜5の5段階で選びます。今の状態に正直に選んでください。</div>
-          </div>
-        </div>
-        <div class="how-step">
-          <div class="how-step-num">4</div>
-          <div>
-            <div class="how-step-title">👥 AI人材レベル診断を選ぶ（8問）</div>
-            <div class="how-step-detail">「誰が社内でAIを推進するか」を明確にするための診断です。同じく5段階で選ぶだけです。</div>
-          </div>
-        </div>
-        <div class="how-step">
-          <div class="how-step-num">5</div>
-          <div>
-            <div class="how-step-title">📅 診断結果・90日計画を確認する</div>
-            <div class="how-step-detail">AI活用レベル・レーダーチャート・優先課題・90日アクションプラン・AI人材タイプが一覧で表示されます。コンサルティングの場でそのままご活用いただけます。</div>
-          </div>
-        </div>
-        <div class="how-note">
-          ⏱ 所要時間は約5〜10分です。全部で24問あります。「設定」ボタンのデモデータを使うと、診断の流れをすぐに確認できます。
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- ===== 設定モーダル ===== -->
-<div id="settingModal" class="modal-overlay" onclick="closeModalOutside(event,'settingModal')">
-  <div class="modal-box">
-    <div class="modal-header">
-      <h2>⚙️ 設定</h2>
-      <button class="modal-close" onclick="closeModal('settingModal')">✕</button>
-    </div>
-    <div class="modal-body">
-
-      <div class="setting-what">
-        <div class="setting-what-title">🔍 このアプリで何ができるの？</div>
-        <p>「AI組織化診断」は、あなたの会社のAI活用力を5段階で診断し、<strong>会社の強み・課題・90日の行動計画</strong>を自動でまとめてくれるアプリです。</p>
-        <p style="margin-top:8px;">難しい知識は不要です。質問に答えるだけで、コンサルタントが作るような診断レポートが手元に届きます。</p>
-        <ul style="margin-top:8px;padding-left:18px;font-size:13px;color:#555577;line-height:1.8;">
-          <li>💎 会社の隠れた強み（宝）を発見</li>
-          <li>📊 AI活用レベルをレーダーチャートで可視化</li>
-          <li>👥 AI推進に向いている人材タイプを判定</li>
-          <li>📅 今日からできる90日アクションプランを提示</li>
-        </ul>
-      </div>
-
-      <div style="margin-top:20px;">
-        <div class="setting-what-title" style="margin-bottom:12px;">🧪 デモデータ</div>
-        <p style="font-size:13px;color:#555577;margin-bottom:14px;">サンプルデータを自動入力して、診断の流れをすぐに体験できます。</p>
-        <button class="btn-demo" onclick="loadDemoData()">▶ デモデータを入力する</button>
-        <button class="btn-reset" onclick="confirmReset()">🗑 入力データをクリアする</button>
-      </div>
-
-      <div class="setting-version">AI組織化診断 ver.1.0（APIなし版）<br>Developed by Smile Plus Consulting</div>
-    </div>
-  </div>
-</div>
-
 <div class="container">
 
   <!-- ============ SCREEN 0: トップ ============ -->
@@ -1455,6 +1354,93 @@
   </div>
 
 </div><!-- /container -->
+
+<!-- ===== 使い方モーダル ===== -->
+<div id="howModal" class="modal-overlay" onclick="closeModalOutside(event,'howModal')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>❓ 使い方ガイド</h2>
+      <button class="modal-close" onclick="closeModal('howModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="how-purpose">
+        <div class="how-purpose-title">🎯 このアプリの目的</div>
+        <p>「うちの会社、AIをどう使えばいいの？」と感じている経営者の方に向けて作りました。</p>
+        <p style="margin-top:8px;">難しい言葉や専門知識は一切不要です。質問に正直に答えていただくだけで、あなたの会社の現状を分析し、「今すぐできること」「90日以内にやること」を具体的にお伝えします。</p>
+        <p style="margin-top:8px;">さらに、あなたの会社だけが持つ「隠れた強み＝宝」も一緒に発見します。AIは道具です。その道具を最大限に活かすための地図を、この診断でお渡しします。</p>
+      </div>
+      <div style="margin-top:20px;">
+        <div class="how-purpose-title" style="margin-bottom:12px;">📋 アプリの使い方</div>
+        <div class="how-step">
+          <div class="how-step-num">1</div>
+          <div>
+            <div class="how-step-title">会社情報を入力する</div>
+            <div class="how-step-detail">会社名・業種・従業員数・経営課題を入力します。必須項目は3つだけです。</div>
+          </div>
+        </div>
+        <div class="how-step">
+          <div class="how-step-num">2</div>
+          <div>
+            <div class="how-step-title">💎 会社の宝探し診断に答える（6問）</div>
+            <div class="how-step-detail">お客様からよく言われること、競合との違いなど6つの質問です。正解はありません。思い浮かんだことをそのまま書いてください。</div>
+          </div>
+        </div>
+        <div class="how-step">
+          <div class="how-step-num">3</div>
+          <div>
+            <div class="how-step-title">📊 AI組織化診断を選ぶ（10項目）</div>
+            <div class="how-step-detail">「経営者のAI理解度」「社員の利用率」など10項目を1〜5の5段階で選びます。今の状態に正直に選んでください。</div>
+          </div>
+        </div>
+        <div class="how-step">
+          <div class="how-step-num">4</div>
+          <div>
+            <div class="how-step-title">👥 AI人材レベル診断を選ぶ（8問）</div>
+            <div class="how-step-detail">「誰が社内でAIを推進するか」を明確にするための診断です。同じく5段階で選ぶだけです。</div>
+          </div>
+        </div>
+        <div class="how-step">
+          <div class="how-step-num">5</div>
+          <div>
+            <div class="how-step-title">📅 診断結果・90日計画を確認する</div>
+            <div class="how-step-detail">AI活用レベル・レーダーチャート・優先課題・90日アクションプラン・AI人材タイプが一覧で表示されます。コンサルティングの場でそのままご活用いただけます。</div>
+          </div>
+        </div>
+        <div class="how-note">⏱ 所要時間は約5〜10分です。全部で24問あります。「設定」ボタンのデモデータを使うと、診断の流れをすぐに確認できます。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 設定モーダル ===== -->
+<div id="settingModal" class="modal-overlay" onclick="closeModalOutside(event,'settingModal')">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2>⚙️ 設定</h2>
+      <button class="modal-close" onclick="closeModal('settingModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="setting-what">
+        <div class="setting-what-title">🔍 このアプリで何ができるの？</div>
+        <p>「AI組織化診断」は、あなたの会社のAI活用力を5段階で診断し、<strong>会社の強み・課題・90日の行動計画</strong>を自動でまとめてくれるアプリです。</p>
+        <p style="margin-top:8px;">難しい知識は不要です。質問に答えるだけで、コンサルタントが作るような診断レポートが手元に届きます。</p>
+        <ul style="margin-top:8px;padding-left:18px;font-size:13px;color:#555577;line-height:1.8;">
+          <li>💎 会社の隠れた強み（宝）を発見</li>
+          <li>📊 AI活用レベルをレーダーチャートで可視化</li>
+          <li>👥 AI推進に向いている人材タイプを判定</li>
+          <li>📅 今日からできる90日アクションプランを提示</li>
+        </ul>
+      </div>
+      <div style="margin-top:20px;">
+        <div class="setting-what-title" style="margin-bottom:12px;">🧪 デモデータ</div>
+        <p style="font-size:13px;color:#555577;margin-bottom:14px;">サンプルデータを自動入力して、診断の流れをすぐに体験できます。</p>
+        <button class="btn-demo" onclick="loadDemoData()">▶ デモデータを入力する</button>
+        <button class="btn-reset" onclick="confirmReset()">🗑 入力データをクリアする</button>
+      </div>
+      <div class="setting-version">AI組織化診断 ver.1.0（APIなし版）<br>Developed by Smile Plus Consulting</div>
+    </div>
+  </div>
+</div>
 
 <script>
 // ========================
