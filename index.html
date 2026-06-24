@@ -1052,10 +1052,10 @@
     <p>AIを組織の力に変える診断アプリ</p>
   </div>
   <div class="header-btns">
-    <button class="header-btn" onclick="openModal('howModal')" title="使い方">
+    <button class="header-btn"  title="使い方">
       ❓<span>使い方</span>
     </button>
-    <button class="header-btn" onclick="openSettingModal()" title="設定">
+    <button class="header-btn"  title="設定">
       ⚙️<span>設定</span>
     </button>
   </div>
@@ -1093,7 +1093,7 @@
       </div>
     </div>
     <div class="top-time">⏱ 所要時間：約5〜10分（全部で28問）</div>
-    <button class="btn-primary" onclick="goTo(1)">✨ 無料で診断スタート</button>
+    <button class="btn-primary" data-goto="1">✨ 無料で診断スタート</button>
   </div>
 
   <!-- ============ SCREEN 1: 会社情報 ============ -->
@@ -1111,10 +1111,10 @@
       <p class="subtitle">入力した内容をもとに、あなたの会社専用の診断結果を作ります。</p>
 
       <label>会社名（屋号）<span class="required">必須</span></label>
-      <input type="text" id="companyName" placeholder="例：スマイルプラスコンサルティング">
+      <input type="text" id="companyName" data-demo="株式会社さくら商事" placeholder="例：スマイルプラスコンサルティング">
 
       <label>業種<span class="required">必須</span></label>
-      <select id="industry">
+      <select id="industry" data-demo="飲食業・食品">
         <option value="">▼ 業種を選んでください</option>
         <option>税理士・会計事務所</option>
         <option>社労士事務所</option>
@@ -1134,7 +1134,7 @@
       </select>
 
       <label>従業員数<span class="required">必須</span></label>
-      <select id="employees">
+      <select id="employees" data-demo="6〜10名">
         <option value="">▼ 人数を選んでください</option>
         <option>1名（個人事業主）</option>
         <option>2〜5名</option>
@@ -1145,12 +1145,12 @@
       </select>
 
       <label>事業内容（一言で）</label>
-      <input type="text" id="business" placeholder="例：中小企業向けWebマーケティング支援">
+      <input type="text" id="business" data-demo="地域密着型の定食屋・仕出し弁当の製造販売" placeholder="例：中小企業向けWebマーケティング支援">
 
       <label>現在の経営課題（自由に書いてください）</label>
-      <textarea id="challenge" placeholder="例：新規集客が少ない、社員の残業が多い、売上が伸び悩んでいる など"></textarea>
+      <textarea id="challenge" data-demo="新規のお客様が増えない。SNSをやりたいが投稿する時間がない。スタッフの採用も困っている。" placeholder="例：新規集客が少ない、社員の残業が多い、売上が伸び悩んでいる など"></textarea>
 
-      <button class="btn-primary" onclick="step1Next()">次へ　→　会社の宝探し診断</button>
+      <button class="btn-primary" data-action="step1next">次へ　→　会社の宝探し診断</button>
     </div>
   </div>
 
@@ -1172,46 +1172,46 @@
         <div class="q-num">Q1 / 6</div>
         <div class="q-text">お客様からよく言われる<br>お褒めの言葉は何ですか？</div>
         <div class="q-hint">例：「対応が早い」「安心できる」「丁寧に教えてくれる」</div>
-        <textarea id="t1" placeholder="思い浮かんだ言葉をそのまま書いてください"></textarea>
+        <textarea id="t1" data-demo="いつ来ても温かくて、ほっとすると言われます" placeholder="思い浮かんだ言葉をそのまま書いてください"></textarea>
       </div>
 
       <div class="takara-question">
         <div class="q-num">Q2 / 6</div>
         <div class="q-text">競合他社と比べて、<br>自信を持って言える強みは？</div>
         <div class="q-hint">例：「特殊な技術がある」「地域で一番長い」「価格より質で選ばれる」</div>
-        <textarea id="t2" placeholder="思い浮かんだ強みをそのまま書いてください"></textarea>
+        <textarea id="t2" data-demo="20年以上地元で続けてきた信頼感と毎朝仕入れる新鮮な食材へのこだわり" placeholder="思い浮かんだ強みをそのまま書いてください"></textarea>
       </div>
 
       <div class="takara-question">
         <div class="q-num">Q3 / 6</div>
         <div class="q-text">社員が「ここで働いていて<br>良かった」と感じる理由は？</div>
         <div class="q-hint">例：「チームワークが良い」「仕事に誇りを持てる」「社長が話を聞いてくれる」</div>
-        <textarea id="t3" placeholder="思い浮かんだことをそのまま書いてください"></textarea>
+        <textarea id="t3" data-demo="お客様に感謝される仕事だから誇りがあると言ってくれるスタッフがいます" placeholder="思い浮かんだことをそのまま書いてください"></textarea>
       </div>
 
       <div class="takara-question">
         <div class="q-num">Q4 / 6</div>
         <div class="q-text">長くお付き合いいただける<br>お客様が多い理由は何でしょう？</div>
         <div class="q-hint">例：「毎年来てくれる」「10年以上のお客様がいる」「信頼関係がある」</div>
-        <textarea id="t4" placeholder="思い浮かんだことをそのまま書いてください"></textarea>
+        <textarea id="t4" data-demo="昼食の常連さんが多く10年以上通ってくれている方が数十名います" placeholder="思い浮かんだことをそのまま書いてください"></textarea>
       </div>
 
       <div class="takara-question">
         <div class="q-num">Q5 / 6</div>
         <div class="q-text">紹介や口コミが起きるとしたら、<br>どんな場面ですか？</div>
         <div class="q-hint">例：「仕事が終わった後に感謝される」「知人に勧めてくれる」</div>
-        <textarea id="t5" placeholder="思い浮かんだことをそのまま書いてください"></textarea>
+        <textarea id="t5" data-demo="あの店は間違いないと知人に教えてくれるお客様から新しいお客様が来ることが多い" placeholder="思い浮かんだことをそのまま書いてください"></textarea>
       </div>
 
       <div class="takara-question">
         <div class="q-num">Q6 / 6</div>
         <div class="q-text">もし御社がなくなったら、<br>一番困るのはどんな方ですか？</div>
         <div class="q-hint">例：「近所の高齢者の方」「中小企業の経営者」「製品に依存している顧客」</div>
-        <textarea id="t6" placeholder="思い浮かんだことをそのまま書いてください"></textarea>
+        <textarea id="t6" data-demo="この地域のお年寄りや昼食を外で食べるサラリーマンの方々" placeholder="思い浮かんだことをそのまま書いてください"></textarea>
       </div>
 
-      <button class="btn-primary" onclick="goTo(3)">次へ　→　AI組織化診断</button>
-      <button class="btn-secondary" onclick="goTo(1)">← 前に戻る</button>
+      <button class="btn-primary" data-goto="3">次へ　→　AI組織化診断</button>
+      <button class="btn-secondary" data-goto="1">← 前に戻る</button>
     </div>
   </div>
 
@@ -1231,8 +1231,8 @@
 
       <div id="aiItems"></div>
 
-      <button class="btn-primary" onclick="goTo(4)">次へ　→　AI人材レベル診断</button>
-      <button class="btn-secondary" onclick="goTo(2)">← 前に戻る</button>
+      <button class="btn-primary" data-goto="4">次へ　→　AI人材レベル診断</button>
+      <button class="btn-secondary" data-goto="2">← 前に戻る</button>
     </div>
   </div>
 
@@ -1252,8 +1252,8 @@
 
       <div id="humanItems"></div>
 
-      <button class="btn-primary" onclick="calcResult()">診断結果を見る　→</button>
-      <button class="btn-secondary" onclick="goTo(3)">← 前に戻る</button>
+      <button class="btn-primary" data-action="calc">診断結果を見る　→</button>
+      <button class="btn-secondary" data-goto="3">← 前に戻る</button>
     </div>
   </div>
 
@@ -1335,7 +1335,7 @@
       <div class="next-step-title">📬 次のステップ</div>
       <p class="next-step-desc">診断結果をコピーして、問い合わせフォームに貼り付けてご送信ください。スタッフが内容を確認してご連絡いたします。</p>
 
-      <button class="btn-copy" onclick="copyResult()" id="copyBtn">
+      <button class="btn-copy"  id="copyBtn">
         📋 診断結果をコピーする
       </button>
       <div id="copyToast" class="copy-toast" style="display:none;">
@@ -1352,17 +1352,17 @@
     </div>
 
     <!-- もう一度診断 -->
-    <button class="btn-secondary" onclick="goTo(0)" style="margin-top:16px;">🔄 最初からやり直す</button>
+    <button class="btn-secondary" data-goto="0" style="margin-top:16px;">🔄 最初からやり直す</button>
   </div>
 
 </div><!-- /container -->
 
 <!-- ===== 使い方モーダル ===== -->
-<div id="howModal" class="modal-overlay" onclick="closeModalOutside(event,'howModal')">
+<div id="howModal" class="modal-overlay" >
   <div class="modal-box">
     <div class="modal-header">
       <h2>❓ 使い方ガイド</h2>
-      <button class="modal-close" onclick="closeModal('howModal')">✕</button>
+      <button class="modal-close" >✕</button>
     </div>
     <div class="modal-body">
       <div class="how-purpose">
@@ -1415,11 +1415,11 @@
 </div>
 
 <!-- ===== 設定モーダル ===== -->
-<div id="settingModal" class="modal-overlay" onclick="closeModalOutside(event,'settingModal')">
+<div id="settingModal" class="modal-overlay" >
   <div class="modal-box">
     <div class="modal-header">
       <h2>⚙️ 設定</h2>
-      <button class="modal-close" onclick="closeModal('settingModal')">✕</button>
+      <button class="modal-close" >✕</button>
     </div>
     <div class="modal-body">
       <div class="setting-what">
@@ -1436,8 +1436,8 @@
       <div style="margin-top:20px;">
         <div class="setting-what-title" style="margin-bottom:12px;">🧪 デモデータ</div>
         <p style="font-size:13px;color:#555577;margin-bottom:14px;">サンプルデータを自動入力して、診断の流れをすぐに体験できます。</p>
-        <button class="btn-demo" onclick="loadDemoData()">▶ デモデータを入力する</button>
-        <button class="btn-reset" onclick="confirmReset()">🗑 入力データをクリアする</button>
+        <button class="btn-demo" >▶ デモデータを入力する</button>
+        <button class="btn-reset" >🗑 入力データをクリアする</button>
       </div>
       <div class="setting-version">AI組織化診断 ver.1.0（APIなし版）<br>Developed by Smile Plus Consulting</div>
     </div>
@@ -1448,8 +1448,6 @@
 // ========================
 // モーダル制御
 // ========================
-const stepNames = ['トップ画面','STEP1：会社情報','STEP2：宝探し診断','STEP3：AI組織化診断','STEP4：AI人材診断','STEP5：診断結果'];
-
 function openModal(id) {
   document.getElementById(id).classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -1461,70 +1459,50 @@ function closeModal(id) {
 function closeModalOutside(e, id) {
   if (e.target === document.getElementById(id)) closeModal(id);
 }
+function openSettingModal() {
+  openModal('settingModal');
+}
+
 // ========================
 // デモデータ
 // ========================
 function loadDemoData() {
-  // 会社情報
-  document.getElementById('companyName').value = '株式会社さくら商事';
-  document.getElementById('industry').value = '飲食業・食品';
-  document.getElementById('employees').value = '6〜10名';
-  document.getElementById('business').value = '地域密着型の定食屋・仕出し弁当の製造販売';
-  document.getElementById('challenge').value = '新規のお客様が増えない。SNSをやりたいが投稿する時間がない。スタッフの採用も困っている。';
-
-  // 宝探し
-  document.getElementById('t1').value = '「いつ来ても温かくて、ほっとする」とよく言われます';
-  document.getElementById('t2').value = '20年以上地元で続けてきた信頼感と、毎朝仕入れる新鮮な食材へのこだわり';
-  document.getElementById('t3').value = '「お客様に感謝される仕事だから誇りがある」と言ってくれるスタッフがいます';
-  document.getElementById('t4').value = '昼食の常連さんが多く、10年以上通ってくれている方が数十名います';
-  document.getElementById('t5').value = '「あの店は間違いない」と知人に教えてくれるお客様から新しいお客様が来ることが多い';
-  document.getElementById('t6').value = 'この地域のお年寄りや、昼食を外で食べるサラリーマンの方々';
-
-  // AI組織化診断（ラジオ）
-  const aiValues = {
-    understanding: 2, usage: 1, workflow: 1, rules: 1, leader: 1,
-    data: 2, training: 1, security: 2, customer: 1, marketing: 2
-  };
-  Object.entries(aiValues).forEach(([key, val]) => {
-    const el = document.querySelector(`input[name="ai_${key}"][value="${val}"]`);
+  var ids = ['companyName','industry','employees','business','challenge','t1','t2','t3','t4','t5','t6'];
+  ids.forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el && el.dataset.demo) el.value = el.dataset.demo;
+  });
+  var aiValues = {understanding:2, usage:1, workflow:1, rules:1, leader:1, data:2, training:1, security:2, customer:1, marketing:2};
+  Object.keys(aiValues).forEach(function(key) {
+    var el = document.querySelector('input[name="ai_' + key + '"][value="' + aiValues[key] + '"]');
     if (el) el.checked = true;
   });
-  document.querySelectorAll('.ai-item').forEach(el => el.classList.add('current-item'));
-
-  // 人材診断（ラジオ）
-  const humanValues = {
-    selflearn: 2, sharing: 1, trial: 2, leadership: 2,
-    output: 1, improvement: 2, external: 1, vision: 2
-  };
-  Object.entries(humanValues).forEach(([key, val]) => {
-    const el = document.querySelector(`input[name="h_${key}"][value="${val}"]`);
+  document.querySelectorAll('.ai-item').forEach(function(el) { el.classList.add('current-item'); });
+  var humanValues = {selflearn:2, sharing:1, trial:2, leadership:2, output:1, improvement:2, external:1, vision:2};
+  Object.keys(humanValues).forEach(function(key) {
+    var el = document.querySelector('input[name="h_' + key + '"][value="' + humanValues[key] + '"]');
     if (el) el.checked = true;
   });
-
   closeModal('settingModal');
-  alert('✅ デモデータを入力しました！\nSTEP1から順に確認し、最後の「診断結果を見る」を押してください。');
+  alert('デモデータを入力しました！
+STEP1から順に確認し、最後の「診断結果を見る」を押してください。');
   goTo(1);
 }
 
-function openSettingModal() {
-  openModal('settingModal');
-}
 function confirmReset() {
   if (confirm('入力内容をすべてリセットして最初からやり直しますか？')) {
     closeModal('settingModal');
-    // フォームリセット
     document.getElementById('companyName').value = '';
     document.getElementById('industry').value = '';
     document.getElementById('employees').value = '';
     document.getElementById('business').value = '';
     document.getElementById('challenge').value = '';
-    ['t1','t2','t3','t4','t5','t6'].forEach(id => {
-      const el = document.getElementById(id);
+    ['t1','t2','t3','t4','t5','t6'].forEach(function(id) {
+      var el = document.getElementById(id);
       if (el) el.value = '';
     });
-    document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
-    document.querySelectorAll('.ai-item').forEach(el => el.classList.remove('current-item'));
-    // スコアリセット
+    document.querySelectorAll('input[type="radio"]').forEach(function(r) { r.checked = false; });
+    document.querySelectorAll('.ai-item').forEach(function(el) { el.classList.remove('current-item'); });
     orgScores = {};
     humanScores = {};
     goTo(0);
@@ -1534,63 +1512,59 @@ function confirmReset() {
 // ========================
 // データ定義
 // ========================
-
-const aiOrgItems = [
-  { id:'understanding', title:'経営者のAI理解度', desc:'AIを知っているか、自ら使っているか',
-    labels:['まったく知らない','話は聞いたことがある','試したことがある','定期的に使っている','自ら推進している'] },
-  { id:'usage', title:'社員のAI利用率', desc:'実際にAIを業務で使っている社員の割合',
-    labels:['誰も使っていない','1〜2名が個人で試用','数名が不定期に使用','半数以上が使用中','ほぼ全員が日常的に使用'] },
-  { id:'workflow', title:'業務へのAI組み込み', desc:'日常業務の中でAIが活躍しているか',
-    labels:['未使用','特定の人が試している','特定業務で試験導入','複数業務で活用中','主要業務に本格組み込み'] },
-  { id:'rules', title:'社内ルール・ガイドライン', desc:'AI利用の社内ルールがあるか',
-    labels:['まったくない','口頭で注意している','簡単なメモがある','文書化されている','運用・教育まで実施'] },
-  { id:'leader', title:'AI推進担当者', desc:'社内でAIを引っ張るキーパーソンがいるか',
-    labels:['いない','いそうな人はいる','兼任で取り組んでいる','専任に近い形で動いている','専任リーダーが活動中'] },
-  { id:'data', title:'データ整備状況', desc:'業務データが整理・デジタル化されているか',
-    labels:['紙・バラバラ','一部デジタル化','半分以上デジタル化','ほぼデジタル化済み','AI連携できる状態'] },
-  { id:'training', title:'AI教育・研修体制', desc:'社員へのAI教育が行われているか',
-    labels:['なし','自己学習に任せている','情報共有を時々している','定期的に勉強会あり','体系的な研修制度あり'] },
-  { id:'security', title:'セキュリティ意識', desc:'AI利用時の情報管理ルールがあるか',
-    labels:['意識なし','なんとなく気をつけている','基本ルールがある','ガイドライン策定済み','定期的に教育・確認実施'] },
-  { id:'customer', title:'顧客対応へのAI活用', desc:'問い合わせ対応・接客・提案にAIを使っているか',
-    labels:['なし','メール文章生成で試用','返信テンプレート等で活用','提案書・FAQ等に活用','接客・問合せ対応に本格活用'] },
-  { id:'marketing', title:'マーケティングへのAI活用', desc:'集客・SNS・広告にAIを使っているか',
-    labels:['なし','SNS投稿等で試用','定期的に文章生成で活用','LP・広告に活用中','集客全体にAI戦略を組み込み'] }
+var aiOrgItems = [
+  {id:'understanding', title:'経営者のAI理解度', desc:'AIを知っているか、自ら使っているか',
+   labels:['まったく知らない','話は聞いたことがある','試したことがある','定期的に使っている','自ら推進している']},
+  {id:'usage', title:'社員のAI利用率', desc:'実際にAIを業務で使っている社員の割合',
+   labels:['誰も使っていない','1〜2名が個人で試用','数名が不定期に使用','半数以上が使用中','ほぼ全員が日常的に使用']},
+  {id:'workflow', title:'業務へのAI組み込み', desc:'日常業務の中でAIが活躍しているか',
+   labels:['未使用','特定の人が試している','特定業務で試験導入','複数業務で活用中','主要業務に本格組み込み']},
+  {id:'rules', title:'社内ルール・ガイドライン', desc:'AI利用の社内ルールがあるか',
+   labels:['まったくない','口頭で注意している','簡単なメモがある','文書化されている','運用・教育まで実施']},
+  {id:'leader', title:'AI推進担当者', desc:'社内でAIを引っ張るキーパーソンがいるか',
+   labels:['いない','いそうな人はいる','兼任で取り組んでいる','専任に近い形で動いている','専任リーダーが活動中']},
+  {id:'data', title:'データ整備状況', desc:'業務データが整理・デジタル化されているか',
+   labels:['紙・バラバラ','一部デジタル化','半分以上デジタル化','ほぼデジタル化済み','AI連携できる状態']},
+  {id:'training', title:'AI教育・研修体制', desc:'社員へのAI教育が行われているか',
+   labels:['なし','自己学習に任せている','情報共有を時々している','定期的に勉強会あり','体系的な研修制度あり']},
+  {id:'security', title:'セキュリティ意識', desc:'AI利用時の情報管理ルールがあるか',
+   labels:['意識なし','なんとなく気をつけている','基本ルールがある','ガイドライン策定済み','定期的に教育・確認実施']},
+  {id:'customer', title:'顧客対応へのAI活用', desc:'問い合わせ対応・接客・提案にAIを使っているか',
+   labels:['なし','メール文章生成で試用','返信テンプレート等で活用','提案書・FAQ等に活用','接客・問合せ対応に本格活用']},
+  {id:'marketing', title:'マーケティングへのAI活用', desc:'集客・SNS・広告にAIを使っているか',
+   labels:['なし','SNS投稿等で試用','定期的に文章生成で活用','LP・広告に活用中','集客全体にAI戦略を組み込み']}
 ];
 
-const humanItems = [
-  { id:'selflearn', title:'自ら学ぼうとする姿勢', desc:'AIツールを自分で調べて試せる社員がいるか' },
-  { id:'sharing', title:'社内での情報共有', desc:'AI活用の成果・失敗を社内でシェアしているか' },
-  { id:'trial', title:'新しいことへの挑戦', desc:'失敗を恐れず試してみる社風があるか' },
-  { id:'leadership', title:'推進リーダーの存在', desc:'「この人が引っ張ってくれそう」という社員が思い浮かぶか' },
-  { id:'output', title:'成果の文章化・見える化', desc:'やったことを記録・マニュアル化できているか' },
-  { id:'improvement', title:'改善提案の文化', desc:'業務改善のアイデアを言い出せる雰囲気があるか' },
-  { id:'external', title:'外部情報の収集', desc:'勉強会参加や情報収集に積極的な社員がいるか' },
-  { id:'vision', title:'経営者のAIビジョン', desc:'「AIでこうしたい」というビジョンを語れるか' }
+var humanItems = [
+  {id:'selflearn', title:'自ら学ぼうとする姿勢', desc:'AIツールを自分で調べて試せる社員がいるか'},
+  {id:'sharing', title:'社内での情報共有', desc:'AI活用の成果・失敗を社内でシェアしているか'},
+  {id:'trial', title:'新しいことへの挑戦', desc:'失敗を恐れず試してみる社風があるか'},
+  {id:'leadership', title:'推進リーダーの存在', desc:'「この人が引っ張ってくれそう」という社員が思い浮かぶか'},
+  {id:'output', title:'成果の文章化・見える化', desc:'やったことを記録・マニュアル化できているか'},
+  {id:'improvement', title:'改善提案の文化', desc:'業務改善のアイデアを言い出せる雰囲気があるか'},
+  {id:'external', title:'外部情報の収集', desc:'勉強会参加や情報収集に積極的な社員がいるか'},
+  {id:'vision', title:'経営者のAIビジョン', desc:'「AIでこうしたい」というビジョンを語れるか'}
 ];
 
-// ========================
-// スコアデータ（グローバル）
-// ========================
-let orgScores = {};
-let humanScores = {};
+var orgScores = {};
+var humanScores = {};
 
 // ========================
 // 画面切り替え
 // ========================
 function goTo(n) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen'+n).classList.add('active');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+  document.getElementById('screen' + n).classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
 // ========================
 // STEP1 バリデーション
 // ========================
 function step1Next() {
-  const name = document.getElementById('companyName').value.trim();
-  const ind = document.getElementById('industry').value;
-  const emp = document.getElementById('employees').value;
+  var name = document.getElementById('companyName').value.trim();
+  var ind  = document.getElementById('industry').value;
+  var emp  = document.getElementById('employees').value;
   if (!name || !ind || !emp) {
     alert('会社名・業種・従業員数は必ずご入力ください。');
     return;
@@ -1602,75 +1576,65 @@ function step1Next() {
 // AI診断フォーム生成
 // ========================
 function buildAiItems() {
-  const wrap = document.getElementById('aiItems');
+  var wrap = document.getElementById('aiItems');
   wrap.innerHTML = '';
-  aiOrgItems.forEach((item, i) => {
-    const div = document.createElement('div');
+  aiOrgItems.forEach(function(item, i) {
+    var div = document.createElement('div');
     div.className = 'ai-item';
-    div.id = 'ai-item-'+i;
+    div.id = 'ai-item-' + i;
 
-    let radios = '<div class="radio-scale">';
-    for (let v = 1; v <= 5; v++) {
-      const label = item.labels[v-1] || '';
-      radios += `
-        <label>
-          <input type="radio" name="ai_${item.id}" value="${v}" onchange="highlightAiItem(${i})">
-          <div class="radio-btn">
-            <span class="radio-num">${v}</span>
-            <span>${label}</span>
-          </div>
-        </label>`;
+    var radios = '<div class="radio-scale">';
+    for (var v = 1; v <= 5; v++) {
+      var lbl = item.labels[v-1] || '';
+      radios += '<label>'
+        + '<input type="radio" name="ai_' + item.id + '" value="' + v + '" data-idx="' + i + '">'
+        + '<div class="radio-btn">'
+        + '<span class="radio-num">' + v + '</span>'
+        + '<span>' + lbl + '</span>'
+        + '</div></label>';
     }
     radios += '</div>';
 
-    div.innerHTML = `
-      <div class="ai-item-header">
-        <div class="ai-item-num">${i+1}</div>
-        <div>
-          <div class="ai-item-title">${item.title}</div>
-          <div class="ai-item-desc">${item.desc}</div>
-        </div>
-      </div>
-      ${radios}`;
+    div.innerHTML = '<div class="ai-item-header">'
+      + '<div class="ai-item-num">' + (i+1) + '</div>'
+      + '<div><div class="ai-item-title">' + item.title + '</div>'
+      + '<div class="ai-item-desc">' + item.desc + '</div></div>'
+      + '</div>' + radios;
     wrap.appendChild(div);
   });
 }
 
 function highlightAiItem(i) {
-  document.getElementById('ai-item-'+i).classList.add('current-item');
+  document.getElementById('ai-item-' + i).classList.add('current-item');
 }
 
 // ========================
 // 人材診断フォーム生成
 // ========================
 function buildHumanItems() {
-  const wrap = document.getElementById('humanItems');
+  var wrap = document.getElementById('humanItems');
   wrap.innerHTML = '';
-  humanItems.forEach((item, i) => {
-    const div = document.createElement('div');
+  var hlabels = ['まったくない','ほとんどない','少しある','かなりある','十分ある'];
+  humanItems.forEach(function(item, i) {
+    var div = document.createElement('div');
     div.className = 'human-item';
 
-    let radios = '<div class="radio-scale">';
-    const hlabels = ['まったくない','ほとんどない','少しある','かなりある','十分ある'];
-    for (let v = 1; v <= 5; v++) {
-      radios += `
-        <label>
-          <input type="radio" name="h_${item.id}" value="${v}">
-          <div class="radio-btn">
-            <span class="radio-num">${v}</span>
-            <span>${hlabels[v-1]}</span>
-          </div>
-        </label>`;
+    var radios = '<div class="radio-scale">';
+    for (var v = 1; v <= 5; v++) {
+      radios += '<label>'
+        + '<input type="radio" name="h_' + item.id + '" value="' + v + '">'
+        + '<div class="radio-btn">'
+        + '<span class="radio-num">' + v + '</span>'
+        + '<span>' + hlabels[v-1] + '</span>'
+        + '</div></label>';
     }
     radios += '</div>';
 
-    div.innerHTML = `
-      <div class="human-item-title">
-        <div class="human-item-num">${i+1}</div>
-        ${item.title}
-      </div>
-      <div style="font-size:12px;color:#666;margin-bottom:12px;">${item.desc}</div>
-      ${radios}`;
+    div.innerHTML = '<div class="human-item-title">'
+      + '<div class="human-item-num">' + (i+1) + '</div>'
+      + item.title + '</div>'
+      + '<div style="font-size:12px;color:#666;margin-bottom:12px;">' + item.desc + '</div>'
+      + radios;
     wrap.appendChild(div);
   });
 }
@@ -1679,97 +1643,91 @@ function buildHumanItems() {
 // 診断結果コピー
 // ========================
 function copyResult() {
-  const now = new Date();
-  const dateStr = now.getFullYear() + '年'
+  var now = new Date();
+  var days = ['日','月','火','水','木','金','土'];
+  var dateStr = now.getFullYear() + '年'
     + (now.getMonth()+1) + '月'
-    + now.getDate() + '日('
-    + ['日','月','火','水','木','金','土'][now.getDay()] + ')'
+    + now.getDate() + '日(' + days[now.getDay()] + ')'
     + ' ' + now.getHours() + '時' + String(now.getMinutes()).padStart(2,'0') + '分';
 
-  const companyName = document.getElementById('companyName').value || '（未入力）';
-  const industry    = document.getElementById('industry').value    || '（未入力）';
-  const employees   = document.getElementById('employees').value   || '（未入力）';
-  const challenge   = document.getElementById('challenge').value   || '（未入力）';
+  var companyName = document.getElementById('companyName').value || '（未入力）';
+  var industry    = document.getElementById('industry').value    || '（未入力）';
+  var employees   = document.getElementById('employees').value   || '（未入力）';
+  var challenge   = document.getElementById('challenge').value   || '（未入力）';
+  var levelLabel  = document.getElementById('resultLevelLabel').textContent;
+  var orgScore    = document.getElementById('orgScoreVal').textContent;
+  var humanScore  = document.getElementById('humanScoreVal').textContent;
 
-  const levelNum   = document.getElementById('resultLevelNum').textContent;
-  const levelLabel = document.getElementById('resultLevelLabel').textContent;
-  const orgScore   = document.getElementById('orgScoreVal').textContent;
-  const humanScore = document.getElementById('humanScoreVal').textContent;
-
-  // 優先課題テキスト抽出
-  const issueEls = document.querySelectorAll('#issueList .issue-title');
-  const issues = Array.from(issueEls).map((el,i) => '・' + el.textContent).join('
+  var issueEls = document.querySelectorAll('#issueList .issue-title');
+  var issues = Array.from(issueEls).map(function(el) { return '・' + el.textContent; }).join('
 ') || '・特になし';
 
-  // 90日計画テキスト抽出
-  const planPhases = document.querySelectorAll('#planList .plan-phase');
-  let planText = '';
-  planPhases.forEach(phase => {
-    const header = phase.querySelector('.plan-phase-header').textContent.trim();
-    const actions = Array.from(phase.querySelectorAll('.plan-action-title')).map(el => '  ・' + el.textContent).join('
-');
-    planText += header + '
-' + actions + '
-';
+  var planPhases = document.querySelectorAll('#planList .plan-phase');
+  var planLines = [];
+  planPhases.forEach(function(phase) {
+    var header = phase.querySelector('.plan-phase-header').textContent.trim();
+    planLines.push(header);
+    phase.querySelectorAll('.plan-action-title').forEach(function(el) {
+      planLines.push('  ・' + el.textContent);
+    });
   });
+  var planText = planLines.join('
+');
 
-  // 人材タイプ
-  const humanTypeName = document.querySelector('.human-type-name') 
-    ? document.querySelector('.human-type-name').textContent : '（未診断）';
+  var humanTypeEl = document.querySelector('.human-type-name');
+  var humanTypeName = humanTypeEl ? humanTypeEl.textContent : '（未診断）';
+  var gem1 = document.getElementById('gem1').textContent;
+  var gem2 = document.getElementById('gem2').textContent;
+  var gem3 = document.getElementById('gem3').textContent;
 
-  // 会社の宝
-  const gem1 = document.getElementById('gem1').textContent;
-  const gem2 = document.getElementById('gem2').textContent;
-  const gem3 = document.getElementById('gem3').textContent;
+  var sep = '================================';
+  var lines = [
+    sep,
+    '[AI組織化診断 結果レポート]',
+    '診断日時：' + dateStr,
+    sep, '',
+    '【会社情報】',
+    '会社名　：' + companyName,
+    '業種　　：' + industry,
+    '従業員数：' + employees,
+    '経営課題：' + challenge,
+    '', sep,
+    '【診断結果】',
+    sep, '',
+    'AI活用レベル　：' + levelLabel,
+    'AI組織化スコア：' + orgScore,
+    'AI人材スコア　：' + humanScore,
+    'AI人材タイプ　：' + humanTypeName,
+    '',
+    '【会社の宝（強み）】',
+    '01. ' + gem1,
+    '02. ' + gem2,
+    '03. ' + gem3,
+    '',
+    '【優先して改善すべき課題】',
+    issues, '',
+    '【90日アクションプラン】',
+    planText, '',
+    sep,
+    'このレポートはAI組織化診断（by Smile Plus Consulting）にて生成されました。',
+    'https://smileplusctg.com',
+    sep
+  ];
+  var copyText = lines.join('
+');
 
-  const copyText = 
-`━━━━━━━━━━━━━━━━━━
-【AI組織化診断 結果レポート】
-診断日時：${dateStr}
-━━━━━━━━━━━━━━━━━━
-
-■ 会社情報
-会社名　：${companyName}
-業種　　：${industry}
-従業員数：${employees}
-経営課題：${challenge}
-
-━━━━━━━━━━━━━━━━━━
-■ 診断結果
-━━━━━━━━━━━━━━━━━━
-
-AI活用レベル：${levelLabel}
-AI組織化スコア：${orgScore}
-AI人材スコア　：${humanScore}
-AI人材タイプ　：${humanTypeName}
-
-■ 会社の宝（強み）
-01. ${gem1}
-02. ${gem2}
-03. ${gem3}
-
-■ 優先して改善すべき課題
-${issues}
-
-■ 90日アクションプラン
-${planText}
-━━━━━━━━━━━━━━━━━━
-このレポートはAI組織化診断（by Smile Plus Consulting）にて生成されました。
-https://smileplusctg.com
-━━━━━━━━━━━━━━━━━━`;
-
-  navigator.clipboard.writeText(copyText).then(() => {
-    const toast = document.getElementById('copyToast');
+  navigator.clipboard.writeText(copyText).then(function() {
+    var toast = document.getElementById('copyToast');
     toast.style.display = 'block';
-    const btn = document.getElementById('copyBtn');
-    btn.textContent = '✅ コピー済み！';
+    var btn = document.getElementById('copyBtn');
+    btn.textContent = 'コピー済み！';
     btn.style.background = 'linear-gradient(135deg, #2a6b4a, #3a9b6a)';
-    setTimeout(() => {
-      btn.textContent = '📋 診断結果をコピーする';
+    setTimeout(function() {
+      btn.textContent = '診断結果をコピーする';
       btn.style.background = '';
     }, 4000);
-  }).catch(() => {
-    alert('コピーに失敗しました。お手数ですが画面の内容を手動でコピーしてください。');
+  }).catch(function() {
+    alert('コピーに失敗しました。お手数ですが内容を手動でコピーしてください。');
   });
 }
 
@@ -1777,98 +1735,90 @@ https://smileplusctg.com
 // スコア集計・結果表示
 // ========================
 function calcResult() {
-  // AI組織化スコア
-  let orgTotal = 0;
-  aiOrgItems.forEach(item => {
-    const el = document.querySelector(`input[name="ai_${item.id}"]:checked`);
-    const v = el ? parseInt(el.value) : 1;
+  var orgTotal = 0;
+  aiOrgItems.forEach(function(item) {
+    var el = document.querySelector('input[name="ai_' + item.id + '"]:checked');
+    var v = el ? parseInt(el.value) : 1;
     orgScores[item.id] = v;
     orgTotal += v;
   });
 
-  // 人材スコア
-  let humanTotal = 0;
-  humanItems.forEach(item => {
-    const el = document.querySelector(`input[name="h_${item.id}"]:checked`);
-    const v = el ? parseInt(el.value) : 1;
+  var humanTotal = 0;
+  humanItems.forEach(function(item) {
+    var el = document.querySelector('input[name="h_' + item.id + '"]:checked');
+    var v = el ? parseInt(el.value) : 1;
     humanScores[item.id] = v;
     humanTotal += v;
   });
 
-  // レベル判定
-  let level, levelName, levelDesc, levelColor;
+  var level, levelName, levelDesc;
   if (orgTotal <= 17) {
-    level=1; levelName='未導入'; levelDesc='AIはまだ導入されていません。\n今がはじめ時です。小さな一歩から始めましょう。';
+    level=1; levelName='未導入';
+    levelDesc='AIはまだ導入されていません。今がはじめ時です。小さな一歩から始めましょう。';
   } else if (orgTotal <= 25) {
-    level=2; levelName='個人利用'; levelDesc='一部の方がAIを個人的に使い始めています。\n次は「組織全体」に広げるフェーズです。';
+    level=2; levelName='個人利用';
+    levelDesc='一部の方がAIを個人的に使い始めています。次は「組織全体」に広げるフェーズです。';
   } else if (orgTotal <= 33) {
-    level=3; levelName='チーム利用'; levelDesc='いくつかのチームでAIが活用されています。\n仕組み化と推進担当者の選定が鍵です。';
+    level=3; levelName='チーム利用';
+    levelDesc='いくつかのチームでAIが活用されています。仕組み化と推進担当者の選定が鍵です。';
   } else if (orgTotal <= 41) {
-    level=4; levelName='組織活用'; levelDesc='組織としてAI活用が進んでいます。\n次はAIを「経営戦略」に組み込む段階です。';
+    level=4; levelName='組織活用';
+    levelDesc='組織としてAI活用が進んでいます。次はAIを「経営戦略」に組み込む段階です。';
   } else {
-    level=5; levelName='AI経営企業'; levelDesc='AIが経営の柱になっています。\n業界リーダーとして他社の模範になれます。';
+    level=5; levelName='AI経営企業';
+    levelDesc='AIが経営の柱になっています。業界リーダーとして他社の模範になれます。';
   }
 
-  // 人材タイプ
-  let humanType, humanTypeName, humanTypeDesc, humanRec;
+  var humanType, humanTypeName, humanTypeDesc, humanRec;
   if (humanTotal <= 15) {
-    humanType='A'; humanTypeName='ゼロベース型';
+    humanType='A'; humanTypeName='タイプA：ゼロベース型';
     humanTypeDesc='まずは経営者自身がAIを体験することが最初の一歩です。';
     humanRec = [
-      { icon:'🎯', title:'経営者が先頭に立つ', detail:'週1回30分、ChatGPTを使って業務を試してみてください。経営者の姿勢が一番の推進力です。' },
-      { icon:'📚', title:'まず1つのツールをマスター', detail:'ChatGPTかClaude、どちらか1つに絞って毎日使う習慣をつけましょう。' },
-      { icon:'🌱', title:'スタートは小さく', detail:'議事録の要約・メール文章の作成から始めると、最短で成果を体感できます。' }
+      {icon:'🎯', title:'経営者が先頭に立つ', detail:'週1回30分、ChatGPTを使って業務を試してみてください。'},
+      {icon:'📚', title:'まず1つのツールをマスター', detail:'ChatGPTかClaude、どちらか1つに絞って毎日使う習慣をつけましょう。'},
+      {icon:'🌱', title:'スタートは小さく', detail:'議事録の要約・メール文章の作成から始めると最短で成果を体感できます。'}
     ];
   } else if (humanTotal <= 23) {
-    humanType='B'; humanTypeName='芽生え型';
+    humanType='B'; humanTypeName='タイプB：芽生え型';
     humanTypeDesc='AIに関心を持つ社員がいます。その人材を「推進リーダー」に任命しましょう。';
     humanRec = [
-      { icon:'👑', title:'AI推進リーダーを1名決める', detail:'「やってみたい」という人を1名選んで、権限と時間を与えてください。' },
-      { icon:'🔧', title:'業務1つをAI化する', detail:'「この仕事だけはAIで」という業務を1つ決めて3ヶ月続けましょう。' },
-      { icon:'📣', title:'社内で小さな発表会を', detail:'AI活用の成果を月1回5分でいいので共有する場を作りましょう。' }
+      {icon:'👑', title:'AI推進リーダーを1名決める', detail:'「やってみたい」という人を1名選んで、権限と時間を与えてください。'},
+      {icon:'🔧', title:'業務1つをAI化する', detail:'「この仕事だけはAIで」という業務を1つ決めて3ヶ月続けましょう。'},
+      {icon:'📣', title:'社内で小さな発表会を', detail:'AI活用の成果を月1回5分でいいのでシェアする場を作りましょう。'}
     ];
   } else if (humanTotal <= 31) {
-    humanType='C'; humanTypeName='成長型';
+    humanType='C'; humanTypeName='タイプC：成長型';
     humanTypeDesc='社内にAI活用の文化が育ちつつあります。仕組み化が次のテーマです。';
     humanRec = [
-      { icon:'📋', title:'AI活用ルールブックを作る', detail:'何をしていいか、してはいけないかを明文化すると全員が動きやすくなります。' },
-      { icon:'🤝', title:'部署横断チームを作る', detail:'各部署から1名選び、AI推進チームを結成しましょう。月1回の定例会から始めます。' },
-      { icon:'📈', title:'成果を数字で見える化', detail:'「何時間削減できたか」を記録することで、経営判断の材料になります。' }
+      {icon:'📋', title:'AI活用ルールブックを作る', detail:'何をしていいか、してはいけないかを明文化すると全員が動きやすくなります。'},
+      {icon:'🤝', title:'部署横断チームを作る', detail:'各部署から1名選び、AI推進チームを結成しましょう。'},
+      {icon:'📈', title:'成果を数字で見える化', detail:'「何時間削減できたか」を記録することで経営判断の材料になります。'}
     ];
   } else {
-    humanType='D'; humanTypeName='自走型';
+    humanType='D'; humanTypeName='タイプD：自走型';
     humanTypeDesc='社内にAIリーダーが存在し、自走できる体制が整っています。';
     humanRec = [
-      { icon:'🚀', title:'社内専用AIの構築へ', detail:'社内ナレッジを学習させた専用AIチャットボットを構築する段階です。' },
-      { icon:'🏆', title:'業界への発信', detail:'御社の事例を発信することで、採用・ブランディング・営業に活用できます。' },
-      { icon:'🔮', title:'AI経営戦略の策定', detail:'1年後・3年後のAI活用ビジョンを経営計画に組み込みましょう。' }
+      {icon:'🚀', title:'社内専用AIの構築へ', detail:'社内ナレッジを学習させた専用AIチャットボットを構築する段階です。'},
+      {icon:'🏆', title:'業界への発信', detail:'御社の事例を発信することで採用・ブランディング・営業に活用できます。'},
+      {icon:'🔮', title:'AI経営戦略の策定', detail:'1年後・3年後のAI活用ビジョンを経営計画に組み込みましょう。'}
     ];
   }
 
-  // 結果画面の更新
   document.getElementById('resultLevelNum').textContent = level;
-  document.getElementById('resultLevelLabel').textContent = 'レベル'+level+'：'+levelName;
+  document.getElementById('resultLevelLabel').textContent = 'レベル' + level + '：' + levelName;
   document.getElementById('resultLevelDesc').textContent = levelDesc;
-  document.getElementById('orgScoreVal').textContent = orgTotal+'/50';
-  document.getElementById('humanScoreVal').textContent = humanTotal+'/40';
+  document.getElementById('orgScoreVal').textContent = orgTotal + '/50';
+  document.getElementById('humanScoreVal').textContent = humanTotal + '/40';
 
-  // 宝の簡易表示（APIなし版：回答から抜粋）
-  const t1 = document.getElementById('t1').value || '（未記入）';
-  const t2 = document.getElementById('t2').value || '（未記入）';
-  const t5 = document.getElementById('t5').value || '（未記入）';
-  document.getElementById('gem1').textContent = '「'+t1+'」という顧客からの信頼';
-  document.getElementById('gem2').textContent = t2 ? '「'+t2+'」という競合優位性' : '（未記入）';
-  document.getElementById('gem3').textContent = t5 ? '「'+t5+'」という口コミ力' : '（未記入）';
+  var t1 = document.getElementById('t1').value || '（未記入）';
+  var t2 = document.getElementById('t2').value || '（未記入）';
+  var t5 = document.getElementById('t5').value || '（未記入）';
+  document.getElementById('gem1').textContent = '「' + t1 + '」という顧客からの信頼';
+  document.getElementById('gem2').textContent = t2 ? '「' + t2 + '」という競合優位性' : '（未記入）';
+  document.getElementById('gem3').textContent = t5 ? '「' + t5 + '」という口コミ力' : '（未記入）';
 
-  // 課題抽出（スコア2以下）
-  const issues = aiOrgItems
-    .map(item => ({ ...item, score: orgScores[item.id] }))
-    .filter(item => item.score <= 2)
-    .sort((a,b) => a.score - b.score)
-    .slice(0,3);
-
-  const issueMessages = {
-    understanding: '経営者がAIを知らないと、社内全体が動きません。まず経営者自身が週1回使ってみることから始めましょう。',
+  var issueMessages = {
+    understanding: '経営者がAIを知らないと社内全体が動きません。まず経営者自身が週1回使ってみることから始めましょう。',
     usage: '使っている社員が少ない状態です。「やってみよう会」などの小さな体験会から始めることが効果的です。',
     workflow: 'AIが業務に組み込まれていません。まず一つの業務（例：議事録・メール）をAI化することで効果を実感できます。',
     rules: 'ルールがないと社員は怖くて使えません。「何をしていいか」を一枚紙で明示するだけで変わります。',
@@ -1880,77 +1830,71 @@ function calcResult() {
     marketing: '集客にAIが活かされていません。SNS投稿の文章生成から始めると効果が出やすいです。'
   };
 
-  const issueWrap = document.getElementById('issueList');
+  var issues = aiOrgItems
+    .map(function(item) { return {id: item.id, title: item.title, score: orgScores[item.id]}; })
+    .filter(function(item) { return item.score <= 2; })
+    .sort(function(a, b) { return a.score - b.score; })
+    .slice(0, 3);
+
+  var issueWrap = document.getElementById('issueList');
   issueWrap.innerHTML = '';
   if (issues.length === 0) {
-    issueWrap.innerHTML = '<p style="color:#2a6b4a;font-weight:700;font-size:16px;">🎉 大きな課題は見当たりません。さらなるレベルアップを目指しましょう！</p>';
+    issueWrap.innerHTML = '<p style="color:#2a6b4a;font-weight:700;font-size:16px;">大きな課題は見当たりません。さらなるレベルアップを目指しましょう！</p>';
   } else {
-    issues.forEach((item, i) => {
-      const div = document.createElement('div');
-      div.className = 'issue-card priority-'+(i+1);
-      div.innerHTML = `
-        <div class="issue-priority">優先課題 ${['第1位','第2位','第3位'][i]}</div>
-        <div class="issue-title">${item.title}（現在スコア：${item.score}/5）</div>
-        <div class="issue-detail">${issueMessages[item.id]}</div>`;
+    var priorities = ['第1位','第2位','第3位'];
+    issues.forEach(function(item, i) {
+      var div = document.createElement('div');
+      div.className = 'issue-card priority-' + (i+1);
+      div.innerHTML = '<div class="issue-priority">優先課題 ' + priorities[i] + '</div>'
+        + '<div class="issue-title">' + item.title + '（現在スコア：' + item.score + '/5）</div>'
+        + '<div class="issue-detail">' + (issueMessages[item.id] || '') + '</div>';
       issueWrap.appendChild(div);
     });
   }
 
-  // 90日計画（スコアに応じて変化）
-  const plans = get90DayPlan(orgTotal, level);
-  const planWrap = document.getElementById('planList');
+  var plans = get90DayPlan(orgTotal, level);
+  var planWrap = document.getElementById('planList');
   planWrap.innerHTML = '';
-  plans.forEach(phase => {
-    const div = document.createElement('div');
+  plans.forEach(function(phase) {
+    var div = document.createElement('div');
     div.className = 'plan-phase';
-    let actions = '';
-    phase.actions.forEach(a => {
-      actions += `
-        <div class="plan-action">
-          <div class="plan-action-icon">${a.icon}</div>
-          <div>
-            <div class="plan-action-title">${a.title}</div>
-            <div class="plan-action-detail">${a.detail}</div>
-            <div class="plan-tags">
-              <span class="plan-tag">担当：${a.who}</span>
-              <span class="plan-tag">難易度：${a.diff}</span>
-              <span class="plan-tag">効果：${a.effect}</span>
-            </div>
-          </div>
-        </div>`;
+    var actions = '';
+    phase.actions.forEach(function(a) {
+      actions += '<div class="plan-action">'
+        + '<div class="plan-action-icon">' + a.icon + '</div>'
+        + '<div><div class="plan-action-title">' + a.title + '</div>'
+        + '<div class="plan-action-detail">' + a.detail + '</div>'
+        + '<div class="plan-tags">'
+        + '<span class="plan-tag">担当：' + a.who + '</span>'
+        + '<span class="plan-tag">難易度：' + a.diff + '</span>'
+        + '<span class="plan-tag">効果：' + a.effect + '</span>'
+        + '</div></div></div>';
     });
-    div.innerHTML = `
-      <div class="plan-phase-header ${phase.cls}">${phase.label}</div>
-      <div class="plan-phase-body">${actions}</div>`;
+    div.innerHTML = '<div class="plan-phase-header ' + phase.cls + '">' + phase.label + '</div>'
+      + '<div class="plan-phase-body">' + actions + '</div>';
     planWrap.appendChild(div);
   });
 
-  // 人材レポート
-  const hrWrap = document.getElementById('humanResultWrap');
-  let recHTML = humanRec.map(r => `
-    <div class="recommend-box">
-      <div class="rec-icon">${r.icon}</div>
-      <div>
-        <div class="rec-title">${r.title}</div>
-        <div class="rec-detail">${r.detail}</div>
-      </div>
-    </div>`).join('');
+  var hrWrap = document.getElementById('humanResultWrap');
+  var recHTML = humanRec.map(function(r) {
+    return '<div class="recommend-box">'
+      + '<div class="rec-icon">' + r.icon + '</div>'
+      + '<div><div class="rec-title">' + r.title + '</div>'
+      + '<div class="rec-detail">' + r.detail + '</div>'
+      + '</div></div>';
+  }).join('');
 
-  hrWrap.innerHTML = `
-    <div class="human-result">
-      <div class="human-type-label">AI人材タイプ</div>
-      <div class="human-type-name">タイプ${humanType}：${humanTypeName}</div>
-      <div class="human-type-desc">${humanTypeDesc}</div>
-    </div>
-    <div class="card" style="margin-bottom:20px;">
-      <span class="step-badge">AI人材レポート</span>
-      <h2 style="margin-bottom:16px;">👥 おすすめのアクション</h2>
-      ${recHTML}
-    </div>`;
+  hrWrap.innerHTML = '<div class="human-result">'
+    + '<div class="human-type-label">AI人材タイプ</div>'
+    + '<div class="human-type-name">' + humanTypeName + '</div>'
+    + '<div class="human-type-desc">' + humanTypeDesc + '</div>'
+    + '</div>'
+    + '<div class="card" style="margin-bottom:20px;">'
+    + '<span class="step-badge">AI人材レポート</span>'
+    + '<h2 style="margin-bottom:16px;">おすすめのアクション</h2>'
+    + recHTML + '</div>';
 
-  // レーダーチャート描画
-  setTimeout(() => drawRadar(), 100);
-
+  setTimeout(function() { drawRadar(); }, 100);
   goTo(5);
 }
 
@@ -1960,47 +1904,47 @@ function calcResult() {
 function get90DayPlan(total, level) {
   if (level <= 2) {
     return [
-      { label:'🌱 最初の30日：AIを体験する', cls:'p30', actions:[
-        { icon:'💬', title:'ChatGPT / Claudeを毎日使ってみる', detail:'経営者・リーダー候補が毎日1回AIに質問する習慣をつける。', who:'経営者', diff:'★☆☆', effect:'AI理解が深まる' },
-        { icon:'📝', title:'メール・お知らせ文章をAIで作成', detail:'実際の業務文章をAIに作ってもらい、時短効果を体感する。', who:'全員', diff:'★☆☆', effect:'30分/日の削減' }
+      {label:'最初の30日：AIを体験する', cls:'p30', actions:[
+        {icon:'💬', title:'ChatGPT / Claudeを毎日使ってみる', detail:'経営者・リーダー候補が毎日1回AIに質問する習慣をつける。', who:'経営者', diff:'★☆☆', effect:'AI理解が深まる'},
+        {icon:'📝', title:'メール・お知らせ文章をAIで作成', detail:'実際の業務文章をAIに作ってもらい、時短効果を体感する。', who:'全員', diff:'★☆☆', effect:'30分/日の削減'}
       ]},
-      { label:'📈 31〜60日：業務に組み込む', cls:'p60', actions:[
-        { icon:'📋', title:'議事録・会議メモをAIで自動要約', detail:'会議の内容をテキスト化してAIに渡し、要約・To Doを作る。', who:'担当者', diff:'★★☆', effect:'会議後作業を50%削減' },
-        { icon:'📣', title:'SNS投稿文をAIで作成', detail:'Instagramやブログの文章をAIに下書きしてもらう。', who:'担当者', diff:'★☆☆', effect:'投稿頻度が上がる' }
+      {label:'31〜60日：業務に組み込む', cls:'p60', actions:[
+        {icon:'📋', title:'議事録・会議メモをAIで自動要約', detail:'会議の内容をテキスト化してAIに渡し、要約・ToDo を作る。', who:'担当者', diff:'★★☆', effect:'会議後作業を50%削減'},
+        {icon:'📣', title:'SNS投稿文をAIで作成', detail:'Instagramやブログの文章をAIに下書きしてもらう。', who:'担当者', diff:'★☆☆', effect:'投稿頻度が上がる'}
       ]},
-      { label:'🚀 61〜90日：仕組みにする', cls:'p90', actions:[
-        { icon:'📌', title:'AI利用ルールを1枚紙でまとめる', detail:'「何をしていいか」「してはいけないか」をA4一枚で整理する。', who:'リーダー', diff:'★★☆', effect:'全員が安心して使える' },
-        { icon:'👑', title:'AI推進担当者を1名決める', detail:'「AIを最初に試す人」を正式に任命。月1回の共有会を開催。', who:'経営者', diff:'★★☆', effect:'社内浸透が加速する' }
+      {label:'61〜90日：仕組みにする', cls:'p90', actions:[
+        {icon:'📌', title:'AI利用ルールを1枚紙でまとめる', detail:'「何をしていいか」「してはいけないか」をA4一枚で整理する。', who:'リーダー', diff:'★★☆', effect:'全員が安心して使える'},
+        {icon:'👑', title:'AI推進担当者を1名決める', detail:'「AIを最初に試す人」を正式に任命。月1回の共有会を開催。', who:'経営者', diff:'★★☆', effect:'社内浸透が加速する'}
       ]}
     ];
   } else if (level <= 3) {
     return [
-      { label:'🌱 最初の30日：成果を出す業務を決める', cls:'p30', actions:[
-        { icon:'🎯', title:'AI化する業務を3つ選ぶ', detail:'「これだけはAIで」という業務を明確に決め、担当者を決める。', who:'リーダー', diff:'★★☆', effect:'ROIが見えやすくなる' },
-        { icon:'📝', title:'提案書・見積書テンプレートをAIで作成', detail:'定型文書をAIで自動生成できるプロセスを作る。', who:'営業担当', diff:'★★☆', effect:'作成時間を60%削減' }
+      {label:'最初の30日：成果を出す業務を決める', cls:'p30', actions:[
+        {icon:'🎯', title:'AI化する業務を3つ選ぶ', detail:'「これだけはAIで」という業務を明確に決め、担当者を決める。', who:'リーダー', diff:'★★☆', effect:'ROIが見えやすくなる'},
+        {icon:'📝', title:'提案書・見積書テンプレートをAIで作成', detail:'定型文書をAIで自動生成できるプロセスを作る。', who:'営業担当', diff:'★★☆', effect:'作成時間を60%削減'}
       ]},
-      { label:'📈 31〜60日：チームに広げる', cls:'p60', actions:[
-        { icon:'📚', title:'社内向けAI活用マニュアルを作る', detail:'よく使う使い方をまとめた1〜2ページのガイドを作る。', who:'推進担当', diff:'★★☆', effect:'新人でもすぐ使える' },
-        { icon:'💬', title:'月1回のAI共有会を開催', detail:'「これが使えた」「これは失敗した」を全員でシェアする場を作る。', who:'全員', diff:'★☆☆', effect:'ノウハウが蓄積される' }
+      {label:'31〜60日：チームに広げる', cls:'p60', actions:[
+        {icon:'📚', title:'社内向けAI活用マニュアルを作る', detail:'よく使う使い方をまとめた1〜2ページのガイドを作る。', who:'推進担当', diff:'★★☆', effect:'新人でもすぐ使える'},
+        {icon:'💬', title:'月1回のAI共有会を開催', detail:'「これが使えた」「これは失敗した」を全員でシェアする場を作る。', who:'全員', diff:'★☆☆', effect:'ノウハウが蓄積される'}
       ]},
-      { label:'🚀 61〜90日：組織に仕組みを作る', cls:'p90', actions:[
-        { icon:'🤖', title:'社内向けAIチャット窓口を検討', detail:'よくある質問に自動回答するツール（Dify等）を試験導入する。', who:'推進担当', diff:'★★★', effect:'問い合わせ対応を削減' },
-        { icon:'📊', title:'AI導入成果を数字でレポート', detail:'「何時間削減できたか」を月次でまとめ、経営会議で報告する。', who:'リーダー', diff:'★★☆', effect:'予算・時間の確保につながる' }
+      {label:'61〜90日：組織に仕組みを作る', cls:'p90', actions:[
+        {icon:'🤖', title:'社内向けAIチャット窓口を検討', detail:'よくある質問に自動回答するツール（Dify等）を試験導入する。', who:'推進担当', diff:'★★★', effect:'問い合わせ対応を削減'},
+        {icon:'📊', title:'AI導入成果を数字でレポート', detail:'「何時間削減できたか」を月次でまとめ、経営会議で報告する。', who:'リーダー', diff:'★★☆', effect:'予算・時間の確保につながる'}
       ]}
     ];
   } else {
     return [
-      { label:'🌱 最初の30日：AI戦略を経営に組み込む', cls:'p30', actions:[
-        { icon:'🗺', title:'1年間のAI活用ロードマップ策定', detail:'何をいつまでにAI化するか、優先順位をつけた計画を作る。', who:'経営者', diff:'★★★', effect:'組織全体の方向性が揃う' },
-        { icon:'📋', title:'AI利用ガイドライン（正式版）の策定', detail:'情報セキュリティ・倫理・活用ルールを文書化する。', who:'推進担当', diff:'★★★', effect:'リスク管理ができる' }
+      {label:'最初の30日：AI戦略を経営に組み込む', cls:'p30', actions:[
+        {icon:'🗺', title:'1年間のAI活用ロードマップ策定', detail:'何をいつまでにAI化するか、優先順位をつけた計画を作る。', who:'経営者', diff:'★★★', effect:'組織全体の方向性が揃う'},
+        {icon:'📋', title:'AI利用ガイドライン（正式版）の策定', detail:'情報セキュリティ・倫理・活用ルールを文書化する。', who:'推進担当', diff:'★★★', effect:'リスク管理ができる'}
       ]},
-      { label:'📈 31〜60日：AIを差別化に使う', cls:'p60', actions:[
-        { icon:'💡', title:'自社サービスにAIを組み込む', detail:'顧客向けサービス・製品にAI機能を付加する方向性を検討する。', who:'経営者・開発担当', diff:'★★★', effect:'他社との差別化' },
-        { icon:'📣', title:'AI活用事例を外部に発信', detail:'note・SNS・プレスリリースで事例発信し採用・ブランドに活用。', who:'マーケ担当', diff:'★★☆', effect:'採用・営業力が上がる' }
+      {label:'31〜60日：AIを差別化に使う', cls:'p60', actions:[
+        {icon:'💡', title:'自社サービスにAIを組み込む', detail:'顧客向けサービス・製品にAI機能を付加する方向性を検討する。', who:'経営者・開発担当', diff:'★★★', effect:'他社との差別化'},
+        {icon:'📣', title:'AI活用事例を外部に発信', detail:'note・SNS・プレスリリースで事例発信し採用・ブランドに活用。', who:'マーケ担当', diff:'★★☆', effect:'採用・営業力が上がる'}
       ]},
-      { label:'🚀 61〜90日：AI経営企業へ', cls:'p90', actions:[
-        { icon:'🤝', title:'社内専用GPT / AIアシスタントを構築', detail:'社内ナレッジをAIに学ばせ、社員が24時間相談できる環境を作る。', who:'推進チーム', diff:'★★★', effect:'ナレッジが資産になる' },
-        { icon:'🏆', title:'AI活用の認定・表彰制度の導入', detail:'AI活用で成果を出した社員を評価する仕組みを作る。', who:'経営者', diff:'★★☆', effect:'社内文化として定着する' }
+      {label:'61〜90日：AI経営企業へ', cls:'p90', actions:[
+        {icon:'🤝', title:'社内専用GPT / AIアシスタントを構築', detail:'社内ナレッジをAIに学ばせ、社員が24時間相談できる環境を作る。', who:'推進チーム', diff:'★★★', effect:'ナレッジが資産になる'},
+        {icon:'🏆', title:'AI活用の認定・表彰制度の導入', detail:'AI活用で成果を出した社員を評価する仕組みを作る。', who:'経営者', diff:'★★☆', effect:'社内文化として定着する'}
       ]}
     ];
   }
@@ -2009,15 +1953,12 @@ function get90DayPlan(total, level) {
 // ========================
 // レーダーチャート
 // ========================
-let radarInstance = null;
-
+var radarInstance = null;
 function drawRadar() {
-  const labels = aiOrgItems.map(i => i.title);
-  const data = aiOrgItems.map(i => orgScores[i.id] || 1);
-
-  const ctx = document.getElementById('radarChart').getContext('2d');
+  var labels = aiOrgItems.map(function(i) { return i.title; });
+  var data   = aiOrgItems.map(function(i) { return orgScores[i.id] || 1; });
+  var ctx = document.getElementById('radarChart').getContext('2d');
   if (radarInstance) radarInstance.destroy();
-
   radarInstance = new Chart(ctx, {
     type: 'radar',
     data: {
@@ -2037,15 +1978,13 @@ function drawRadar() {
       scales: {
         r: {
           min: 0, max: 5,
-          ticks: { stepSize: 1, font: { size: 11 } },
-          pointLabels: { font: { size: 11 }, color: '#223670' },
-          grid: { color: 'rgba(34,54,112,0.1)' },
-          angleLines: { color: 'rgba(34,54,112,0.1)' }
+          ticks: {stepSize: 1, font: {size: 11}},
+          pointLabels: {font: {size: 11}, color: '#223670'},
+          grid: {color: 'rgba(34,54,112,0.1)'},
+          angleLines: {color: 'rgba(34,54,112,0.1)'}
         }
       },
-      plugins: {
-        legend: { display: false }
-      }
+      plugins: {legend: {display: false}}
     }
   });
 }
@@ -2056,7 +1995,66 @@ function drawRadar() {
 window.onload = function() {
   buildAiItems();
   buildHumanItems();
+  bindEvents();
 };
+
+function bindEvents() {
+  // ヘッダーボタン
+  var btnHow = document.querySelector('.header-btn[title="使い方"]');
+  var btnSet = document.querySelector('.header-btn[title="設定"]');
+  if (btnHow) btnHow.addEventListener('click', function() { openModal('howModal'); });
+  if (btnSet) btnSet.addEventListener('click', function() { openSettingModal(); });
+
+  // モーダル外クリックで閉じる
+  var howOverlay = document.getElementById('howModal');
+  var setOverlay = document.getElementById('settingModal');
+  if (howOverlay) howOverlay.addEventListener('click', function(e) { if (e.target === howOverlay) closeModal('howModal'); });
+  if (setOverlay) setOverlay.addEventListener('click', function(e) { if (e.target === setOverlay) closeModal('settingModal'); });
+
+  // モーダル内の閉じるボタン
+  document.querySelectorAll('.modal-close').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var modal = btn.closest('.modal-overlay');
+      if (modal) closeModal(modal.id);
+    });
+  });
+
+  // デモデータボタン
+  var btnDemo = document.querySelector('.btn-demo');
+  if (btnDemo) btnDemo.addEventListener('click', loadDemoData);
+
+  // リセットボタン
+  var btnReset = document.querySelector('.btn-reset');
+  if (btnReset) btnReset.addEventListener('click', confirmReset);
+
+  // STEP遷移ボタン（data-goto属性で管理）
+  document.querySelectorAll('[data-goto]').forEach(function(btn) {
+    btn.addEventListener('click', function() { goTo(parseInt(btn.getAttribute('data-goto'))); });
+  });
+
+  // STEP1 次へ
+  var btnStep1 = document.querySelector('[data-action="step1next"]');
+  if (btnStep1) btnStep1.addEventListener('click', step1Next);
+
+  // 診断結果を見る
+  var btnCalc = document.querySelector('[data-action="calc"]');
+  if (btnCalc) btnCalc.addEventListener('click', calcResult);
+
+  // コピーボタン
+  var btnCopy = document.getElementById('copyBtn');
+  if (btnCopy) btnCopy.addEventListener('click', copyResult);
+
+  // AIラジオボタンのハイライト（動的生成後にdelegation）
+  var aiWrap = document.getElementById('aiItems');
+  if (aiWrap) {
+    aiWrap.addEventListener('change', function(e) {
+      if (e.target && e.target.type === 'radio') {
+        var idx = e.target.getAttribute('data-idx');
+        if (idx !== null) highlightAiItem(parseInt(idx));
+      }
+    });
+  }
+}
 </script>
 </body>
 </html>
