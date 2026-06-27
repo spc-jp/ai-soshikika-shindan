@@ -203,6 +203,55 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
   .radio-btn { font-size: 10px; padding: 6px 2px; }
   .radio-num { font-size: 16px; }
 }
+
+/* LINE CTA */
+.line-cta {
+  background: #f0fdf4;
+  border: 2px solid #06C755;
+  border-radius: 16px;
+  padding: 24px 20px;
+  margin-top: 20px;
+  text-align: center;
+}
+.line-cta-icon { font-size: 36px; margin-bottom: 10px; }
+.line-cta h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a4731;
+  margin-bottom: 10px;
+}
+.line-cta p {
+  font-size: 14px;
+  color: #2d6a4f;
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+.line-cta ul {
+  list-style: none;
+  text-align: left;
+  display: inline-block;
+  margin-bottom: 18px;
+}
+.line-cta ul li {
+  font-size: 14px;
+  color: #1a4731;
+  padding: 4px 0;
+  font-weight: 600;
+}
+.line-btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: #06C755;
+  color: #fff;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: none;
+  text-align: center;
+  transition: opacity 0.2s;
+}
+.line-btn:hover { opacity: 0.88; }
 </style>
 </head>
 <body>
@@ -471,6 +520,21 @@ select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.o
     <div class="copy-toast" id="copyToast">&#10003; コピーしました！下のボタンからフォームへどうぞ</div>
     <a href="https://www.smileplusctg.com/#contact" target="_blank" class="btn-gold">&#128140; SPCへ無料相談する（問い合わせフォームへ）</a>
     <div class="next-step-note">※ フォームの「お問い合わせ内容」欄にコピーした内容を貼り付けてください。</div>
+  </div>
+
+  <div class="line-cta">
+    <div class="line-cta-icon">&#127807;</div>
+    <h3>もっと詳しく相談したい方へ</h3>
+    <p>診断してみて「気になった」そのタイミングが一番のチャンスです。<br>
+    LINEで気軽に一言送るだけで、30分の無料相談を予約できます。</p>
+    <ul>
+      <li>&#10003; フォーム入力不要・LINEで予約完了</li>
+      <li>&#10003; 「話だけ聞きたい」だけでも大歓迎</li>
+      <li>&#10003; 埼玉・越谷エリアは対面もOK</li>
+    </ul>
+    <a href="https://lin.ee/s9t1ERI" target="_blank" class="line-btn">
+      &#127807; LINEで無料相談する
+    </a>
   </div>
   <button class="btn-secondary" id="btnRestart" style="margin-top:16px;">&#128260; 最初からやり直す</button>
 </div>
