@@ -667,20 +667,20 @@ function step1Next() {
 
 // ========== デモデータ ==========
 var DEMO = {
-  companyName: '\u5149\u88fd\u85ac\u682a\u5f0f\u4f1a\u793e',
-  industry: '\u533b\u85ac\u54c1\u30fb\u88fd\u85ac\u696d',
-  employees: '51\u540d\uff5e150\u540d',
-  business: '\u8f38\u6db2\u88fd\u5264\u3092\u4e2d\u5fc3\u3068\u3057\u305f\u533b\u85ac\u54c1\u306e\u88fd\u9020\u30fb\u8ca9\u58f2',
-  challenge: '\u793e\u5185\u306eAI\u6d3b\u7528\u304c\u9032\u3093\u3067\u3044\u306a\u3044\u3002\u696d\u52d9\u6548\u7387\u5316\u3084\u60c5\u5831\u5171\u6709\u306e\u4ed5\u7d44\u307f\u3092\u4f5c\u308a\u305f\u3044\u3002\u82e5\u624b\u793e\u5185\u306e\u4eba\u6750\u80b2\u6210\u306b\u3082\u529b\u3092\u5165\u308c\u305f\u3044\u3002',
-  t1: '\u3044\u3064\u6765\u3066\u3082\u6e29\u304b\u304f\u3066\u3001\u307b\u3063\u3068\u3059\u308b\u3068\u3088\u304f\u8a00\u308f\u308c\u307e\u3059',
-  t2: '20\u5e74\u4ee5\u4e0a\u5730\u5143\u3067\u7d9a\u3051\u3066\u304d\u305f\u4fe1\u983c\u611f\u3068\u6bce\u671d\u4ed5\u5165\u308c\u308b\u65b0\u9bae\u306a\u98df\u6750\u3078\u306e\u3053\u3060\u308f\u308a',
-  t3: '\u304a\u5ba2\u69d8\u306b\u611f\u8b1d\u3055\u308c\u308b\u4ed5\u4e8b\u3060\u304b\u3089\u8aa4\u308a\u304c\u3042\u308b\u3068\u8a00\u3063\u3066\u304f\u308c\u308b\u30b9\u30bf\u30c3\u30d5\u304c\u3044\u307e\u3059',
-  t4: '\u663c\u98df\u306e\u5e38\u9023\u3055\u3093\u304c\u591a\u304f10\u5e74\u4ee5\u4e0a\u901a\u3063\u3066\u304f\u308c\u3066\u3044\u308b\u65b9\u304c\u6570\u5341\u540d\u3044\u307e\u3059',
-  t5: '\u3042\u306e\u5e97\u306f\u9593\u9055\u3044\u306a\u3044\u3068\u77e5\u4eba\u306b\u6559\u3048\u3066\u304f\u308c\u308b\u304a\u5ba2\u69d8\u304b\u3089\u65b0\u3057\u3044\u304a\u5ba2\u69d8\u304c\u6765\u308b\u3053\u3068\u304c\u591a\u3044',
-  t6: '\u3053\u306e\u5730\u57df\u306e\u304a\u5e74\u5bc4\u308a\u3084\u663c\u98df\u3092\u5916\u3067\u98df\u3079\u308b\u30b5\u30e9\u30ea\u30fc\u30de\u30f3\u306e\u65b9\u3005'
+  companyName: '株式会社フジフーズ',
+  industry: '製造業',
+  employees: '51名～150名',
+  business: '惣菜・加工食品の製造・スーパー向け卸売',
+  challenge: '社内のAI活用が進んでいない。業務効率化・情報共有・若手人材育成に力を入れたい。',
+  t1: '「品質が安定していて安心ができる」とよく言われます',
+  t2: '30年以上継続してきた製造ノウハウとスーパーとの長期取引実績',
+  t3: '「作ったものが山に並んで売れるのがやりがい」と言ってくれる社員がいます',
+  t4: '小後から取引が続くスーパーさんが多く、信頼関係が基盤にあります',
+  t5: '「うちの商品は間違いない」と仙6社に紹介してもらえることが多い',
+  t6: '地域のスーパーや惣菜局のバイヤーさんたち'
 };
-var DEMO_AI = {understanding:2, usage:1, workflow:1, rules:1, leader:1, data:2, training:1, security:2, customer:1, marketing:2};
-var DEMO_H  = {selflearn:2, sharing:1, trial:2, leadership:2, output:1, improvement:2, external:1, vision:2};
+var DEMO_AI = {understanding:2, usage:2, workflow:2, rules:1, leader:1, data:2, training:1, security:2, customer:1, marketing:1};
+var DEMO_H  = {selflearn:2, sharing:2, trial:2, leadership:2, output:2, improvement:2, external:1, vision:2};
 
 function loadDemoData() {
   Object.keys(DEMO).forEach(function(k) {
